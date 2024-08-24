@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="logo.jpg" type="image/jpg">
+    <style>
+     body {
+      background-color: bisque;
+      margin-left: 20px;
+    }
+
+.title{
+  display: flex;
+  align-items: center;
+}
+
+input[type=text], input[type=password] ,input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+.container {
+  background-color: white;
+  width:420px;
+  margin-top:20px;
+  margin-left:550px;
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.img{
+  margin-left:400px;
+  width:50px;
+  height:50px;
+  }
+
+  #navContainer{
+    color:white;
+      display:flex;
+     align-items:center;
+    background-color: black;
+    }
+
+    .button {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    }
+
+    #register{
+      margin-left: 200px;
+    }
+    
+    .button:active {
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+
+      #title{
+        margin-left: 600px;
+        margin-top: 30px;
+        font-size: 30px;
+      }
+    
+  .message-container {
+      
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      margin-left: 500px;
+      padding-left: 120px;
+      padding-right: 120px;
+      padding-top: 90px;
+      padding-bottom: 90px;
+      color: white;
+      font-size: 30px;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    #login{
+  margin-top: 20px; 
+  }
+
+
+
+    
+
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+
+  #register{
+  width: 80px;
+  }
+
+  
+}
+    </style>
+</head>
+<body>
+  
+<div id="navContainer"> 
+  <img class='img' src="pitStop.png" alt="" srcset="">
+    <button id="register" class="button">Register</button>
+      <button id='home' class='button'>home</button>
+</div>
+<div id="title">
+  Login
+</div>
+<div id="container">
+  <form action="login.php" method="post">
+    <div id="messageContainer"></div>
+
+    <div class="container">
+    
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="email" required>
+      <div id="emailContainer"></div>
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" id="password" placeholder="Enter Password" name="password" required>
+      <button id="togglePassword">Toggle Password Visibility</button>
+      <script>
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+      
+        togglePasswordBtn.addEventListener('click', function(event) {
+          event.preventDefault()
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+          } else {
+            passwordInput.type = 'password';
+          }
+        });
+      </script>
+      <div id="passwordContainer"></div>
+
+      <input id="login" class="button" type="submit" name="submit" value="Login">
+      <div>
+        <button id="reset" class="button" type="submit" name="forgetPassword" formnovalidate>Forget Password</butto>
+      </div>
+  </form>
+  
+</div>
+  
+    </body>
+      </html>
+      <script src="login.js"></script>
+    <script>
+  var home = document.getElementById("home");
+  
+  home.addEventListener("click", function(event) {
+    event.preventDefault()
+    window.location.href = "homepage.php";
+  });
+  var register = document.getElementById("register");
+  
+  register.addEventListener("click", function(event) {
+    event.preventDefault()
+    window.location.href = "register.html";
+  });
+ 
+    </script>

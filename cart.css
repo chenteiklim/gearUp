@@ -1,0 +1,148 @@
+
+body{
+    display: flex;
+    flex-direction:column;
+
+}
+
+#container {
+
+width:1200px;
+background-color: #CDCDCD;
+display: flex;
+align-items:center;
+flex-direction:column;
+height: 100%;
+
+ 
+}
+
+.item{
+ width:100px;
+ height:100px;
+}
+
+.title{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width:800px;
+    grid-gap: 10px;
+    margin-top: 50px;
+    margin-bottom:40px;
+    font-size:20px;
+   
+}
+.total_price{
+    text-align:center;
+    color:red;
+}
+.content{
+    width:800px;
+    font-size:20px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 10px;
+    align-items:center;
+    margin-bottom: 50px;
+    
+
+}
+
+.Product{
+    font-size:20px;
+    text-align:center;
+}
+
+.product_name {
+    text-align:center;
+    font-size:20px;
+    color: black;
+}
+
+.price {
+    text-align:center;
+    font-size: 20px;
+    color: red;
+}
+
+.quantity {
+    text-align:center;
+    font-size: 20px;
+}
+
+#prices{
+    text-align:center;
+    font-size:30px;
+    color:red;
+}
+#checkOut{
+    background-color:white;
+    display:flex;
+    font-size: 25px;
+    width:1200px;
+    margin-top:480px;
+    height:400px;
+    position: fixed;
+}
+
+.total{
+    width:700px;
+    margin-left:400px;
+    margin-top:120px;
+    display:flex;
+}
+
+#total_item{
+    padding-left:10px;
+}
+#price{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+#total_price{
+    text-align:center;
+}
+
+#quantity{
+    text-align:center;
+}
+
+
+button {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    margin-left: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    }
+    
+    button:active {
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+    
+    body{
+        display:flex;
+        text-align:center;
+        align-items:center;
+        background-color: bisque;
+        width: 1400px;
+        height: 1400px;
+    }
+      
+    
+    #navContainer{
+        width:1200px;
+        background-color: black;
+    }
+    
+    #logOut{
+        margin-left: 200px;
+    }

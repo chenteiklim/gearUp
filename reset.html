@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login for users</title>
+	<link rel="icon" href="logo.jpg" type="image/jpg">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
+
+input[type=password]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+#submit{
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 180px;
+}
+
+#submit:hover {
+  opacity: 0.8;
+}
+
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  color: white;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.successMessage{
+        background-color: #dff0d8;
+        color: #3c763d;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+
+ #submit{
+	width: 180px;
+  }
+
+
+}
+
+  </style>
+</head>
+<body>
+
+<h2>Reset Password (Final Step)</h2>
+
+<form action="reset.php" method="post">
+  <div class="container">
+    <label for="password"><b>Please enter your new password</b></label>
+    <input type="password" placeholder="Enter new password" name="password" required>
+    <label for="confirm_password"><b>Confirm Password</b></label>
+    <input type="password" placeholder="Please Enter password Again" name="confirm_password" required>
+    <div id="successMessage2"></div>
+    <input id="submit" type="submit" name="passwordConfirmation" value="Create New Password">
+  </div>
+ 
+</form>
+</body>
+<script src="register.js"></script>
+</html>

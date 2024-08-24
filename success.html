@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: bisque;
+        }
+
+        #container{
+            margin-top: 100px;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            width: 400px;
+            height: 600px;
+        }
+        h1,h2,h3,p{
+            text-align: center;
+        }
+        
+button {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    margin-left: 180px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    }
+    
+    button:active {
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+    </style>
+</head>
+<body>
+ 
+    <div id="container">     
+        <div id="navContainer"> 
+            <form action="mainpage.php" method="POST">
+            <!-- Your form fields here -->
+                <button type="submit" class="button">Home</button>
+            </form>  
+        </div>
+        <h1>Thank you for purchasing from Pit Stop</h1>
+        <h2>Your order will be arrived soon</h2>
+        <h3>Your can check your order in tracking</h3>
+        <h3>Any issue regarding the merchandise or order can contact below:</h4>
+        <p>Lim Chen Teik</p>
+        <p>chenteik_99@hotmail.com</p>
+        <p>012-4820649</p>
+        <h2>Note: 3 month waranty</h2>
+    </div>
+</body>
+</html>

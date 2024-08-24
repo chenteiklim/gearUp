@@ -1,0 +1,12 @@
+{
+    "name": "teik/gadgetshop",
+    "description": "sell",
+    "autoload": {
+        "psr-4": {
+            "Teik\\Gadgetshop\\": "src/"
+        }
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
+}

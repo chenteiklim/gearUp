@@ -1,0 +1,125 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  height: 700px;
+  max-width: 300px;
+  padding: 0 10px;
+  margin-left: 100px;
+  background: #9B59B6;
+}
+.wrapper{
+  width: 450px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+.wrapper header{
+  display: flex;
+  align-items: center;
+  padding: 25px 30px 10px;
+  justify-content: space-between;
+}
+header .icons{
+  display: flex;
+}
+.icons .material-symbols-rounded{
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  color: blue;
+  text-align: center;
+  line-height: 38px;
+  font-size: 1.9rem;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 50%;
+}
+.icons span:last-child{
+  margin-right: -10px;
+}
+header .icons span:hover{
+  background: grey;
+}
+header .current-date{
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+.calendar{
+  padding: 20px;
+}
+.calendar ul{
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  text-align: center;
+  column-gap: 20px;
+}
+.calendar .days{
+  margin-bottom: 20px;
+}
+.calendar li{
+  
+  color: #333;
+  width: 40px;
+  height: 40px;
+  font-size: 1.07rem;
+}
+.calendar .weeks li{
+  font-weight: 500;
+  cursor: default;
+}
+.calendar .days li{
+  padding-top: 10px;
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  margin-top: 20px;
+}
+.calendar .inactive{
+  color: grey;
+}
+.calendar .active{
+  color: white;
+}
+
+.active{
+  padding-top: 10px;
+  background: #9B59B6;
+  border-radius: 100%;
+
+}
+.days li:not(.inactive):hover{
+  background: lightblue;
+  border-radius: 100%;
+}
+
+#event{
+  margin-top: 40px;
+  background: #f2f2f2;
+  width: 450px ;
+  height: 100px;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.material-symbols-outlined{
+  margin-top: 40px;
+  margin-left: 420px;
+  background-color: aquamarine;
+  width: 30px;
+  height: 30px;
+  padding: 2.5px;
+  border-radius: 50%;
+  cursor: pointer;
+}
