@@ -1,27 +1,10 @@
 <?php
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "natural";
-
-require '../vendor/autoload.php'; // Include Composer's autoload file
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
+$dbname = "gadgetShop";
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -29,15 +12,25 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+require '../vendor/autoload.php'; // Include Composer's autoload file
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
 if (isset($_POST['submit'])) {
   $username = $_POST['username'];
   $email = $_POST['email'];
   $backupEmail = $_POST['backupEmail'];
-  $password = $_POST['password'];
+  $passwords = $_POST['passwords'];
   $confirm_password = $_POST['confirm_password'];
   $address=$_POST['address'];
   $_SESSION['address'] = $address;
-  $contact=$_POST['contact'];
 
 
     mysqli_select_db($conn, $dbname); 
@@ -47,40 +40,34 @@ if (isset($_POST['submit'])) {
     $checkEmail = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($checkEmail);
     if ($result->num_rows > 0) {
-        header("Location: signUp.html?success=1");
+        header("Location: register.html?success=1");
         exit();
     }
      // Check if backup email already exists
      $checkEmail2 = "SELECT * FROM users WHERE backupEmail = '$backupEmail'";
      $result = $conn->query($checkEmail2);
      if ($result->num_rows > 0) {
-         header("Location: signUp.html?success=2");
+        header("Location: register.html?success=2");
          exit();
      }
 
-    // Check if email already exists
-    $checkContact = "SELECT * FROM users WHERE contact = '$contact'";
-    $result = $conn->query($checkContact);
-    if ($result->num_rows > 0) {
-        header("Location: signUp.html?success=3");
-        exit();
-    }
+   
 
 
     // Check if password matches confirm password
     if ($passwords != $confirm_password) {
-        header("Location: signUp.html?success=4");
+        header("Location: register.html?success=3");
         exit();
     } 
 
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: signUp.html?success=5");
+        header("Location: register.html?success=4");
         exit();
     }
     // Validate email format
     if (!filter_var($backupEmail, FILTER_VALIDATE_EMAIL)) {
-        header("Location: signUp.html?success=6");
+        header("Location: register.html?success=5");
         exit();
     }
 
@@ -88,15 +75,16 @@ if (isset($_POST['submit'])) {
     // Hash the password
     $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
 
-    // Generate a unique token for email verification
-    $tokenEmail = bin2hex(random_bytes(50));
-    $tokenBackupEmail = bin2hex(random_bytes(50));
+    $emailCode = rand(100000, 999999); // 6-digit code for primary email
+    $backupEmailCode = rand(100000, 999999); // 6-digit code for backup email
+    $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
+    $hashedBackupEmailCode = password_hash($backupEmailCode, PASSWORD_BCRYPT);
 
 
     // Insert user into the database with the generated token
-    $sql = "INSERT INTO users (email, backupEmail, contact, name, address, passwords, tokenEmail, tokenBackupEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?,)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssss", $email, $backupEmail, $contact, $username, $address, $hashed_password, $tokenEmail, $tokenBackupEmail);
+    $sql = "INSERT INTO users (email, backupEmail, usernames, address, passwords, emailCode, backupEmailCode) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssss", $email, $backupEmail, $username, $address, $hashed_password, $hashedEmailCode, $hashedBackupEmailCode);
     if ($stmt->execute()) {
         // Send verification email
         $mail = new PHPMailer(true);
@@ -106,8 +94,8 @@ if (isset($_POST['submit'])) {
             $mail->Host = 'sandbox.smtp.mailtrap.io';
             $mail->SMTPAuth = true;
             $mail->Port = 2525;  // You can also use port 25, 465, or 587   
-            $mail->Username = '712b0751efb910';  // Replace with your Mailtrap username
-            $mail->Password = '5edaa772730c5a';  // Replace with your Mailtrap password
+            $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
+            $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
             $mail->setFrom('HappyMart@natural.com', 'Natural');
             $mail->isHTML(true);
@@ -115,8 +103,8 @@ if (isset($_POST['submit'])) {
         
             // Send to primary email
             $mail->addAddress($email);
-            $mail->Body = '<p>Click the link below to verify your account:</p>
-                           <p><a href="http://localhost/Natural/signUp/verifyAccount.php?tokenEmail=' . $tokenEmail . '">Verify email</a></p>';
+            $mail->Body = "<p>Your verification code for primary email {$email} is: <strong> $emailCode </strong></p>
+            <p>Please enter this code on the verification page to verify your account.</p>";
             $mail->send();
             
             // Clear addresses for the next email
@@ -124,14 +112,14 @@ if (isset($_POST['submit'])) {
             
             // Send to backup email
             $mail->addAddress($backupEmail);
-            $mail->Body = '<p>Click the link below to verify your account:</p>
-                           <p><a href="http://localhost/Natural/signUp/verify_account.php?tokenBackupEmail=' . $tokenBackupEmail . '">Verify backup email</a></p>';
+            $mail->Body = "<p>Your verification code for backup email {$backupEmail} is: <strong> $backupEmailCode </strong></p>
+            <p>Please enter this code on the verification page to verify your account.</p>";
             $mail->send();
+            header("Location: checkRegister.php?email=" . urlencode($email) . "&backupEmail=" . urlencode($backupEmail));
         
         } catch (Exception $e) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         }
-        header("Location: checkRegister.php?email=" . urlencode($email) . "&backupEmail=" . urlencode($backupEmail));
 
     } else {
         // Handle database insert error

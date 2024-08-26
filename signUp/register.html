@@ -124,12 +124,11 @@ span.psw {
     
       <input type="email" placeholder="Enter Email" name="email" required>
       <div id="emailContainer"></div>
-      <input type="email" placeholder="Enter backup email" name="backUpEmail" required>
+      <input type="email" placeholder="Enter backup email" name="backupEmail" required>
       <div id="emailContainer"></div>
 
-      <input type="text" placeholder="Enter Contact number. Example: 012-5302869" name="contact" required>
 
-      <input type="password" id="password" placeholder="Enter Password" name="password" required>
+      <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
       <button id="togglePassword">Toggle Password Visibility</button>
 <script>
   const togglePasswordBtn = document.getElementById('togglePassword');
@@ -159,7 +158,7 @@ span.psw {
           }
         });
       </script>
-      <div id="confirmContainer"></div>
+        <div id="errorContainer"></div>
 
 
       <input id="register" class="button" type="submit" name="submit" value="Register">

@@ -141,7 +141,7 @@ body{
     </style>
 </head>
 <div class=navContainer>
-  <img class='img' src="pitStop.png" alt="" srcset="">
+  <img class='img' src="../assets/pitStop.png" alt="" srcset="">
 
     <button class="button"><?php echo $name ?></button>
     <button id="logOut" class="button"><?php echo 'Log Out' ?></button>

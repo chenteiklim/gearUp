@@ -19,7 +19,7 @@ window.onload = function() {
     registerButton.addEventListener('click', function() {
       // Code to navigate to another page goes here
       // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = 'register.html';
+      window.location.href = '../signUp/register.html';
     });
     
     
@@ -29,7 +29,7 @@ window.onload = function() {
     loginButton.addEventListener('click', function() {
       // Code to navigate to another page goes here
       // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = 'login.html';
+      window.location.href = '../userLogin/login.html';
     });
     
     const sellerButton = document.getElementById('seller');
@@ -38,7 +38,7 @@ window.onload = function() {
     sellerButton.addEventListener('click', function() {
       // Code to navigate to another page goes here
       // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = 'sellerLogin.html';
+      window.location.href = '../admin/sellerLogin.html';
     });
     
     

@@ -10,7 +10,7 @@ unset($_SESSION['user_id']);
 session_unset();
 session_destroy();
 if (empty($_SESSION)) {
-    header("Location: login.html");
+    header("Location: ../userLogin/login.html");
  } else {
     echo "Session destruction failed.";
 }

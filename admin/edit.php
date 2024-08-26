@@ -35,7 +35,7 @@ $product_name = $row2['product_name'];
         $price = $_POST['price'];
         $stock = $_POST['stock'];
         
-        $targetDir = "C:/xampp/htdocs/Project/EnterpriseProject/"; // Directory where you want to store the uploaded files
+        $targetDir = "C:/xampp/htdocs/Project/gadgetShop/assets"; // Directory where you want to store the uploaded files
         $filename = $_FILES['productImage']['name'];
 
         $targetFile = $targetDir . $filename;

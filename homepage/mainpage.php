@@ -6,7 +6,7 @@ $Username = "root";
 $Password = "";
 $dbname = "gadgetShop";
 
-$conn = new mysqli($servername, $Username, $Password);
+$conn = new mysqli($servername, $Username, $Password, $dbname);
 
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
@@ -19,16 +19,16 @@ if (isset($_SESSION['orders_id'])) {
 }
 
 mysqli_select_db($conn, $dbname);
-$selectNameQuery = "SELECT name FROM users WHERE email = '$email'";
+$selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
 // Execute the query
 $result = $conn->query($selectNameQuery);
 
 if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
+    $usernames = $row['usernames'];
 }
     // Get the address value from the fetched row
-    $name = $row['name'];
 
     
 
@@ -236,7 +236,7 @@ if ($result->num_rows > 0) {
     <button class="button" onclick="window.location.href = 'cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button"><?php echo $name ?></button>
+    <button class="button"><?php echo $usernames ?></button>
     <form action="logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
@@ -251,41 +251,37 @@ if ($result->num_rows > 0) {
 
       // Loop through the array of rows
       foreach ($rows as $index => $row) {
-        $disableButton = ''; 
-          $product_id = $row['product_id'];
-          $product_name = $row['product_name'];
-          $price = $row['price'];
-          $image = $row['image'];
-          $stock=$row['stock'];
-          $status=$row['status'];
-          $soldStatus = $status . " sold";
-          if ($status == 100) {
-            $disableButton = 'disabled'; // Add this line
-          }
-          $button_id = $product_id;
+        $product_id = $row['product_id'];
+        $product_name = $row['product_name'];
+        $price = $row['price'];
+        $image = $row['image'];
+        $stock=$row['stock'];
+        $status=$row['status'];
+        $button_id = $product_id;
+        $imageUrl = "/gadgetShop/assets/" . $image;
 
-          $newProduct2 = '
-          <div class="product">
-            <div class="imageContainer">
-                <img class="item" src="' . $image . '" alt="">
+        $newProduct2 = '
+        <div class="product">
+          <div class="imageContainer">
+            <img class="item" src="' . $imageUrl . '" alt="">
+          </div>
+          <div class="productDetails">
+            <div class="product_name">' . $product_name . '</div>
+            <div class="price">
+              <div class="unit">RM</div>
+              <div>' . $price . '</div>
             </div>
-            <div class="productDetails">
-              <div class="product_name">' . $product_name . '</div>
-              <div class="price">
-                <div class="unit">RM</div>
-                <div>' . $price . '</div>
-              </div>
-              <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>    
-            <div class="status">' . $soldStatus . '</div>
+            <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>
+            <div class="status">' . $status . ' sold</div>
             <form action="" method="post">
-            <button class="button" type="submit" name="view" value="' . $button_id . '" ' . $disableButton . '>View</button>            </form>
-           
+              <button class="button" type="submit" name="view" value="' . $button_id . '">View</button>
+            </form>
           </div>
-          </div>
-          ';
-    $productHTML .= $newProduct2;
-    
-  }
+        </div>
+        ';
+  $productHTML .= $newProduct2;
+  
+}
   echo $productHTML;
   if (isset($_POST['view'])) {
     $product2_id = $_POST['view'];
@@ -299,7 +295,7 @@ if ($result->num_rows > 0) {
       $product_id = $_SESSION['product_id'];
       echo $product_id;
 
-       echo '<script>window.location.href = "product.php";</script>';
+       echo '<script>window.location.href = "../product/product.php";</script>';
      
       
   } 

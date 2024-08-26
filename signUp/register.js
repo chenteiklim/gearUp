@@ -1,69 +1,72 @@
-console.log("hello world");
-
+// Retrieve the value of the 'success' query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const Param = urlParams.get('success');
 
-function clearURLParams() {
-    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-    window.history.replaceState({path: newURL}, '', newURL);
+if (Param === '1') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Email already exists. Please choose a different email.';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+    }, 10000);
+
+} if (Param === '2') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Backup Email already exists. Please choose a different Backup email.';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+    }, 10000);
+} 
+
+else if (Param === '3') {
+    const confirmDiv = document.createElement('div');
+    confirmDiv.classList.add('errorMessage'); 
+    confirmDiv.innerText = 'Password does not match with Confirm password.';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(confirmDiv);
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        confirmDiv.remove();
+    }, 10000);
+} 
+
+else if (Param === '4') {
+    const confirmDiv = document.createElement('div');
+    confirmDiv.classList.add('errorMessage'); 
+    confirmDiv.innerText = 'Email is badly formatted';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(confirmDiv);
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        confirmDiv.remove();
+    }, 10000);
 }
 
-if (Param === '1') { 
-  const nameDiv = document.createElement('div');
-  nameDiv.classList.add('nameMessage'); 
-  nameDiv.innerText = 'Username already exists. Please choose a different username.';
-  const nameContainer = document.getElementById('nameContainer');
-  if (nameContainer) {
-    nameContainer.appendChild(nameDiv);
-  }
-  clearURLParams();
-} else if (Param === '2') {
-  const emailDiv = document.createElement('div');
-  emailDiv.classList.add('emailMessage'); 
-  emailDiv.innerText = 'Email already exists. Please choose a different email.';
-  const emailContainer = document.getElementById('emailContainer');
-  if (emailContainer) {
-    emailContainer.appendChild(emailDiv);
-  }
-  clearURLParams();
-} else if (Param === '3') {
-  const passwordDiv = document.createElement('div');
-  passwordDiv.classList.add('passwordMessage');
-  passwordDiv.innerText = 'Registration failed. Please choose a different password.';
-  const passwordContainer = document.getElementById('passwordContainer');
-  if (passwordContainer) {
-    passwordContainer.appendChild(passwordDiv);
-  }
-  clearURLParams();
-} else if (Param === '4') {
-  const confirmDiv = document.createElement('div');
-  confirmDiv.classList.add('confirmMessage');
-  confirmDiv.innerText = 'Password do not match with Confirm password.';
-  const confirmContainer = document.getElementById('confirmContainer');
-  if (confirmContainer) {
-    confirmContainer.appendChild(confirmDiv);
-  }
-  clearURLParams();
-} else if (Param === '6') { 
-  const passwordDiv2 = document.createElement('div');
-  passwordDiv2.classList.add('successMessage');
-  passwordDiv2.innerText = 'Password do not match!';
-  const successMessage2 = document.getElementById('successMessage2');
-  if (successMessage2) {
-    successMessage2.appendChild(passwordDiv2);
-  }
-  clearURLParams();
-} else if (Param === '7') { 
-  const successDiv3 = document.createElement('div');
-  successDiv3.classList.add('successMessage');
-  successDiv3.innerText = 'Password change successfully!';
-  const successMessage3 = document.getElementById('successMessage3');
-  if (successMessage3) {
-    successMessage3.appendChild(successDiv3);
-  }
-  clearURLParams();
-}
+else if (Param === '5') {
+    const confirmDiv = document.createElement('div');
+    confirmDiv.classList.add('errorMessage'); 
+    confirmDiv.innerText = 'Backup Email is badly formatted';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(confirmDiv);
 
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        confirmDiv.remove();
+    }, 10000);
+}
+  
+  
 document.addEventListener('DOMContentLoaded', function () {
   const togglePasswordBtn = document.getElementById('show');
   const passwordInput = document.getElementById('password');

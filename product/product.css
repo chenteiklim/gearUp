@@ -1,0 +1,94 @@
+#image{
+  width:200px;
+}
+
+
+body {
+  font-size: 18px;
+  background-color: black;
+ 
+}
+#container{
+  width: 100%; /* 80% of the parent container's width */
+  height: 2000px;
+  background-color: #F0F8FF;
+
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Ensure full height */
+}
+#bigTitle {
+  display: flex;
+  background-color: white;
+  width: 100%; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  
+  /* Ensure it remains visible within the container */
+
+}
+#signUp{
+  text-decoration: none;
+  font-size: 20px;
+  color: darkblue;
+  margin-top: 40px;
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+
+
+  #logoImg{
+      margin-top: 25px;
+      width: 40px;
+      height: 40px;
+      border-radius: 5px;
+      margin-left: 200px;
+  }
+  
+  #loginTag{
+      text-decoration: none;
+      color: darkblue;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 6vw;
+
+  }
+ 
+
+ 
+ 
+ 
+  #fanime {
+      font-size: 40px;
+      color: #0738bb;
+      margin-top: 20px;
+      margin-left: 10px;
+  }
+  
+ 
+  #help {
+      font-size: 20px;
+      color: darkblue;
+      margin-top: 40px;
+      margin-left: 800px;
+  }
+ 
+  
+  #purple_container{
+      margin-top: 70px;
+      margin-left: 500px;
+     background-color:white;
+      border-radius: 5px;
+      width: 320px;
+      height: 320px;
+  }
+  #title{
+      font-size: 24px;
+      margin-left: 120px;
+      padding-top: 30px;
+      color: black;
+  }
+ 

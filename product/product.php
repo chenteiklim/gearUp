@@ -15,7 +15,7 @@ $product_id = $_SESSION['product_id'];
 $email=$_SESSION['email'];
 mysqli_select_db($conn, $dbname);
 // Execute the query
-$selectNameQuery = "SELECT name FROM users WHERE email = '$email'";
+$selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
 // Execute the query
 $result = $conn->query($selectNameQuery);
 
@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
 }
     // Get the address value from the fetched row
-    $name = $row['name'];
+    $usernames = $row['usernames'];
 
 $sql = "SELECT * FROM products WHERE product_id = '$product_id'";
 $result = $conn->query($sql);
@@ -39,6 +39,7 @@ if ($result->num_rows > 0) {
     $stock=$row['stock'];
     $status = $row['status'];
 }
+$imageUrl = "/gadgetShop/assets/" . $image;
 
 
 ?>
@@ -52,142 +53,19 @@ if ($result->num_rows > 0) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Homepage</title>
 
-<link rel="stylesheet" href="homepage.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<link rel="stylesheet" href="product.css">
 
 </head>
 <body>
-
-  <div id="navContainer"> 
-    <button id="Cart" class="button">Shopping Cart</button>
-    <button class="button"><?php echo $name ?></button>
-    <button id="back" class="button">Back</button>
-
-  </div>
-<style>
-     .keyboard{
-        width: 300px;
-        height: 300px;
-    }
-
-    .names{
-      font-size: 30px;
-      margin-top: 20px;
-      padding-left: 50px;
-    }
-
-    .prices{
-      font-size: 20px;
-      margin-top: 20px;
-      padding-left: 50px;
-    }    
-    
-    #container{
-        display: flex;
-    }
-   
-    #buyNowButton {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-left: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size: 14px;
-    }
-
-    #addCartButton {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-left: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size: 14px;
-    }
-
-    #status{
-      margin-left:50px;
-      margin-top:30px;
-      font-size:18px;
-    }
-
-    
-    #addCartButton:active {
-    transform: scale(0.9);
-    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-
-    #buyNowButton:active {
-    transform: scale(0.9);
-    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-
-    .quantity{
-      display:flex;
-      align-items: center;
-      padding-left:50px ;
-    }
-
-    #increment{
-      margin-bottom:20px;
-      margin-left:15px ;
-      margin-right: 0px;
-    }
-
-    #quantity_input{
-      margin-top:0px;
-      margin-left: 0px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      width: 50px;
-      height: 20px;
-      text-align: center;
-    }
-
-    #decrement{
-      margin-bottom:20px;
-      margin-left:0px;
-      padding-left: 13px;
-      padding-right: 13px;
-      
-    }
-
-    .buyBtn{
-      display: flex;
-    }
-    .message-container {
-      
-      background-color: rgba(0, 0, 0, 0.7);
-      position: fixed;
-      padding-left: 120px;
-      padding-right: 120px;
-      padding-top: 90px;
-      padding-bottom: 90px;
-      color: white;
-      font-size: 30px;
-      display: flex;
-    align-items: center;
-    justify-content: center;
-
-    }
-    .stock{
-      margin-top:10px;
-      margin-left:50px;
-    }
-
-</style>
-    <div id="container">
-        <div>
-            <img class="keyboard" src="<?php echo $image; ?>" alt="">
-        </div>
-        <div>
+<div id="container">
+  <div id="bigTitle">
+        <img id="logoImg" src="../assets/icon.png" alt="" srcset="">
+        <div id="fanime">Authentic</div>  
+        <div id="help">Get help</div>  
+        <div id="signUp">Log Out</div>
+</div>
+<div>  
+<img id="image" src="<?php echo $imageUrl; ?>" alt="">
             <div class="names"><?php echo $product_name; ?> </div>
 
             
@@ -218,6 +96,7 @@ if ($result->num_rows > 0) {
 
   </div>
     </div>
+</div>
 </div>
 
 <script>

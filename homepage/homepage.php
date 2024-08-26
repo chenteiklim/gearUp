@@ -40,7 +40,7 @@ session_start();
  
 
 <div id="navContainer"> 
-  <img class='img' src="pitStop.png" alt="" srcset="">
+  <img class='img' src="../assets/pitStop.png" alt="" srcset="">
     <button class="button" id='register'><?php echo 'Register'?></button>
     <button id="login" class="button"><?php echo 'Log in' ?></button>
     <button id='seller' class='button'><?php echo 'seller center' ?></button>
@@ -61,26 +61,27 @@ session_start();
           $stock=$row['stock'];
           $status=$row['status'];
           $button_id = $product_id;
+          $imageUrl = "/gadgetShop/assets/" . $image;
 
-    $newProduct2 = '
-    <div class="product">
-      <div class="imageContainer">
-          <img class="item" src="' . $image . '" alt="">
-      </div>
-      <div class="productDetails">
-        <div class="product_name">' . $product_name . '</div>
-        <div class="price">
-          <div class="unit">RM</div>
-          <div>' . $price . '</div>
-        </div>
-        <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>      <div class="status">' . $status . ' sold</div>
-      <form action="" method="post">
-      <button class="button" type="submit" name="view" value="' . $button_id . '">View</button>
-      </form>
-     
-    </div>
-    </div>
-    ';
+          $newProduct2 = '
+          <div class="product">
+            <div class="imageContainer">
+              <img class="item" src="' . $imageUrl . '" alt="">
+            </div>
+            <div class="productDetails">
+              <div class="product_name">' . $product_name . '</div>
+              <div class="price">
+                <div class="unit">RM</div>
+                <div>' . $price . '</div>
+              </div>
+              <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>
+              <div class="status">' . $status . ' sold</div>
+              <form action="" method="post">
+                <button class="button" type="submit" name="view" value="' . $button_id . '">View</button>
+              </form>
+            </div>
+          </div>
+          ';
     $productHTML .= $newProduct2;
     
   }
@@ -95,7 +96,7 @@ session_start();
     if (isset($_SESSION['product_id'])) {
       // Product ID is saved in the session
       $product_id = $_SESSION['product_id'];
-      echo '<script>window.location.href = "login.html";</script>';
+      echo '<script>window.location.href = "../userLogin/login.html";</script>';
      
       
   } else {

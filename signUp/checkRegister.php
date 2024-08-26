@@ -17,18 +17,51 @@
         </div>
     
         <div id="purple_container">
-            <div id="title">Register</div>
+            <div id="title">Email Verification</div>
             
             <?php
             if (isset($_GET['email']) && isset($_GET['backupEmail'])) {
                 $email = htmlspecialchars($_GET['email']);
                 $backupEmail = htmlspecialchars($_GET['backupEmail']);
-                echo "<p id='text1'>We've sent a verification email to <span class='red'>$email</span> and <span class='red'>$backupEmail</span>. Click the link in the email and backupEmail to verify your account.<br>
-                        If you don't see the email and backupEmail, check other places it might be, like your junk, spam, social, or other folders.</p>";
+                echo "<p id='text1'>Enter the verification codes sent to <span class='red'>$email</span> and <span class='red'>$backupEmail</span> below to verify your account.</p>";
             } else {
                 echo "<p id='text1'>Email not provided.</p>";
             }
+            
             ?>
+            
+            <form action="verifyCode.php" method="POST">
+    <!-- Primary Email Verification Code -->
+    <div>
+        <label for="primaryCode">Primary Email Verification Code:</label>
+        <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
+        <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>
+        <input type="text" id="primaryCode3" name="primaryCode[]" maxlength="1" required>
+        <input type="text" id="primaryCode4" name="primaryCode[]" maxlength="1" required>
+        <input type="text" id="primaryCode5" name="primaryCode[]" maxlength="1" required>
+        <input type="text" id="primaryCode6" name="primaryCode[]" maxlength="1" required>
+    </div>
+
+    <!-- Backup Email Verification Code -->
+    <div>
+        <label for="backupCode">Backup Email Verification Code:</label>
+        <input type="text" id="backupCode1" name="backupCode[]" maxlength="1" required>
+        <input type="text" id="backupCode2" name="backupCode[]" maxlength="1" required>
+        <input type="text" id="backupCode3" name="backupCode[]" maxlength="1" required>
+        <input type="text" id="backupCode4" name="backupCode[]" maxlength="1" required>
+        <input type="text" id="backupCode5" name="backupCode[]" maxlength="1" required>
+        <input type="text" id="backupCode6" name="backupCode[]" maxlength="1" required>
+    </div>
+
+    <!-- Hidden Fields -->
+    <input type="hidden" name="email" value="<?php echo $email; ?>">
+    <input type="hidden" name="backupEmail" value="<?php echo $backupEmail; ?>">
+
+    <!-- Submit Button -->
+    <button type="submit" class="button">Verify Account</button>
+</form>
+
+
             <button id="backBtn" class="button">Back to login</button>
         </div>  
     </div>

@@ -28,15 +28,18 @@ if (isset($_POST['submit'])) {
   $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
   if (in_array($fileExtension, $allowedTypes)) {
-      if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
-          echo "The file has been uploaded.";
-          // Here you would insert the product info into the database
-      } else {
-          echo "Sorry, there was an error uploading your file.";
-      }
-  } else {
-      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-  }
+    if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
+        echo "The file has been uploaded.";
+        // Display the uploaded image
+        $imageUrl = "/gadgetShop/assets/" . basename($productImage);
+        // Insert the product info into the database here
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+} else {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+}
+
 
   mysqli_select_db($conn, $dbname);
 
