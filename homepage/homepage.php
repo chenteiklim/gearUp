@@ -43,7 +43,6 @@ session_start();
   <img class='img' src="../assets/pitStop.png" alt="" srcset="">
     <button class="button" id='register'><?php echo 'Register'?></button>
     <button id="login" class="button"><?php echo 'Log in' ?></button>
-    <button id='seller' class='button'><?php echo 'seller center' ?></button>
 </div>
 <div id="messageContainer"></div>
 

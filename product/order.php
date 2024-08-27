@@ -51,9 +51,8 @@ if (isset($_POST['addCart'])) {
     $result = $conn->query($selectUserQuery);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $name = $row['name'];
+        $usernames = $row['usernames'];
         $address = $row['address'];
-        $contact= $row['contact'];
         $user_id = $row['user_id'];
         $_SESSION['user_id']=$user_id;
     }
@@ -121,19 +120,19 @@ if (isset($_POST['addCart'])) {
         product_name VARCHAR(255),
         price DECIMAL(10, 2),
         image VARCHAR(255),
-        total_price DECIMAL(10, 2),
-        contact VARCHAR(255)
+        total_price DECIMAL(10, 2)
     )";
     $conn->query($createTableQuery);
     }
     if ($updateResult !== true){
-        $insertcart = "INSERT INTO cart" . $order_id . "_" . $user_id . " (user_id,order_id,product_id,quantity,name,email,address,product_name,price,image,total_price,contact) VALUES ('$user_id','$order_id','$product_id','$quantity','$name','$email','$address','$product_name','$price','$image','$total_price','$contact')";
-        $insertorders = "INSERT INTO orders (user_id,order_id,product_id,quantity,name,email,address,product_name,price,image,total_price,contact,order_status) VALUES ('$user_id','$order_id','$product_id','$quantity','$name','$email','$address','$product_name','$price','$image','$total_price','$contact','cart')";
+        $insertcart = "INSERT INTO cart" . $order_id . "_" . $user_id . " (user_id,order_id,product_id,quantity,name,email,address,product_name,price,image,total_price) VALUES ('$user_id','$order_id','$product_id','$quantity','$usernames','$email','$address','$product_name','$price','$image','$total_price')";
+        $insertorders = "INSERT INTO orders (user_id,order_id,product_id,quantity,name,email,address,product_name,price,image,total_price,order_status) VALUES ('$user_id','$order_id','$product_id','$quantity','$usernames','$email','$address','$product_name','$price','$image','$total_price','cart')";
 
         $_SESSION['order_id']=$order_id;
         if ( $conn->query($insertcart) && $conn->query($insertorders)) {
             $successMessage = "Added to cart successfully!";
             header("Location: product.php?message=" . urlencode($successMessage)); 
+
         }
         else{
             echo'error update order';
@@ -141,7 +140,8 @@ if (isset($_POST['addCart'])) {
     }
     else{
         $successMessage = "Added to cart successfully!";
-         header("Location: product.php?message=" . urlencode($successMessage)); 
+        header("Location: product.php?message=" . urlencode($successMessage)); 
+
      }
      exit();
     

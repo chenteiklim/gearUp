@@ -22,9 +22,10 @@ $result = $conn->query($selectNameQuery);
 if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
+    $name = $row['usernames'];
+
 }
     // Get the address value from the fetched row
-    $usernames = $row['usernames'];
 
 $sql = "SELECT * FROM products WHERE product_id = '$product_id'";
 $result = $conn->query($sql);
@@ -54,18 +55,28 @@ $imageUrl = "/gadgetShop/assets/" . $image;
   <title>Homepage</title>
 
 <link rel="stylesheet" href="product.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
 </head>
 <body>
-<div id="container">
-  <div id="bigTitle">
-        <img id="logoImg" src="../assets/icon.png" alt="" srcset="">
-        <div id="fanime">Authentic</div>  
-        <div id="help">Get help</div>  
-        <div id="signUp">Log Out</div>
-</div>
-<div>  
-<img id="image" src="<?php echo $imageUrl; ?>" alt="">
+
+  <div id="navContainer"> 
+    <button id="cart" class="button">Shopping Cart</button>
+    <button class="button"><?php echo $name ?></button>
+    <button id="back" class="button">Back</button>
+    <form action="../userLogin/logout.php" method="POST">
+      <button type="submit" id="logOut" class="button">Log Out</button>
+    </form>    
+
+  </div>
+
+
+</style>
+    <div id="container">
+        <div>
+            <img class="keyboard" src="<?php echo $imageUrl; ?>" alt="">
+        </div>
+        <div>
             <div class="names"><?php echo $product_name; ?> </div>
 
             
@@ -85,9 +96,7 @@ $imageUrl = "/gadgetShop/assets/" . $image;
                 <div>
                     <input id="addCartButton" class="button" type="submit" name="addCart" value="Add To Cart">
                 </div>
-                <div>
-                    <input id="buyNowButton" class="button" type="submit" name="addOrder" value="Buy Now">
-                </div>
+              
 
             </div>
         </form>
@@ -97,84 +106,6 @@ $imageUrl = "/gadgetShop/assets/" . $image;
   </div>
     </div>
 </div>
-</div>
+<script src="product.js"></script>
 
-<script>
-const quantity_input=document.getElementById('quantity_input');  
-const incrementButton = document.getElementById('increment');
-
-incrementButton.addEventListener('click', function(event) {
-    event.preventDefault();
-    currentValue = parseInt(quantity_input.value)
-    quantity_input.value=currentValue+1
-});
-const decrementButton = document.getElementById('decrement');
-
-decrementButton.addEventListener('click', function(event) {
-    if (currentValue>1){
-        event.preventDefault();
-        let currentValue = parseInt(quantity_input.value)
-        quantity_input.value = currentValue - 1;
-    }
-    else{
-        event.preventDefault();
-    }
-})
-
-
-
-  document.getElementById("Cart").addEventListener("click", function() {
-    window.location.href = "cart.php";
-  });
-
-  document.getElementById("buyNowButton").addEventListener("click", function(event) {
-    event.preventDefault();
-    window.location.href = "cart.php";
-  });
-
-  document.getElementById('back').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.location.href = 'mainpage.php';
-  })
-
-  window.onload = function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var message = urlParams.get('message');
-    var message3 = urlParams.get('message3');
-    
-    if (message) {
-        var messageContainer = document.getElementById("messageContainer");
-        messageContainer.textContent = message;
-        messageContainer.style.display = "block";
-        messageContainer.classList.add("message-container");
-        setTimeout(function() {
-            messageContainer.style.display = "none";
-        }, 3000);
-    }
-     
-    if (message3) {
-        var messageContainer3 = document.getElementById("messageContainer3");
-        messageContainer3.textContent = message;
-        messageContainer3.style.display = "block";
-        messageContainer3.classList.add("message-container");
-        setTimeout(function() {
-            messageContainer3.style.display = "none";
-        }, 3000);
-    }
-    
-    if (urlParams.get("redirect") === "true") {
-        var messageContainer2 = document.getElementById("messageContainer2");
-        messageContainer2.textContent = "Your cart is empty";
-        messageContainer2.style.display = "block";
-        messageContainer2.classList.add("message-container");
-        setTimeout(function() {
-            messageContainer2.style.display = "none";
-        }, 3000);
-    }
-};
-  
-  
-</script>
-
-  
-    
+</html>

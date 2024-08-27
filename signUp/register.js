@@ -100,3 +100,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+document.getElementById("login").addEventListener("click", function() {
+  // Replace 'login.html' with the URL of your login page
+  window.location.href = "../userLogin/login.html";
+});
+document.getElementById("home").addEventListener("click", function() {
+// Replace 'login.html' with the URL of your login page
+window.location.href = "../homepage/homepage.php";
+});

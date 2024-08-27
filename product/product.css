@@ -1,94 +1,256 @@
-#image{
-  width:200px;
+     .keyboard{
+        width: 300px;
+        height: 300px;
+    }
+
+    .names{
+      font-size: 30px;
+      margin-top: 20px;
+      padding-left: 50px;
+    }
+
+    .prices{
+      font-size: 20px;
+      margin-top: 20px;
+      padding-left: 50px;
+    }    
+    
+    #container{
+        display: flex;
+    }
+   
+    #buyNowButton {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    }
+
+    #addCartButton {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    }
+
+    #status{
+      margin-left:50px;
+      margin-top:30px;
+      font-size:18px;
+    }
+
+    
+    #addCartButton:active {
+    transform: scale(0.9);
+    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+
+    #buyNowButton:active {
+    transform: scale(0.9);
+    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+
+    .quantity{
+      display:flex;
+      align-items: center;
+      padding-left:50px ;
+    }
+
+    #increment{
+      margin-bottom:20px;
+      margin-left:15px ;
+      margin-right: 0px;
+    }
+
+    #quantity_input{
+      margin-top:0px;
+      margin-left: 0px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      width: 50px;
+      height: 20px;
+      text-align: center;
+    }
+
+    #decrement{
+      margin-bottom:20px;
+      margin-left:0px;
+      padding-left: 13px;
+      padding-right: 13px;
+      
+    }
+
+    .buyBtn{
+      display: flex;
+    }
+    .message-container {
+      
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      padding-left: 120px;
+      padding-right: 120px;
+      padding-top: 90px;
+      padding-bottom: 90px;
+      color: white;
+      font-size: 30px;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+
+    }
+    .stock{
+      margin-top:10px;
+      margin-left:50px;
+    }
+    successMessage{
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 20px;
+  }
+  .confirmation-dialog {
+border: 1px solid #ccc;
+background-color: #f9f9f9;
+padding: 20px;
+text-align: center;
+}
+
+.confirmation-dialog h2 {
+margin-top: 0;
+}
+
+.confirmation-dialog p {
+margin-bottom: 0;
+}
+
+.confirmation-dialog .buttons {
+margin-top: 20px;
+}
+
+.confirmation-dialog .buttons button {
+margin-right: 10px;
+}
+
+button {
+background-color: black;
+color: white;
+cursor: pointer;
+margin-top: 20px;
+margin-left: 50px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 5px;
+padding-bottom: 5px;
+font-size: 14px;
+}
+
+button:active {
+transform: scale(0.9);
+background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+}
+
+body{
+background-color: bisque;
+width: 1400px;
+height: 1400px;
 }
 
 
-body {
-  font-size: 18px;
-  background-color: black;
- 
+#navContainer{
+background-color: black;
+display: flex;
+}
+
+#logOut{
+margin-left: 200px;
 }
 #container{
-  width: 100%; /* 80% of the parent container's width */
-  height: 2000px;
-  background-color: #F0F8FF;
+margin-left: 30px;
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+gap: 10px;
+margin-top: 10px;
+background-color: 	#CDCDCD;
 
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Ensure full width */
-  height: 100%; /* Ensure full height */
-}
-#bigTitle {
-  display: flex;
-  background-color: white;
-  width: 100%; /* Adjust width as needed */
-  height: 100px; /* Adjust height as needed */
-  
-  /* Ensure it remains visible within the container */
-
-}
-#signUp{
-  text-decoration: none;
-  font-size: 20px;
-  color: darkblue;
-  margin-top: 40px;
-  margin-left: 40px;
-  cursor: pointer;
+flex-wrap: wrap;
 }
 
+.ID{
+margin: 20px;
+background-color: white;
+width: 180px;
+height: 400px;
+font-size: 12px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+letter-spacing: 0.2px
+}
+.imageContainer{
+width: 180px;
+height: 170px;
+background-color: antiquewhite;
+}
+.image{
+width: 120px;
+height: 120px;
+margin-top: 20px;
+padding-left: 20px;
+margin-left: 10px;   
+}
+
+.name{
+font-size: 15px;
+margin-top: 20px;
+padding-left: 10px;
+text-align: center;
+}
+
+.price{
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 30px;
+font-size: 14px;
+
+}
+
+.unit{
+font-size: 10.5px;
+}
+
+#description1{
+display: flex;
+align-items: center;
+}
+#rating{
+margin-top: 20px;
+margin-left: 50px;
+display: flex;
+}
+
+.status{
+margin-left: 10px;
+}
+
+.starItem{
+width: 20px;
+height: 20px;
+}
 
 
-  #logoImg{
-      margin-top: 25px;
-      width: 40px;
-      height: 40px;
-      border-radius: 5px;
-      margin-left: 200px;
-  }
-  
-  #loginTag{
-      text-decoration: none;
-      color: darkblue;
-      cursor: pointer;
-      font-size: 16px;
-      margin-left: 6vw;
-
-  }
- 
-
- 
- 
- 
-  #fanime {
-      font-size: 40px;
-      color: #0738bb;
-      margin-top: 20px;
-      margin-left: 10px;
-  }
-  
- 
-  #help {
-      font-size: 20px;
-      color: darkblue;
-      margin-top: 40px;
-      margin-left: 800px;
-  }
- 
-  
-  #purple_container{
-      margin-top: 70px;
-      margin-left: 500px;
-     background-color:white;
-      border-radius: 5px;
-      width: 320px;
-      height: 320px;
-  }
-  #title{
-      font-size: 24px;
-      margin-left: 120px;
-      padding-top: 30px;
-      color: black;
-  }
- 
+.checked{
+color: orange;
+}
