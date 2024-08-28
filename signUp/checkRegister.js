@@ -1,4 +1,5 @@
-const backBtn=document.getElementById('backBtn');
-backBtn.addEventListener('click', function (event) {
-    window.location.href="../login/login.html"
+const home=document.getElementById('home');
+home.addEventListener('click', function (event) {
+  event.preventDefault()
+    window.location.href="../homepage/homepage.php"
   })

@@ -2,45 +2,59 @@
 const urlParams = new URLSearchParams(window.location.search);
 const Param = urlParams.get('success');
 
+
 if (Param === '1') {
-    const emailDiv = document.createElement('div');
-    emailDiv.classList.add('errorMessage'); 
-    emailDiv.innerText = 'Email already exists. Please choose a different email.';
-    const errorContainer = document.getElementById('errorContainer');
-    errorContainer.appendChild(emailDiv);
+  const confirmDiv = document.createElement('div');
+  confirmDiv.classList.add('errorMessage'); 
+  confirmDiv.innerText = 'Username exist';
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.appendChild(confirmDiv);
 
-    // Hide the message after 5 seconds
-    setTimeout(() => {
-        emailDiv.remove();
-    }, 10000);
+  // Hide the message after 5 seconds
+  setTimeout(() => {
+      confirmDiv.remove();
+  }, 10000);
+} 
+if (Param === '2') {
+  const confirmDiv = document.createElement('div');
+  confirmDiv.classList.add('errorMessage'); 
+  confirmDiv.innerText = 'Email exist';
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.appendChild(confirmDiv);
 
-} if (Param === '2') {
-    const emailDiv = document.createElement('div');
-    emailDiv.classList.add('errorMessage'); 
-    emailDiv.innerText = 'Backup Email already exists. Please choose a different Backup email.';
-    const errorContainer = document.getElementById('errorContainer');
-    errorContainer.appendChild(emailDiv);
-
-    // Hide the message after 5 seconds
-    setTimeout(() => {
-        emailDiv.remove();
-    }, 10000);
+  // Hide the message after 5 seconds
+  setTimeout(() => {
+      confirmDiv.remove();
+  }, 10000);
 } 
 
 else if (Param === '3') {
-    const confirmDiv = document.createElement('div');
-    confirmDiv.classList.add('errorMessage'); 
-    confirmDiv.innerText = 'Password does not match with Confirm password.';
-    const errorContainer = document.getElementById('errorContainer');
-    errorContainer.appendChild(confirmDiv);
+  const confirmDiv = document.createElement('div');
+  confirmDiv.classList.add('errorMessage'); 
+  confirmDiv.innerText = 'Email need difference with backupEmail.';
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.appendChild(confirmDiv);
 
-    // Hide the message after 5 seconds
-    setTimeout(() => {
-        confirmDiv.remove();
-    }, 10000);
+  // Hide the message after 5 seconds
+  setTimeout(() => {
+      confirmDiv.remove();
+  }, 10000);
 } 
 
-else if (Param === '4') {
+if (Param === '4') {
+  const confirmDiv = document.createElement('div');
+  confirmDiv.classList.add('errorMessage'); 
+  confirmDiv.innerText = 'Password does not match with Confirm password.';
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.appendChild(confirmDiv);
+
+  // Hide the message after 5 seconds
+  setTimeout(() => {
+      confirmDiv.remove();
+  }, 10000);
+} 
+
+else if (Param === '5') {
     const confirmDiv = document.createElement('div');
     confirmDiv.classList.add('errorMessage'); 
     confirmDiv.innerText = 'Email is badly formatted';
@@ -53,7 +67,7 @@ else if (Param === '4') {
     }, 10000);
 }
 
-else if (Param === '5') {
+else if (Param === '6') {
     const confirmDiv = document.createElement('div');
     confirmDiv.classList.add('errorMessage'); 
     confirmDiv.innerText = 'Backup Email is badly formatted';
@@ -65,7 +79,21 @@ else if (Param === '5') {
         confirmDiv.remove();
     }, 10000);
 }
+
+
+  if (Param === '7') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Password must at least 10 character long, contain special character like @#$%/, contain both small and capital letter, need at least one number and cannot be easily recognized number such as 12345, 11111, abababab';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
   
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+    }, 10000);
+  }
+
   
 document.addEventListener('DOMContentLoaded', function () {
   const togglePasswordBtn = document.getElementById('show');

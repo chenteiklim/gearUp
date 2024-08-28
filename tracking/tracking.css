@@ -2,33 +2,34 @@
 body{
     display: flex;
     flex-direction:column;
-
+    margin-left: 100px;
 }
 
 #container {
-
-width:1200px;
+width:1500px;
 background-color: #CDCDCD;
 display: flex;
 flex-direction:column;
 height: 100%;
-
  
 }
 
 .item{
+    margin-left:20px;
  width:100px;
  height:100px;
 }
 
 .title{
+    margin-left:40px;
+
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    width:800px;
-    grid-gap: 10px;
+    grid-template-columns: repeat(12, 1fr);
+    width:1400px;
+    grid-gap: 3px;
     margin-top: 50px;
     margin-bottom:40px;
-    font-size:20px;
+    font-size:18px;
    
 }
 .total_price{
@@ -36,11 +37,13 @@ height: 100%;
     color:red;
 }
 .content{
-    width:800px;
-    font-size:20px;
+    margin-left:40px;
+
+    width:1400px;
+    font-size:16px;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 10px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 3px;
     align-items:center;
     margin-bottom: 50px;
     
@@ -54,34 +57,33 @@ height: 100%;
 
 .product_name {
     text-align:center;
-    font-size:20px;
     color: black;
 }
 
 .price {
     text-align:center;
-    font-size: 20px;
     color: red;
 }
 
 .quantity {
     text-align:center;
-    font-size: 20px;
 }
 
 #prices{
     text-align:center;
-    font-size:30px;
     color:red;
 }
 #checkOut{
     background-color:white;
     display:flex;
     font-size: 20px;
-    width:1200px;
-    margin-top:400px;
+    width:1500px;
+    margin-top:480px;
     height:400px;
+    margin-left: 30px;
     position: fixed;
+    z-index: 1; /* Add this line */
+
 }
 
 
@@ -116,22 +118,22 @@ button {
     font-size: 16px;
     }
     
-    button:active {
+    button:hover {
       transform: scale(0.9);
       background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
     }
     
     body{
+        font-size:12px;
         display:flex;
-        align-items:center;
         background-color: bisque;
-        width: 1400px;
-        height: 1400px;
+        align-items:center;
+        height: 1500px;
     }
       
     
     #navContainer{
-        width:1200px;
+        width:1500px;
         background-color: black;
     }
     
@@ -162,7 +164,10 @@ button {
     }
 
     .address{
-        margin-right:20px;
+        margin-right:80px;
+    }
+    #address{
+        margin-right:80px;
     }
 
     .item10{
@@ -184,7 +189,7 @@ button {
         margin-left:78px;
     }
     .text{
-        margin-top:0px;
+        margin-top:30px;
         margin-left:600px;
     }
     #checkOutbtn{
@@ -194,4 +199,32 @@ button {
 
     .payment{
         margin-left:100px;
+    }
+
+    #bigTitle{
+        font-size:28px;
+        margin-top:20px;
+        margin-left:40px;
+    }
+
+    #toggle{
+        position: fixed; /* Change this line */
+        left:1400px;
+        bottom:80px;
+        height:50px;
+        z-index:99;
+    }
+
+    #paymentForm{
+        margin-left:100px;
+        margin-top:100px;
+    }
+
+    #text1{
+        margin-left:100;
+        margin-top:100px;
+    }
+    #text2{
+        margin-left:100px;
+        margin-top:20px;
     }

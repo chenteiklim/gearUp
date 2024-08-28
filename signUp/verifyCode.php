@@ -12,8 +12,7 @@ if ($conn->connect_error) {
 mysqli_select_db($conn, $dbname); 
 
 
-$email = $_POST['email'];
-$backupEmail = $_POST['backupEmail'];
+
 
 // Concatenate primary email verification code input
 $primaryCode = implode('', $_POST['primaryCode']);
@@ -33,6 +32,7 @@ $stmt->fetch();
 if ($stmt->num_rows > 0) {
     // Verify the primary email code
     if (password_verify($primaryCode, $hashedEmailCode) && password_verify($backupCode, $hashedBackupEmailCode)) {
+
         // Codes are valid, update the emailCode and backupEmailCode to 1
         $updateSql = "UPDATE users SET emailCode = '1', backupEmailCode = '1' WHERE email = ? AND backupEmail = ?";
         $updateStmt = $conn->prepare($updateSql);
