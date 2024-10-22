@@ -1,4 +1,53 @@
-     .keyboard{
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Ensure full height */
+}
+
+body{
+background-color: bisque;
+}
+
+#navContainer {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
+  
+  /* Ensure it remains visible within the container */
+
+}
+.button {
+border: none;
+height:40px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 12px;
+  }
+#home{
+  margin-left: 10px;
+}
+
+#logoImg{
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  margin-left: 50px;
+}
+  button:hover{
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+#name{
+margin-left: 500px
+}
+.keyboard{
         width: 300px;
         height: 300px;
     }
@@ -51,7 +100,7 @@
       font-size:18px;
     }
 
-    
+   
     #addCartButton:active {
     transform: scale(0.9);
     background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
@@ -65,32 +114,25 @@
     .quantity{
       display:flex;
       align-items: center;
+      justify-content: center;
       padding-left:50px ;
     }
 
     #increment{
-      margin-bottom:20px;
       margin-left:15px ;
       margin-right: 0px;
     }
 
     #quantity_input{
-      margin-top:0px;
-      margin-left: 0px;
+     
       padding-top: 5px;
       padding-bottom: 5px;
-      width: 50px;
-      height: 20px;
+      width: 40px;
+      height: 10px;
       text-align: center;
     }
 
-    #decrement{
-      margin-bottom:20px;
-      margin-left:0px;
-      padding-left: 13px;
-      padding-right: 13px;
-      
-    }
+    
 
     .buyBtn{
       display: flex;
@@ -145,39 +187,9 @@ margin-top: 20px;
 margin-right: 10px;
 }
 
-button {
-background-color: black;
-color: white;
-cursor: pointer;
-margin-top: 20px;
-margin-left: 50px;
-padding-left: 10px;
-padding-right: 10px;
-padding-top: 5px;
-padding-bottom: 5px;
-font-size: 14px;
-}
-
-button:active {
-transform: scale(0.9);
-background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-}
-
-body{
-background-color: bisque;
-width: 1400px;
-height: 1400px;
-}
 
 
-#navContainer{
-background-color: black;
-display: flex;
-}
 
-#logOut{
-margin-left: 200px;
-}
 #container{
 margin-left: 30px;
 display: grid;

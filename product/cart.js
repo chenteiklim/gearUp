@@ -13,3 +13,10 @@ homeButton.addEventListener("click", function(event) {
   window.location.href = "../homepage/mainpage.php";
 });
 
+var checkOutBtn = document.getElementById("checkOutBtn");
+
+checkOutBtn.addEventListener("click", function(event) {
+  // Perform the navigation action here
+  event.preventDefault()
+  window.location.href = "../order/checkOut.php";
+});

@@ -60,174 +60,21 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-    <style>
-
-  
-#container {
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-}
-
-.item{
- width:100px;
- height:100px;
-}
-
-
-.product_name {
-  margin-top:15px;
-    font-size:20px;
-    color: black;
-}
-
-.price {
-  display: flex;
-  gap: 3px;
-  justify-content:center;
-  align-items:center;
-    color: red;
-}
-.status{
-  margin-top:10px;
-}
-
-#prices{
-    font-size:30px;
-    color:red;
-}
-
-.button {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    margin-left: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 12px;
-    }
-
-    
-    button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-    
-    body{
-        background-color: bisque;
-        width: 1400px;
-        height: 1400px;
-    }
-.imageContainer{
-  display: flex;
-  align-items: center;
-  justify-content:center;
-    width: 180px;
-    height: 170px;
-    background-color: antiquewhite;
-}
-.productDetails{
-  background-color:white;
-  font-size:18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content:center;
-  text-align: center; /* Horizontally center the content */
-  gap: 10px;
-
-}
-.product{
-    margin: 20px;
-    background-color: white;
-    width: 180px;
-    height: 400px;
-    font-size: 12px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    letter-spacing: 0.2px
-}
-   
-    #logOut{
-        margin-left: 200px;
-    }
-
-    
-.unit{
-  color:black;
-    font-size: 12px;
-}
-
-#description1{
-    display: flex;
-    align-items: center;
-}
-#rating{
-}
-.starItem{
-    width: 20px;
-    height: 20px;
-}
-
-#refund{
-  margin-top:10px;
-}
-
-
-.checked{
-    color: orange;
-}
-
-#row{
-  display:flex;
-}
-#navContainer{
-         display:flex;
-        width:1400px;
-        background-color: black;
-    }
-    
-    #logOut{
-        margin-left: 200px;
-    }
-    
-    .message-container {
-      
-      background-color: rgba(0, 0, 0, 0.7);
-      position: fixed;
-      padding-left: 120px;
-      padding-right: 120px;
-      padding-top: 90px;
-      padding-bottom: 90px;
-      color: white;
-      font-size: 30px;
-      display: flex;
-    align-items: center;
-    justify-content: center;
-    }
-
-    #inputs{
-      width:20px !important;
-      margin-left:0px;
-      padding:0px;
-    }
-    </style>
+   <link rel="stylesheet" href="mainpage.css">
 </head>
 
 <div id="navContainer"> 
-
-    <!-- Your form fields here -->
-    <button class="button" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button"><?php echo $usernames ?></button>
-    <form action="logout.php" method="POST">
+    <button class="button" id="name"><?php echo $usernames ?></button>
+    <form action="../userLogin/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
-    <div id="messageContainer"></div>
+</div>
+
 
 </div>
 <div id="container">
@@ -245,7 +92,7 @@ if ($result->num_rows > 0) {
         $stock=$row['stock'];
         $status=$row['status'];
         $button_id = $product_id;
-        $imageUrl = "/gadgetShop/assets/" . $image;
+        $imageUrl = "/inti/gadgetShop/assets/" . $image;
 
         $newProduct2 = '
         <div class="product">

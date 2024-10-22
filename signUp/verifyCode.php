@@ -12,6 +12,9 @@ if ($conn->connect_error) {
 mysqli_select_db($conn, $dbname); 
 
 
+session_start();
+$email=$_SESSION['email'];
+$backupEmail=$_SESSION['backupEmail'];
 
 
 // Concatenate primary email verification code input

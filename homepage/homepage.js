@@ -32,13 +32,8 @@ window.onload = function() {
       window.location.href = '../userLogin/login.html';
     });
     
-    const sellerButton = document.getElementById('seller');
     
     // Add an event listener to the button
-    sellerButton.addEventListener('click', function() {
-      // Code to navigate to another page goes here
-      // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = '../admin/sellerLogin.html';
-    });
+   
     
     

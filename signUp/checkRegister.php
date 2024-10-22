@@ -18,8 +18,12 @@
             <div id="title">Email Verification</div>
             
             <?php
+            session_start();
+            $email=$_SESSION['email'];
+            $backupEmail=$_SESSION['backupEmail'];
+
             if (isset($_SESSION['email']) && isset($_SESSION['backupEmail'])) {
-                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>primary email</span> and <span class='red'>backup Email</span> below to verify your account.</p>";
+                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> and <span class='red'>$backupEmail</span> below to verify your account.</p>";
             } else {
                 echo "<p id='text1'>Email not provided.</p>";
             }
@@ -29,7 +33,7 @@
             <form action="verifyCode.php" method="POST">
     <!-- Primary Email Verification Code -->
     <div>
-        <label for="primaryCode" id="primaryCode">Primary Email Verification Code:</label>
+        <label for="primaryCode" id="primaryCode"> <?php echo $email; ?> Verification Code:</label>
         <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
         <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>
         <input type="text" id="primaryCode3" name="primaryCode[]" maxlength="1" required>
@@ -40,7 +44,7 @@
 
     <!-- Backup Email Verification Code -->
     <div>
-        <label for="backupCode" id='backupCode'>Backup Email Verification Code:</label>
+        <label for="backupCode" id='backupCode'><?php echo $backupEmail; ?> Verification Code:</label>
         <input type="text" id="backupCode1" name="backupCode[]" maxlength="1" required>
         <input type="text" id="backupCode2" name="backupCode[]" maxlength="1" required>
         <input type="text" id="backupCode3" name="backupCode[]" maxlength="1" required>

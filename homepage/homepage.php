@@ -40,11 +40,11 @@ session_start();
  
 
 <div id="navContainer"> 
-  <img class='img' src="../assets/pitStop.png" alt="" srcset="">
-    <button class="button" id='register'><?php echo 'Register'?></button>
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
+    <button id='register' class="button"><?php echo 'Register'?></button>
     <button id="login" class="button"><?php echo 'Log in' ?></button>
 </div>
-<div id="messageContainer"></div>
 
 <div id="container">
 
@@ -60,7 +60,7 @@ session_start();
           $stock=$row['stock'];
           $status=$row['status'];
           $button_id = $product_id;
-          $imageUrl = "/gadgetShop/assets/" . $image;
+          $imageUrl = "/inti/gadgetShop/assets/" . $image;
 
           $newProduct2 = '
           <div class="product">
@@ -76,7 +76,7 @@ session_start();
               <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>
               <div class="status">' . $status . ' sold</div>
               <form action="" method="post">
-                <button class="button" type="submit" name="view" value="' . $button_id . '">View</button>
+                <button id="View" class="button" type="submit" name="view" value="' . $button_id . '">View</button>
               </form>
             </div>
           </div>

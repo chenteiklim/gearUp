@@ -12,8 +12,10 @@ if (Param === '1') {
 
   // Hide the message after 5 seconds
   setTimeout(() => {
-      confirmDiv.remove();
-  }, 10000);
+    confirmDiv.remove();
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);    }, 10000);
 } 
 if (Param === '2') {
   const confirmDiv = document.createElement('div');
@@ -24,8 +26,10 @@ if (Param === '2') {
 
   // Hide the message after 5 seconds
   setTimeout(() => {
-      confirmDiv.remove();
-  }, 10000);
+    confirmDiv.remove();
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);    }, 10000);
 } 
 
 else if (Param === '3') {
@@ -37,8 +41,10 @@ else if (Param === '3') {
 
   // Hide the message after 5 seconds
   setTimeout(() => {
-      confirmDiv.remove();
-  }, 10000);
+    confirmDiv.remove();
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);    }, 10000);
 } 
 
 if (Param === '4') {
@@ -50,8 +56,10 @@ if (Param === '4') {
 
   // Hide the message after 5 seconds
   setTimeout(() => {
-      confirmDiv.remove();
-  }, 10000);
+    confirmDiv.remove();
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);    }, 10000);
 } 
 
 else if (Param === '5') {
@@ -63,8 +71,10 @@ else if (Param === '5') {
 
     // Hide the message after 5 seconds
     setTimeout(() => {
-        confirmDiv.remove();
-    }, 10000);
+      confirmDiv.remove();
+      const url = new URL(window.location);
+      url.searchParams.delete('success');
+      window.history.replaceState({}, document.title, url);    }, 10000);
 }
 
 else if (Param === '6') {
@@ -76,30 +86,115 @@ else if (Param === '6') {
 
     // Hide the message after 5 seconds
     setTimeout(() => {
-        confirmDiv.remove();
-    }, 10000);
+      confirmDiv.remove();
+      const url = new URL(window.location);
+      url.searchParams.delete('success');
+      window.history.replaceState({}, document.title, url);    }, 10000);
 }
 
 
   if (Param === '7') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
-    emailDiv.innerText = 'Password must at least 10 character long, contain special character like @#$%/, contain both small and capital letter, need at least one number and cannot be easily recognized number such as 12345, 11111, abababab';
+    emailDiv.innerText = 'Password must at least 10 character long';
     const errorContainer = document.getElementById('errorContainer');
     errorContainer.appendChild(emailDiv);
   
     // Hide the message after 5 seconds
     setTimeout(() => {
         emailDiv.remove();
-    }, 10000);
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
   }
 
   
-document.addEventListener('DOMContentLoaded', function () {
+  if (Param === '8') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Need at least four special character';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
+
+    
+  if (Param === '9') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Need at least one Upper Case';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
+    
+  if (Param === '10') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Need at least one lower case';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
+
+  if (Param === '11') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Must contain number';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
+
+  if (Param === '12') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Cannot contain 4 continuous sequence of character or 4 same character in a row';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
+  
+
+
+
+
+  
   const togglePasswordBtn = document.getElementById('show');
   const passwordInput = document.getElementById('password');
 
   if (togglePasswordBtn && passwordInput) {
+    console.log('hello world')
     togglePasswordBtn.addEventListener('click', function (event) {
       event.preventDefault();
       if (togglePasswordBtn.textContent === 'Show') {
@@ -127,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
-});
+
 
 document.getElementById("login").addEventListener("click", function() {
   // Replace 'login.html' with the URL of your login page

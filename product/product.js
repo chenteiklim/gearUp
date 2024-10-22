@@ -33,11 +33,6 @@ decrementButton.addEventListener('click', function(event) {
 
   
 
-  document.getElementById('back').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.location.href = 'mainpage.php';
-  })
-
   window.onload = function() {
     var urlParams = new URLSearchParams(window.location.search);
     var message = urlParams.get('message');
@@ -74,4 +69,7 @@ decrementButton.addEventListener('click', function(event) {
     }
 };
   
-  
+document.getElementById("home").addEventListener("click", function() {
+    // Replace 'login.html' with the URL of your login page
+    window.location.href = "../homepage/mainpage.php";
+}); 

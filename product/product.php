@@ -14,7 +14,7 @@ session_start();
 $product_id = $_SESSION['product_id'];
 $email=$_SESSION['email'];
 mysqli_select_db($conn, $dbname);
-// Execute the query
+
 $selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
 // Execute the query
 $result = $conn->query($selectNameQuery);
@@ -22,8 +22,7 @@ $result = $conn->query($selectNameQuery);
 if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
-    $name = $row['usernames'];
-
+    $usernames = $row['usernames'];
 }
     // Get the address value from the fetched row
 
@@ -40,7 +39,7 @@ if ($result->num_rows > 0) {
     $stock=$row['stock'];
     $status = $row['status'];
 }
-$imageUrl = "/gadgetShop/assets/" . $image;
+$imageUrl = "/inti/gadgetShop/assets/" . $image;
 
 
 ?>
@@ -60,15 +59,17 @@ $imageUrl = "/gadgetShop/assets/" . $image;
 </head>
 <body>
 
-  <div id="navContainer"> 
-    <button id="cart" class="button">Shopping Cart</button>
-    <button class="button"><?php echo $name ?></button>
-    <button id="back" class="button">Back</button>
+<div id="navContainer"> 
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
+    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="name"><?php echo $usernames ?></button>
     <form action="../userLogin/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
-
-  </div>
+</div>
 
 
 </style>

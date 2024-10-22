@@ -58,7 +58,10 @@ if ($row['max_id'] !== null) {
         $address = $row['address'];
         $price = $row['price'];
         $image = $row['image'];
+
     }
+    $imageUrl = "/inti/gadgetShop/assets/" . $image;
+
 
     // Check if a product deletion request was made
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
@@ -159,17 +162,18 @@ if ($countResult && $countResult->num_rows > 0) {
 
 
 <div id="navContainer"> 
-<form action="mainpage.php" method="POST">
-    <!-- Your form fields here -->
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
-    <button class="button"><?php echo $usernames;?></button>
+    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
+    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="name"><?php echo $usernames ?></button>
     <form action="../userLogin/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
-</form>  
+</div>
 
   
-</div>
 <div id="container">
 <div class='title'>
     <div class="Product"><?php echo 'Product'; ?> </div>
@@ -186,7 +190,7 @@ foreach ($rows as $row) {
         $product_id = $row['product_id']; 
         $product_name = $row['product_name'];
         $image=$row['image'];
-        $imageUrl = "/gadgetShop/assets/" . $image;
+        $imageUrl = "/inti/gadgetShop/assets/" . $image;
         $name = $row['name'];
         $address = $row['address'];
         $price = $row['price'];
@@ -206,7 +210,7 @@ foreach ($rows as $row) {
 
     <form action="cart.php" method="post">
         <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
-        <button type="submit">Delete</button>
+        <button class='button' type="submit">Delete</button>
     </form>
 </div>
 
@@ -215,37 +219,28 @@ foreach ($rows as $row) {
 } 
 ?>
 </div>
-
-
 </div>
-    <div id="checkOut">
-    <?php
+
+<?php
 $_SESSION['quantities'] = $quantities;
 $_SESSION['product_ids'] = $product_ids;
 $product_ids_string = implode(", ", $product_ids);
 $quantities_string = implode(", ", $quantities);
-
-
 ?>
 
-
-        <form action="../order/checkOut.php" method="POST">
-            <div class="total">
-            <div>
-            Total
-            </div>
-            <div id="total_item">
-            <?php echo "($total_rows item):"?>
-            </div>
-            <div id="total_prices">
-            <?php echo "RM $grandTotal"?>
-            <?php if ($total_rows > 0): ?>
-                <button id="checkOutbtn" class="button"  onclick="checkPrice()"><?php echo 'Check Out' ?></button>
-            <?php else: ?>
-                <button id="checkOutbtn" class="button" disabled><?php echo 'Check Out' ?></button>
-            <?php endif; ?>
+    <div id='checkOut'>
+        <form idaction="../order/checkOut.php" method="POST">
+                <div class="total">
+                    <div>
+                        Total:
+                    </div>
+                    <div id="total_prices">
+                    <?php echo "RM $grandTotal"?>
+                       
+                        <button id="checkOutBtn" class="button"><?php echo 'Check Out' ?></button>
+                       
+                </div>
         </form>  
     </div>
-</div>
 </div>
 <script src="cart.js"></script>

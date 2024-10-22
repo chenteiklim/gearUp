@@ -31,6 +31,10 @@ if (isset($_POST['submit'])) {
   $confirm_password = $_POST['confirm_password'];
   $address=$_POST['address'];
   $_SESSION['address'] = $address;
+  $_SESSION['email'] = $email;
+  $_SESSION['backupEmail'] = $backupEmail;
+
+
     mysqli_select_db($conn, $dbname); 
 
     $sql = "SELECT * FROM users WHERE usernames = ?";
@@ -56,64 +60,135 @@ if (isset($_POST['submit'])) {
     }
 
 
-    if ($email == $backupEmail) {
+    else if ($email == $backupEmail) {
         header("Location: register.html?success=3");
         exit();
     } 
 
     
     // Check if password matches confirm password
-    if ($passwords != $confirm_password) {
+    else if ($passwords != $confirm_password) {
         header("Location: register.html?success=4");
         exit();
     } 
 
     // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: register.html?success=5");
         exit();
     }
     // Validate email format
-    if (!filter_var($backupEmail, FILTER_VALIDATE_EMAIL)) {
+    else if (!filter_var($backupEmail, FILTER_VALIDATE_EMAIL)) {
         header("Location: register.html?success=6");
         exit();
     }
 
     // Check minimum length
-    if (strlen($passwords) < 10) {
+    else if (strlen($passwords) < 10) {
         header("Location: register.html?success=7");
     }
 
-    // Check for at least 2 special characters
-    // Check for at least 2 special characters
-    if (preg_match_all('/[\W_]/', $passwords) < 2) {
-        return false;
+    // Check for at least 1 special characters
+    else if (preg_match_all('/[\W_]/', $passwords) < 4) {
+        header("Location: register.html?success=8");
     }
 
     // Check for at least one uppercase letter
-    if (!preg_match('/[A-Z]/', $passwords)) {
-        return false;
+    else if (!preg_match('/[A-Z]/', $passwords)) {
+        header("Location: register.html?success=9");
     }
 
     // Check for at least one lowercase letter
-    if (!preg_match('/[a-z]/', $passwords)) {
-        return false;
+    else if (!preg_match('/[a-z]/', $passwords)) {
+        header("Location: register.html?success=10");
     }
 
     // Check for at least one number
-    if (!preg_match('/[0-9]/', $passwords)) {
-        return false;
+    else if (!preg_match('/[0-9]/', $passwords)) {
+        header("Location: register.html?success=11");
     }
+    // Define separate arrays for common sequences
+$commonLowerSequences = [
+    '1234', '2345', '3456', '4567', '5678', '6789', '7890', '0123',
+    '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999', '0000',
+    'bbbb', 'cccc', 'dddd', 'eeee', 'ffff', 'gggg', 'hhhh', 'iiii', 'jjjj',
+    'kkkk', 'llll', 'mmmm', 'nnnn', 'oooo', 'pppp', 'qqqq', 'aaaa',
+    'rrrr', 'ssss', 'tttt', 'uuuu', 'vvvv', 'wwww', 'xxxx', 'yyyy', 'zzzz',
+    'abcd', 'bcde', 'cdef', 'defg', 'efgh', 'fghi',
+    'ghij', 'hijk', 'ijkl', 'jklm', 'klmn',
+    'lmno', 'mnop', 'nopq', 'qrst', 'rstu',
+    'stuv', 'tuvw', 'uvwx', 'vwxy', 'wxyz'
+];
 
-    // Check against a list of common passwords (add more if needed)
-    $commonPasswords = [
-        '123456', 'password', '123456789', 'qwerty', 'abc123', '1234567', 'password1', '12345678', '1234567', '123456', '12345', '123123', '1q2w3e4r', 'admin', 'letmein'
-    ];
+$commonUpperSequences = [
+    'ABCD', 'BCDE', 'CDEF', 'DEFG', 'EFGH', 'FGHI', 'GHIJ', 'HIJK',
+    'IJKL', 'JKLM', 'JKLMN', 'KLMO', 'LMNOP', 'MNOPQ', 'NOPQR', 'OPQRS', 'PQRST',
+    'QRSTU', 'RSTUV', 'STUVW', 'TUVWX', 'UVWXY', 'VWXYZ','BBBB', 'CCCC', 'DDDD', 'EEEE', 'FFFF', 'GGGG', 'HHHH', 'IIII', 'JJJJ',
+'KKKK', 'LLLL', 'MMMM', 'NNNN', 'OOOO', 'PPPP', 'QQQQ', 'AAAA'
+];
 
-    if (in_array($passwords, $commonPasswords)) {
-        return false;
-    }
+// Function to check if password contains any common sequence
+function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
+    // Convert the password to lowercase for checking against lower sequences
     
+    
+    // Check against lowercase common sequences
+    foreach ($lowerSequences as $sequence) {
+        if (strpos($passwords, $sequence) !== false) {
+            return true; // Match found in lower sequences
+        }
+    }
+
+    // Check against uppercase common sequences
+    foreach ($upperSequences as $sequence) {
+        if (strpos($passwords, $sequence) !== false) {
+            return true; // Match found in upper sequences
+        }
+    }
+
+    return false; // No matches found in either array
+}
+
+
+// Check if the password contains any common sequence
+if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
+    header("Location: register.html?success=12");
+    exit(); // Ensure no further script execution
+}
+
+function hasRepetitivePattern($passwords) {
+    $length = strlen($passwords);
+
+    // Loop through possible substring lengths
+    for ($i = 1; $i <= $length / 2; $i++) {
+        $substring = substr($passwords, 0, $i);
+        $repeatCount = 1; // Start with the first instance of the pattern
+
+        // Loop to check for repetitive patterns
+        for ($j = $i; $j < $length; $j += $i) {
+            $nextSubstring = substr($passwords, $j, $i);
+
+            // If the next substring matches, increase the repeat count
+            if ($substring === $nextSubstring) {
+                $repeatCount++;
+            } else {
+                break; // Stop if the next part of the string doesn't match
+            }
+
+            // If the pattern repeats more than twice, return true (too many repetitions)
+            if ($repeatCount > 2) {
+                return true;
+            }
+        }
+    }
+    return false; // No excessive repetitive pattern found
+}
+
+// Check if the password contains a repetitive pattern
+if (hasRepetitivePattern($passwords)) {
+    header("Location: register.html?success=13");
+    exit();
+}
     
 
 
@@ -127,10 +202,10 @@ if (isset($_POST['submit'])) {
 
     $sql = "INSERT INTO users (email, backupEmail, usernames, address, passwords, emailCode, backupEmailCode) 
     VALUES (?, ?, ?, ?, ?, ?, ?)";    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $email, $backupEmail, $username, $address, $hashed_password, $hashedEmailCode, $hashedBackupEmailCode);
+    $stmt->bind_param("sssssss", $email, $backupEmail, $usernames, $address, $hashed_password, $hashedEmailCode, $hashedBackupEmailCode);
     if ($stmt->execute()) {
         // Send verification email
-        $mail = new PHPMailer(true);
+         $mail = new PHPMailer(true);
         try {
             // Common settings
             $mail->isSMTP();
@@ -140,7 +215,7 @@ if (isset($_POST['submit'])) {
             $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
             $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
-            $mail->setFrom('HappyMart@natural.com', 'Natural');
+            $mail->setFrom('PitStop@computerShop.com', 'Pit Stop');
             $mail->isHTML(true);
             $mail->Subject = 'Email Verification';
         
@@ -158,8 +233,8 @@ if (isset($_POST['submit'])) {
             $mail->Body = "<p>Your verification code for backup email {$backupEmail} is: <strong> $backupEmailCode </strong></p>
             <p>Please enter this code on the verification page to verify your account.</p>";
             $mail->send();
-            // header("Location: checkRegister.php?email=" . urlencode($email) . "&backupEmail=" . urlencode($backupEmail));
-        
+             header("Location: checkRegister.php");
+         
         } catch (Exception $e) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         }
@@ -167,7 +242,7 @@ if (isset($_POST['submit'])) {
     } else {
         // Handle database insert error
         echo "Error: " . $sql . "<br>" . $conn->error;
-    }
+    } 
 
     $stmt->close();
     $conn->close();

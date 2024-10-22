@@ -1,0 +1,172 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Ensure full width */
+    height: 100%; /* Ensure full height */
+}
+
+body{
+background-color: bisque;
+}
+
+#navContainer {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    width: 100%; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */
+    
+    /* Ensure it remains visible within the container */
+  
+  }
+.button {
+  border: none;
+  height:40px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 12px;
+    }
+  #home{
+    margin-left: 10px;
+  }
+
+#logoImg{
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 50px;
+}
+#logOut{
+  margin-top: 10px;
+}
+    button:hover{
+        transform: scale(0.9);
+        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+      }
+#name{
+  margin-left: 500px
+}
+
+  
+#container {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+.item{
+ width:100px;
+ height:100px;
+}
+
+
+.product_name {
+  margin-top:15px;
+    font-size:20px;
+    color: black;
+}
+
+.price {
+  display: flex;
+  gap: 3px;
+  justify-content:center;
+  align-items:center;
+    color: red;
+}
+.status{
+  margin-top:10px;
+}
+
+#prices{
+    font-size:30px;
+    color:red;
+}
+
+
+.imageContainer{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+    width: 180px;
+    height: 170px;
+    background-color: antiquewhite;
+}
+.productDetails{
+  background-color:white;
+  font-size:18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  text-align: center; /* Horizontally center the content */
+  gap: 10px;
+
+}
+.product{
+    margin: 20px;
+    background-color: white;
+    width: 180px;
+    height: 400px;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.2px
+}
+   
+   
+
+    
+.unit{
+  color:black;
+    font-size: 12px;
+}
+
+#description1{
+    display: flex;
+    align-items: center;
+}
+#rating{
+}
+.starItem{
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
+.checked{
+    color: orange;
+}
+
+#row{
+  display:flex;
+}
+
+    
+   
+    .message-container {
+      
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      padding-left: 120px;
+      padding-right: 120px;
+      padding-top: 90px;
+      padding-bottom: 90px;
+      color: white;
+      font-size: 30px;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    #inputs{
+      width:20px !important;
+      margin-left:0px;
+      padding:0px;
+    }

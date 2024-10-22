@@ -5,127 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="register.css">
     <link rel="icon" href="logo.jpg" type="image/jpg">
-    <style>
-     body {
-      background-color: bisque;
-      margin-left: 20px;
-    }
-
-.title{
-  display: flex;
-  align-items: center;
-}
-
-input[type=text], input[type=password] ,input[type=email] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-
-.container {
-  background-color: white;
-  width:420px;
-  margin-top:20px;
-  margin-left:400px;
-  padding: 16px;
-}
-p{
-  width: 400px;
-}
-
-
-span.psw {
-  float: right;
-  padding-top: 16px;
-}
-
-.img{
-  margin-left:400px;
-  width:50px;
-  height:50px;
-  }
-
-  #navContainer{
-    color:white;
-      display:flex;
-     align-items:center;
-    background-color: black;
-    }
-
-    .button {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    margin-top: 10px;
-    padding-bottom: 10px;
-    font-size: 16px;
-    }
-
-    #Login{
-      margin-left: 200px;
-    }
-    
-    .button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-    form{
-      width: 100px;
-    }
-    
-      #title{
-        margin-left: 600px;
-        margin-top: 30px;
-        font-size: 30px;
-      }
-    
-      #confirm{
-        margin-top:20px;
-      }
-
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
-
-  #register{
-  width: 80px;
-  }
-
-  
-}
-    </style>
+   
 </head>
 <body>
   
-<div id="navContainer"> 
-  <img class='img' src="../assets/logo.jpg" alt="" srcset="">
-  <button id='home' class='button'>Computer Shop</button>
+
+  <div id="navContainer"> 
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
     <button id="login" class="button">Log in</button>
 </div>
-<div id="title">
-  Register
-</div>
-
     
     <form action="register.php" method="post">
       <div class="container">
-        <p>
-          Beware of Phishing Link, this website do not use link to verify email. Verification code only.
+        <p id="title">
+          Register
         </p>
         <input type="text" placeholder="Enter Username" name="username" required>
         <div id="nameContainer"></div>
@@ -139,35 +35,12 @@ span.psw {
   
   
         <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
-        <button id="togglePassword">Toggle Password Visibility</button>
-  <script>
-    const togglePasswordBtn = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-  
-    togglePasswordBtn.addEventListener('click', function() {
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-      } else {
-        passwordInput.type = 'password';
-      }
-    });
-  </script>
+        <button id="show">Show</button>
+ 
         <div id="passwordContainer"></div>
   
         <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
-        <button id="togglePassword2">Toggle Password Visibility</button>
-        <script>
-          const togglePasswordBtn2 = document.getElementById('togglePassword2');
-          const passwordInput2 = document.getElementById('password2');
-        
-          togglePasswordBtn2.addEventListener('click', function() {
-            if (passwordInput2.type === 'password') {
-              passwordInput2.type = 'text';
-            } else {
-              passwordInput2.type = 'password';
-            }
-          });
-        </script>
+        <button id="show2">Show</button>
           <div id="errorContainer"></div>
   
   
