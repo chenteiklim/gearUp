@@ -121,29 +121,29 @@ if ($result->num_rows > 0) {
 </head>
 <body>
     
-<div id="navContainer"> 
-<form action="../homepage/mainpage.php" method="POST">
-        <button type="submit" class="back-button">Home</button>
-</form>  
 
-  
+<div id="navContainer"> 
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
+    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="name"><?php echo $usernames ?></button>
+    <form action="../userLogin/logout.php" method="POST">
+      <button type="submit" id="logOut" class="button">Log Out</button>
+    </form>    
 </div>
 <div id="container">
-    <div class='item10'>
-    <div class='user-info'>
-        
-    </div>
-    </div>
+    
 <div id="bigTitle">Order Status</div>
 
 <div class='title'>
     <div class="Order_id"><?php echo 'Order_id'; ?></div>
-    <div class="User_id"><?php echo 'User_id'; ?></div>
-    <div class="Name"><?php echo 'Name'; ?> </div>
+    <div class="email"><?php echo 'Email'; ?></div>
     <div class="Address"><?php echo 'Address'; ?> </div>
     <div class="Product"><?php echo 'Product'; ?> </div>
     <div class="product_name"><?php echo 'Product Name'; ?></div>
-    <div class="price"><?php echo 'Price'; ?></div>
+    <div class="Pricess"><?php echo 'Price'; ?></div>
     <div class="quantity"><?php echo 'Quantity'; ?></div>
     <div class="total_price"><?php echo 'Total Price'; ?></div>
     <div class="order_status"><?php echo 'Order Status'; ?></div>
@@ -177,13 +177,12 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
         while ($row = $selectRowResult->fetch_assoc()) {
             $product_id = $row['product_id'];
             $product_name = $row['product_name'];
-            $user_id=$row['user_id'];
-            $name = $row['name'];
+            $email=$row['email'];
             $date = $row['date'];
             $address = $row['address'];
             $price = $row['price'];
             $image = $row['image'];
-            $imageUrl = "/gadgetShop/assets/" . $image;
+            $imageUrl = "/inti/gadgetShop/assets/" . $image;
             $quantity = $row['quantity'];
             $order_status = $row['order_status'];
             $total_price = $row['total_price'];
@@ -192,19 +191,18 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
             
         ?>
             <div class="content">
-            <div id="order_id"><?php echo $order_id;?></div>
-            <div id="user_id"><?php echo $user_id; ?></div>
-            <div id="name"><?php echo $name;?></div>
-            <div id="Address"><?php echo $address;?></div>
-            <img class="item" src="<?php echo $imageUrl; ?>" alt="">
-            <div class="product_name"><?php echo $product_name; ?></div>
-            <div id="price"><?php echo 'RM'.$price; ?></div>
-            <div id="quantity">x<?php echo $quantity; ?></div>
-            <div id="total_price"><?php echo 'RM'.$total_price; ?></div> 
-            <div id="order_status"><?php echo $order_status?></div> 
-            <div id="order_date"><?php echo $date?></div> 
+            <div id="order_id" class='itemContent'><?php echo $order_id;?></div>
+            <div id="user_id" class='itemContent'><?php echo $email; ?></div>
+            <div id="Address" class='itemContent'><?php echo $address;?></div>
+            <img class="item" class='itemContent' src="<?php echo $imageUrl; ?>" alt="">
+            <div class="product_name" class='itemContent'><?php echo $product_name; ?></div>
+            <div id="price" class='itemContent'><?php echo 'RM'.$price; ?></div>
+            <div id="quantity" class='itemContent'>x<?php echo $quantity; ?></div>
+            <div id="total_price" class='itemContent'><?php echo 'RM'.$total_price; ?></div> 
+            <div id="order_status" class='itemContent'><?php echo $order_status?></div> 
+            <div id="order_date" class='itemContent'><?php echo $date?></div> 
             <form action="" method="post">
-                <button class="button" type="submit" name="refund" value="<?php echo $button_id ?>">refund</button>
+                <button id="refunds" class="button" type="submit" name="refund" value="<?php echo $button_id ?>">refund</button>
             </form>
             </div>
         
@@ -216,23 +214,10 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
 
 </div>
 
-<div id="checkOut">
-    <div id="textArea">
-        <div id="text1">Note: <span style="color: red;">Delivered</span>  means your parcel is arrived </div>
-        <div id="text2"><span style="color: blue;">Purchase</span>  or <span style="color: blue;">Shipping</span>  means your order is pending, please wait.</div>
-    </div>    
-</div>
-<div>
-    <button id="toggle" onclick="toggleContent()">Toggle Content</button>
-</div>
-   
 </div>
 
-<div class='payment'>
-     Payment Method
-     <button id="checkOutbtn" class="button"><?php echo 'Online Banking' ?></button>
-</div>
 </div>
 
 </body>
+<script src="tracking.js"></script>
 </html>

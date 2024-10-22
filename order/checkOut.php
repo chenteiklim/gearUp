@@ -78,15 +78,16 @@ if ($result3 && $result3->num_rows > 0) {
 <body>
     
 <div id="navContainer"> 
-<form action="mainpage.php" method="POST">
-    <!-- Your form fields here -->
-    <button class="button"><?php echo 'Shopping Cart'; ?></button>
-    <button class="button"><?php echo 'Notification' ?></button>
-    <button class="button"><?php echo $usernames;?></button>
-    <button id="logOut" class="button"><?php echo 'Log Out' ?></button>
-        <button type="submit" class="back-button">Home</button>
-</form>  
-
+    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
+    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
+    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="name"><?php echo $usernames ?></button>
+    <form action="../userLogin/logout.php" method="POST">
+      <button type="submit" id="logOut" class="button">Log Out</button>
+    </form>    
+</div>
   
 </div>
 <div id="container">
@@ -154,7 +155,7 @@ foreach ($product_ids as $product_id) {
         $address = $row['address'];
         $price = $row['price'];
         $image = $row['image'];
-        $imageUrl = "/gadgetShop/assets/" . $image;
+        $imageUrl = "/inti/gadgetShop/assets/" . $image;
         $quantity = $row['quantity'];
         $total_price = $row['total_price'];
         $grandTotal += $total_price;
@@ -174,10 +175,9 @@ $Total=$grandTotal+9;
 }
 ?>
  </div>
- <div id="checkOut">
     <div class='text'>
-        <form action="payment.php" method="POST">
-            <div class="row">
+        <form id="checkOut" action="payment.php" method="POST">
+            <div id='merchandise' class="row">
                 <div>
                     Merchandise Subtotal
                 </div>
@@ -190,7 +190,7 @@ $Total=$grandTotal+9;
                     Shipping total
                 </div>
                 <div class='row3'>
-                    <?php echo "RM9.00"?>
+                    <?php echo "RM 9.00"?>
                 </div>
             </div>
             <div class='row'>
@@ -204,13 +204,11 @@ $Total=$grandTotal+9;
                 <button id="checkOutbtn" class="button"><?php echo 'Place Order' ?></button>
             </form>  
 
-    </div>
-</div>
-<div class='payment'>
-     Payment Method
-     <button id="checkOutbtn" class="button"><?php echo 'Online Banking' ?></button>
 </div>
 </div>
-
+</div>
 </body>
+<script src="checkOut.js"></script>
+
 </html>
+

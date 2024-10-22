@@ -1,20 +1,64 @@
 
-body{
-    display: flex;
-    flex-direction:column;
-
-}
-
-#container {
-
-width:1200px;
-background-color: #CDCDCD;
-display: flex;
-flex-direction:column;
-height: 100%;
-
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Ensure full width */
+    height: 100%; /* Ensure full height */
+  }
+  
+  body{
+  background-color: bisque;
+  }
+  
  
-}
+
+
+  .button {
+  border: none;
+  height:40px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 12px;
+    }
+  #home{
+    margin-left: 10px;
+  }
+  
+  #logoImg{
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 50px;
+  }
+    button:hover{
+        transform: scale(0.9);
+        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+      }
+  #name{
+  margin-left: 500px;
+  }
+  #navContainer {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    width: 100%; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */
+    
+    /* Ensure it remains visible within the container */
+  
+  }
+  #container {
+
+    background-color: #CDCDCD;
+    display: flex;
+    align-items:center;
+    flex-direction:column;
+    padding-bottom: 300px; 
+    }
+
 
 .item{
  width:100px;
@@ -47,6 +91,8 @@ height: 100%;
 
 }
 
+
+
 .Product{
     font-size:20px;
     text-align:center;
@@ -75,16 +121,19 @@ height: 100%;
     color:red;
 }
 #checkOut{
+   margin-top: 50px;
+   margin-left: 1100px;
+}
+
+.text{
     background-color:white;
     display:flex;
     font-size: 20px;
-    width:1200px;
-    margin-top:400px;
-    height:400px;
+    width:100%;
+    height:250px;
     position: fixed;
+    bottom: 0px;
 }
-
-
 #total_item{
     padding-left:10px;
 }
@@ -121,23 +170,10 @@ button {
       background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
     }
     
-    body{
-        display:flex;
-        align-items:center;
-        background-color: bisque;
-        width: 1400px;
-        height: 1400px;
-    }
-      
+   
+  
     
-    #navContainer{
-        width:1200px;
-        background-color: black;
-    }
-    
-    #logOut{
-        margin-left: 200px;
-    }
+ 
 
     .total{
         margin-left:800px;
@@ -183,10 +219,7 @@ button {
     .row4{
         margin-left:78px;
     }
-    .text{
-        margin-top:0px;
-        margin-left:600px;
-    }
+    
     #checkOutbtn{
         margin-top:20px;
         margin-left:50px;

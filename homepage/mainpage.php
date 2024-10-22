@@ -74,6 +74,7 @@ if ($result->num_rows > 0) {
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
 </div>
+<div id="messageContainer"></div>
 
 
 </div>

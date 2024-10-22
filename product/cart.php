@@ -227,9 +227,8 @@ $_SESSION['product_ids'] = $product_ids;
 $product_ids_string = implode(", ", $product_ids);
 $quantities_string = implode(", ", $quantities);
 ?>
-
-    <div id='checkOut'>
-        <form idaction="../order/checkOut.php" method="POST">
+    <div class='text'>
+        <form id="checkOut" action="../order/checkOut.php" method="POST">
                 <div class="total">
                     <div>
                         Total:

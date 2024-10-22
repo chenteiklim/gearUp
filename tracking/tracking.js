@@ -1,9 +1,5 @@
-function toggleContent() {
-    var content = document.getElementById('checkOut');
-    if (content.style.opacity === '0') {
-      content.style.opacity = '1';
-    } else {
-      content.style.opacity = '0';
-    }
-
-  }
+const home=document.getElementById('home');
+home.addEventListener('click', function (event) {
+  event.preventDefault()
+    window.location.href="../homepage/mainpage.php"
+  })
