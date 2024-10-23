@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fanime</title>
     <link rel="icon" href="../assets/icon.png" sizes="32x32" type="image/jpg">
-    <link rel="stylesheet" href="checkRegister.css">
+    <link rel="stylesheet" href="verify.css">
 </head>
 <body>
 <div id="navContainer"> 
     <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button id="login" class="button">Log in</button>
-    <button id="register" class="button">Register</button>
+    <button class="button" id="register">Sign Up</button>
 
 </div>
     
         <div id="purple_container">
-            <div id="title">Email Verification</div>
+            <div id="title">Reset Password</div>
             
             <?php
             
@@ -52,17 +52,19 @@
                     <input type="text" id="backupCode5" name="backupCode[]" maxlength="1" required>
                     <input type="text" id="backupCode6" name="backupCode[]" maxlength="1" required>
                 </div>
+                <div id="errorContainer"></div>
+
                 <!-- Submit Button -->
                 <button type="submit" class="button" id='verifyBtn'>Verify Account</button>
             </form>
             <?php
             }else {
-                echo "<p id='text1'>Email not provided. Please Register first.</p>";
+                echo "<p id='text1'>Email not provided.</p>";
             }
             ?>
           
         </div>  
 
-    <script src="checkRegister.js"></script>
+    <script src="verify.js"></script>
 </body>
 </html>

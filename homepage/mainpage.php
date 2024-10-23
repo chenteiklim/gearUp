@@ -12,7 +12,13 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 session_start();
-$email=$_SESSION['email'];
+$email = $_SESSION['email'] ?? null;
+
+if (!$email) {
+  echo "<h1>This Website is Not Accessible</h1>";
+  echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
+  exit;  // Stop further execution of the script
+}
 if (isset($_SESSION['orders_id'])) {
   $order_id = $_SESSION['orders_id'];
   // Your code here that uses the $order_id
