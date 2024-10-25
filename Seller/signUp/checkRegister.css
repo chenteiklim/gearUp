@@ -1,0 +1,124 @@
+
+body {
+    background-color: bisque;
+   }
+   html, body {
+     margin: 0;
+     padding: 0;
+     width: 100%; /* Ensure full width */
+     height: 100%; /* Ensure full height */
+   }
+   
+   #navContainer {
+     display: flex;
+     background-color: black;
+     width: 100%; /* Adjust width as needed */
+     height: 80px; /* Adjust height as needed */
+     
+     /* Ensure it remains visible within the container */
+   
+   }
+   
+   .button {
+     background-color: black;
+     color: white;
+     cursor: pointer;
+     padding-left: 30px;
+     padding-right: 30px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     font-size: 12px;
+     border: none;
+     }
+     #home{
+         margin-left: 10px;
+     }
+   #login{
+     margin-left: 900px;
+   }
+   #logoImg{
+     margin-top: 25px;
+     width: 35px;
+     height: 35px;
+     border-radius: 5px;
+     margin-left: 100px;
+   }
+   
+     button:hover{
+         transform: scale(0.9);
+         background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+       }
+   
+
+#loginTag{
+text-decoration: none;
+color: darkblue;
+}
+
+input[type="text"]{
+margin-top: 10px;
+width: 10px; /* Set the width */
+height:10px; /* Set the height */
+padding: 8px; /* Add padding for better appearance */
+font-size: 14px; /* Adjust the font size */
+}
+#primaryCode{
+font-size: 16px;
+margin-left: 20px;
+}
+#backupCode{
+font-size: 16px;
+margin-left: 20px;
+
+}
+
+#fanime {
+font-size: 40px;
+color: #0a542a;
+margin-top: 20px;
+margin-left: 10px;
+}
+
+
+#help {
+font-size: 20px;
+color: darkblue;
+margin-top: 40px;
+margin-left: 800px;
+}
+#text1{
+margin-left: 20px;
+margin-top: 30px;
+font-size: 16px;
+color: black;
+cursor: pointer;
+}
+
+#purple_container{
+margin-top: 70px;
+margin-left: 450px;
+background-color:white;
+border-radius: 5px;
+width: 550px;
+height: 350px;
+}
+.red{
+color:darkblue;
+font-weight: 550;
+}
+#title{
+font-size: 24px;
+margin-left: 170px;
+padding-top: 20px;
+color: black;
+}
+
+
+#verifyBtn{
+    margin-left: 140px;
+    margin-top: 20px;
+}
+
+
+
+

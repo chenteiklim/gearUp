@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fanime</title>
+    <link rel="icon" href="../assets/icon.png" sizes="32x32" type="image/jpg">
+    <link rel="stylesheet" href="login.css">
+   
+</head>
+<body>
+    <div id="container">
+      <div id="navContainer">
+        <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+        <button class="button" id="home">Computer Shop</button>
+        <button class="button" id="register">Sign Up</button>
+
+      </div>
+    
+      <div id="purple_container">
+        <div id="title">
+          Login
+        </div>
+        <form action="login.php" method="post">
+         
+          <div id="emailContainer">
+            <input type="text" placeholder="Enter Username" name="username" required autocomplete="off">
+          </div>
+        
+          <div id="passwordContainer">
+              <input type="password" id="password" placeholder="Password" name="passwords" required autocomplete="off">
+              <button id="show" type="button">Show</button>
+            </div>
+    
+        <div id="messageContainer"></div>
+        <div id="signUpContainer">
+          <input id="signUpBtn" class="button" type="submit" name="submit" value="Login">
+          <p> <a id="forgotBtn" href="../forgotPwd/verifyForgotPwd.html">Forget password</a></p>
+          <hr>
+                 
+        </div>
+      </form>
+    </div>  
+</div>
+<script src="login.js"></script>
+  </body>
+</html>
+   
