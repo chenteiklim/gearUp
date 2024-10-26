@@ -57,7 +57,7 @@ if (isset($_POST['submit'])) {
    
     else {
         // If all checks pass, proceed to the main page
-        header("Location: ../homepage/mainpage.php");
+        header("Location: ../mainpage/mainpage.php");
         exit(); // Ensure that further code execution is stopped after the redirection
     }
   } 

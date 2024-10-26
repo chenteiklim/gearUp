@@ -2,28 +2,30 @@
 var sell= document.getElementById("sell");
 sell.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../createProduct/createProduct.php";
+  window.location.href = "../CRUDProduct/createProduct.php";
 });
 
 var edit= document.getElementById("edit");
 
 edit.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "editProduct.php";
+  window.location.href = "../CRUDProduct/edit/editProduct.php";
+});
+
+
+var deletes= document.getElementById("delete");
+
+deletes.addEventListener("click", function() {
+  // Perform the navigation action here
+  window.location.href = "../CRUDProduct/deleteProduct.php";
 });
 
 var sales= document.getElementById("sales");
 sales.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "sales.php";
+  window.location.href = "../sales.php";
 });
 
-
-var sales= document.getElementById("dailySales");
-sales.addEventListener("click", function() {
-  // Perform the navigation action here
-  window.location.href = "dailySales.php";
-});
 
 
 window.onload = function() {

@@ -29,7 +29,7 @@ window.onload = function() {
     loginButton.addEventListener('click', function() {
       // Code to navigate to another page goes here
       // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = '../userLogin/login.html';
+      window.location.href = '../login/login.html';
     });
     
     

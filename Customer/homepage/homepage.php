@@ -40,7 +40,7 @@ session_start();
  
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button id='register' class="button"><?php echo 'Register'?></button>
     <button id="login" class="button"><?php echo 'Log in' ?></button>
@@ -95,7 +95,7 @@ session_start();
     if (isset($_SESSION['product_id'])) {
       // Product ID is saved in the session
       $product_id = $_SESSION['product_id'];
-      echo '<script>window.location.href = "../userLogin/login.html";</script>';
+      echo '<script>window.location.href = "../login/login.html";</script>';
      
       
   } else {

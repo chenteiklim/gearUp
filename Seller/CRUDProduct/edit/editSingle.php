@@ -1,3 +1,4 @@
+
 <?php
 
 $servername = "localhost";
@@ -12,7 +13,9 @@ if ($conn->connect_error) {
 }
 
 session_start();
+$product_id=$_SESSION['product_id'];
 mysqli_select_db($conn, $dbname);
+
 $selectNameQuery = "SELECT * FROM seller";
 // Execute the query
 $result = $conn->query($selectNameQuery);
@@ -24,57 +27,49 @@ if ($result->num_rows > 0) {
     // Get the address value from the fetched row
     $name = $row['usernames'];
 
+
+$selectproductName = "SELECT product_name FROM products WHERE product_id = '$product_id'";
+// Execute the query
+$result = $conn->query($selectproductName);
+
+if ($result->num_rows > 0) {
+    // Fetch the row from the result
+    $row = $result->fetch_assoc();
+ // Get the address value from the fetched row
+ $product_name = $row['product_name'];
+
+
+ if (isset($_POST['submit'])) {
+     $product_name = $_POST['productName'];
+     $productImage = $_FILES['productImage']['name'];
+     $price = $_POST['price'];
+     $stock = $_POST['stock'];
+     
+     $targetDir = "/inti/gadgetShop/assets"; // Directory where you want to store the uploaded files
+     $filename = $_FILES['productImage']['name'];
+
+     $targetFile = $targetDir . $filename;
+     move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile);
+
+     // Perform any necessary validation or sanitization of the input values here
+     
+     // Insert the form data into the product table
+     $editProduct = "UPDATE products SET product_name = '$product_name', price = $price, stock = $stock, image='$productImage' WHERE product_id = $product_id";
  
+     // Execute the SQL statement
+     if ($conn->query($editProduct) === TRUE) {
+       $successMessage = "edit Product successfully!";
+       header("Location: ../../mainpage/mainpage.php"); 
+     } else {
+         echo "Error: " . $mysqli->error;
+     }
+ }
 
-if (isset($_POST['submit'])) {
-  $productName = $_POST['productName'];
-  $productImage = $_FILES['productImage']['name'];
-  $price = $_POST['price'];
-  $stock = $_POST['stock'];
-
-  $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
-  if (!is_dir($targetDir)) {
-      mkdir($targetDir, 0777, true);
-  }
-  $targetFile = $targetDir . basename($productImage);
-
-  // Allowed file types
-  $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
-  $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-  if (in_array($fileExtension, $allowedTypes)) {
-    if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
-        echo "Product has been created";
-        // Display the uploaded image
-        $imageUrl = "/inti//gadgetShop/assets/" . basename($productImage);
-        // Insert the product info into the database here
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-} else {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+}
+else{
+  echo('Product not found');
 }
 
-
-  mysqli_select_db($conn, $dbname);
-
-$nextProductIDQuery = "SELECT MAX(product_id) AS max_id FROM products";
-$result = $conn->query($nextProductIDQuery);
-$row = $result->fetch_assoc();
-$maxProductID = $row['max_id'];
-echo $maxProductID;
-$nextProductID = $maxProductID + 1;
-
-// Insert the product with the custom incrementing value
-$insertProduct = "INSERT INTO products (product_id, product_name, image, price, stock, status) VALUES ('$nextProductID', '$productName', '$productImage', '$price', '$stock', 0)";
-    
-        // Execute the SQL statement
-        if ($conn->query($insertProduct) === TRUE) {
-          $product_id = $conn->insert_id; 
-        } else {
-            echo "Error: " . $mysqli->error;
-        }
-    }
 
 
   ?>
@@ -85,6 +80,7 @@ $insertProduct = "INSERT INTO products (product_id, product_name, image, price, 
     <title>Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
     <style>
+      
 form{
   height:320px;
 
@@ -215,24 +211,25 @@ html, body {
             background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
           }
     
-    
-    
     </style>
 </head>
 
+
+
+
 <div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
-
     <button class="button" id="name"><?php echo $name ?></button>
-
 </div>
 <div class="container">
   <div class="content">
-  <div id='title'>
-    Create Product
-  </div>
-  <form action="createProduct.php" method="post" enctype="multipart/form-data">
+ 
+<div id='title'>
+  Edit <?php echo $product_name ?>
+</div>
+
+  <form action="editSingle.php" method="post" enctype="multipart/form-data">
       <div id="nameContainer">
         <label for="productName"><b>Product Name</b></label>
         <input type="text" placeholder="Enter Product Name" name="productName" required>
@@ -249,19 +246,19 @@ html, body {
       <label for="stock"><b>Stock</b></label>
       <input type="text" placeholder="Enter how many stock do you have (minimum 10)" name="stock" required>
     </div>
-    <input id="createProduct" type="submit" name="submit" value="Create Product">
+    <input id="createProduct" type="submit" name="submit" value="Edit Product">
       
   </form>
   </div>
 </div>
+ 
 <script>
-  var homeButton = document.getElementById("home");
-
-homeButton.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "../mainpage/mainpage.php";
-});
+   var homeButton = document.getElementById("home");
+  homeButton.addEventListener("click", function(event) {
+    // Perform the navigation action here
+    event.preventDefault()
+    window.location.href = "../../mainpage/mainpage.php";
+  });
 </script>
 
   

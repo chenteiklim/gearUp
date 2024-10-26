@@ -60,11 +60,15 @@ body{
    
   
       .sell{
-          margin-top:80px;
+          margin-top:60px;
       }
       
       #edit{
           margin-top:20px;
+      }
+
+      #delete{
+        margin-top: 20px;
       }
       
       #sales{
@@ -120,6 +124,8 @@ body{
         /* Ensure it remains visible within the container */
       
       }
+
+
     .button {
         background-color: black;
         color: white;

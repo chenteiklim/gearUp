@@ -49,17 +49,18 @@ if ($result->num_rows > 0) {
 <div id="container">
     <div id="messageContainer"></div>
     <div class="sell">
-    <button id="sell" class="btn"><?php echo 'Sell Product' ?></button>
+    <button id="sell" class="btn"><?php echo 'Create Product' ?></button>
     </div>
     <div class="edit">
     <button id="edit" class="btn"><?php echo 'Edit Product' ?></button>
     </div>
+    <div class="edit">
+    <button id="delete" class="btn"><?php echo 'delete Product' ?></button>
+    </div>
     <div class="sales">
     <button id="sales" class="btn"><?php echo 'Sales' ?></button>
     </div>
-    <div class="dailySales">
-    <button id="dailySales" class="btn"><?php echo 'Daily sales' ?></button>
-    </div>
+ 
 </div>
 
 <script src="mainpage.js"></script>
