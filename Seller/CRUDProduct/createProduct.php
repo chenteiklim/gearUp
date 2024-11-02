@@ -223,9 +223,7 @@ html, body {
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
-
     <button class="button" id="name"><?php echo $name ?></button>
-
 </div>
 <div class="container">
   <div class="content">
@@ -256,12 +254,11 @@ html, body {
 </div>
 <script>
   var homeButton = document.getElementById("home");
-
-homeButton.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "../mainpage/mainpage.php";
-});
+  homeButton.addEventListener("click", function(event) {
+    // Perform the navigation action here
+    event.preventDefault()
+    window.location.href = "../mainpage/mainpage.php";
+  });
 </script>
 
   

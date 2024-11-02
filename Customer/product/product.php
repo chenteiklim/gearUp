@@ -12,19 +12,8 @@ if ($conn->connect_error) {
 
 session_start();
 $product_id = $_SESSION['product_id'];
-$email=$_SESSION['email'];
+$usernames=$_SESSION['username'];
 mysqli_select_db($conn, $dbname);
-
-$selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
-// Execute the query
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-    $usernames = $row['usernames'];
-}
-    // Get the address value from the fetched row
 
 $sql = "SELECT * FROM products WHERE product_id = '$product_id'";
 $result = $conn->query($sql);
@@ -60,7 +49,7 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
 <body>
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
@@ -79,34 +68,29 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
         </div>
         <div>
             <div class="names"><?php echo $product_name; ?> </div>
-
-            
             <div id="status" class="status"><?php echo $status.'sold' ; ?></div>
             <div class="stock"><?php echo $stock . 'stock available'; ?></div>
-        
-        <div id="price-<?php echo 0; ?>" class="prices"><?php echo'RM'.$price; ?></div>
-        <form action="order.php?product_id=1" method="post">
-            <div class="quantity">
-                <label for="quantity" class="quantity_label">Quantity:</label>
-                <div id="messageContainer"></div>
-                <button id="increment">+</button>
-                <input type="number" id="quantity_input" name="quantity_input" min="1" value="1">
-                <button id="decrement">-</button>
-            </div>
-            <div class="buyBtn">
-                <div>
-                    <input id="addCartButton" class="button" type="submit" name="addCart" value="Add To Cart">
+           
+            <div id="price" class="prices"><?php echo'RM'.$price; ?></div>
+            <form action="order.php?product_id=1" method="post">
+                <div class="quantity">
+                    <label for="quantity" class="quantity_label">Quantity:</label>
+                    <div id="messageContainer"></div>
+                    <button id="increment">+</button>
+                    <input type="number" id="quantity_input" name="quantity_input" min="1" value="1">
+                    <button id="decrement">-</button>
                 </div>
-              
+                <div class="buyBtn">
+                    <div>
+                        <input id="addCartButton" class="button" type="submit" name="addCart" value="Add To Cart">
+                    </div>
+                
 
-            </div>
-        </form>
-        <div id="messageContainer2"></div>
-        <div id="messageContainer3"></div>
-
-  </div>
+                </div>
+            </form>
+            <div id="messageContainer2"></div>
+            <div id="messageContainer3"></div>
+        </div>
     </div>
-</div>
 <script src="product.js"></script>
-
 </html>

@@ -19,10 +19,24 @@ if (Param === '1') {
 } 
 
 
+else if (Param === '2') {
+  const confirmDiv = document.createElement('div');
+  confirmDiv.classList.add('errorMessage'); 
+  confirmDiv.innerText = 'Username must be 5-30 characters long and can contain letters, numbers, and _ symbols.';
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.appendChild(confirmDiv);
+
+  // Hide the message after 5 seconds
+  setTimeout(() => {
+    confirmDiv.remove();
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url);    }, 10000);
+} 
 else if (Param === '3') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Email need difference with backupEmail.';
+  confirmDiv.innerText = 'Address can only contain letters, numbers, spaces, commas, periods, and hyphens.'
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 

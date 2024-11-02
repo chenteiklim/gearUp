@@ -37,20 +37,16 @@ if (isset($_POST['submit'])) {
     // Fetch the user's data
     $row = $result->fetch_assoc();
     $hashed_password = $row['passwords'];
-    $emailCode = $row['emailCode'];  
-    $backupEmailCode = $row['backupEmailCode']; 
+    $emailCode = $row['emailCode']; 
 
     if ($emailCode != 1) {
       // If the primary email token is not equal to 1, redirect to a specific page
       header("Location: login.html?success=1");
       exit(); // Stop further script execution
 
-    } elseif ($backupEmailCode != 1) {
-        // If the backup email token is not equal to 1, redirect to another specific page
-        header("Location: login.html?success=2");
-        exit(); // Stop further script execution
-
-    } elseif (!password_verify($password, $hashed_password)) {
+    } 
+    
+    elseif (!password_verify($password, $hashed_password)) {
       header("Location: login.html?success=3");
       exit(); // Stop further script execution
     } 

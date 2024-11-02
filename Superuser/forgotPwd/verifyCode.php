@@ -26,7 +26,7 @@ if (!$email) {
 $primaryCode = implode('', $_POST['primaryCode']);
 
 // Retrieve the hashed codes from the database
-$sql = "SELECT ChangePwdEmailCode FROM users WHERE email = ?";
+$sql = "SELECT ChangePwdEmailCode FROM superuser WHERE email = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -37,7 +37,7 @@ $stmt->fetch();
 if ($stmt->num_rows > 0) {
     // Verify the primary email code
     if (password_verify($primaryCode, $hashedEmailCode)) {
-        $updateSql = "UPDATE users SET ChangePwdEmailCode = 'pending' WHERE email = ?";
+        $updateSql = "UPDATE superuser SET ChangePwdEmailCode = 'pending' WHERE email = ?";
         $updateStmt = $conn->prepare($updateSql);
         $updateStmt->bind_param("s", $email);
         if ($updateStmt->execute()) {

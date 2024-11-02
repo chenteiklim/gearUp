@@ -24,10 +24,9 @@
             
             
             session_start();
-            if (isset($_SESSION['email']) && isset($_SESSION['backupEmail'])) {
+            if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
-                $backupEmail = $_SESSION['backupEmail'];
-                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> and <span class='red'>$backupEmail</span> below to verify your account.</p>";
+                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>
               <form action="verifyCode.php" method="POST">
@@ -42,16 +41,6 @@
                     <input type="text" id="primaryCode6" name="primaryCode[]" maxlength="1" required>
                 </div>
 
-                <!-- Backup Email Verification Code -->
-                <div>
-                    <label for="backupCode" id='backupCode'><?php echo $backupEmail; ?> Verification Code:</label>
-                    <input type="text" id="backupCode1" name="backupCode[]" maxlength="1" required>
-                    <input type="text" id="backupCode2" name="backupCode[]" maxlength="1" required>
-                    <input type="text" id="backupCode3" name="backupCode[]" maxlength="1" required>
-                    <input type="text" id="backupCode4" name="backupCode[]" maxlength="1" required>
-                    <input type="text" id="backupCode5" name="backupCode[]" maxlength="1" required>
-                    <input type="text" id="backupCode6" name="backupCode[]" maxlength="1" required>
-                </div>
                 <!-- Submit Button -->
                 <button type="submit" class="button" id='verifyBtn'>Verify Account</button>
             </form>

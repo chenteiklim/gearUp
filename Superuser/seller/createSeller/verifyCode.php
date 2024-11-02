@@ -15,10 +15,8 @@ session_start();
 
 // Check if the session variables are set
 $email = $_SESSION['email'] ?? null;
-$backupEmail = $_SESSION['backupEmail'] ?? null;
 
-// If email or backupEmail is not set, display an error message and exit
-if (!$email || !$backupEmail) {
+if (!$email) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
     exit;  // Stop further execution of the script
@@ -27,25 +25,22 @@ if (!$email || !$backupEmail) {
 // Concatenate primary email verification code input
 $primaryCode = implode('', $_POST['primaryCode']);
 
-// Concatenate backup email verification code input
-$backupCode = implode('', $_POST['backupCode']);
 
 // Retrieve the hashed codes from the database
-$sql = "SELECT emailCode, backupEmailCode FROM seller WHERE email = ? AND backupEmail = ?";
+$sql = "SELECT emailCode FROM users WHERE email = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $email, $backupEmail);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
-$stmt->bind_result($hashedEmailCode, $hashedBackupEmailCode);
+$stmt->bind_result($hashedEmailCode);
 $stmt->fetch();
 
 if ($stmt->num_rows > 0) {
     // Verify the primary email code
-    if (password_verify($primaryCode, $hashedEmailCode) && password_verify($backupCode, $hashedBackupEmailCode)) {
-        // Codes are valid, update the emailCode and backupEmailCode to 1
-        $updateSql = "UPDATE seller SET emailCode = '1', backupEmailCode = '1' WHERE email = ? AND backupEmail = ?";
+    if (password_verify($primaryCode, $hashedEmailCode)) {
+        $updateSql = "UPDATE users SET emailCode = '1' WHERE email = ?";
         $updateStmt = $conn->prepare($updateSql);
-        $updateStmt->bind_param("ss", $email, $backupEmail);
+        $updateStmt->bind_param("s", $email);
         if ($updateStmt->execute()) {
             header("Location: ../homepage/mainpage.php");
             exit;  // Ensure script stops executing after redirect

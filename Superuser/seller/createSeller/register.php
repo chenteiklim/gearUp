@@ -24,16 +24,15 @@ use PHPMailer\PHPMailer\Exception;
 
 
 if (isset($_POST['submit'])) {
-    $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize username
+    $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
-    $backupEmail = filter_var($_POST['backupEmail'], FILTER_SANITIZE_EMAIL); // Sanitize backup email
     $passwords = $_POST['passwords']; // Validate and hash passwords, don't output directly
     $confirm_password = $_POST['confirm_password']; // Same as above
     $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
+    $_SESSION['username'] = $usernames;
     $_SESSION['address'] = $address;
     $_SESSION['email'] = $email;
-    $_SESSION['backupEmail'] = $backupEmail;
-  
+   
         
  // Define separate arrays for common sequences
  $commonLowerSequences = [
@@ -107,7 +106,7 @@ function hasRepetitivePattern($passwords) {
 
     mysqli_select_db($conn, $dbname); 
 
-    $sql = "SELECT * FROM seller WHERE usernames = ?";
+    $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usernames);
     $stmt->execute();
@@ -119,11 +118,6 @@ function hasRepetitivePattern($passwords) {
     }
 
    
-
-    else if ($email == $backupEmail) {
-        header("Location: register.html?success=3");
-        exit();
-    } 
 
     
     // Check if password matches confirm password
@@ -137,11 +131,7 @@ function hasRepetitivePattern($passwords) {
         header("Location: register.html?success=5");
         exit();
     }
-    // Validate email format
-    else if (!filter_var($backupEmail, FILTER_VALIDATE_EMAIL)) {
-        header("Location: register.html?success=6");
-        exit();
-    }
+  
 
     // Check minimum length
     else if (strlen($passwords) < 10) {
@@ -177,20 +167,16 @@ function hasRepetitivePattern($passwords) {
         exit();
     }
     
- 
-        
-    $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
 
+    $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
     $emailCode = rand(100000, 999999); // 6-digit code for primary email
-    $backupEmailCode = rand(100000, 999999); // 6-digit code for backup email
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
-    $hashedBackupEmailCode = password_hash($backupEmailCode, PASSWORD_BCRYPT);
     $param1 = 0;
-    $param2 = 0;
    
-    $sql = "INSERT INTO seller (email, backupEmail, usernames, address, passwords, emailCode, backupEmailCode, ChangePwdEmailCode, ChangePwdbackupEmailCode) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssii", $email, $backupEmail, $usernames, $address, $hashed_password, $hashedEmailCode, $hashedBackupEmailCode, $param1, $param2);
+    $sql = "INSERT INTO users (email, usernames, address, passwords, emailCode, ChangePwdEmailCode) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssii", $email, $usernames, $address, $hashed_password, $hashedEmailCode, $param1);
        
 
      if ($stmt->execute()) {
@@ -213,15 +199,6 @@ function hasRepetitivePattern($passwords) {
             $mail->addAddress($email);
             $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
             <p>Ref: $emailCode</p>";
-            $mail->send();
-            
-            // Clear addresses for the next email
-            $mail->clearAddresses();
-            
-            // Send to backup email
-            $mail->addAddress($backupEmail);
-            $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
-            <p>Ref: $backupEmailCode</p>";
             $mail->send();
              header("Location: checkRegister.php");
          

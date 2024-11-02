@@ -13,10 +13,28 @@ if ($conn->connect_error) {
 }
 
 session_start();
-$email = $_SESSION['email'];
+$usernames = $_SESSION['username'];
 
+mysqli_select_db($conn, $dbname);
 
-$sql = "SELECT user_id FROM users WHERE email = '$email'";
+$stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
+$stmt->bind_param("s", $usernames);
+$stmt->execute();
+
+// Get the result
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    // Fetch the result as an associative array
+    $user = $result->fetch_assoc();
+    $email = $user['email']; // Access the email field
+} else {
+    echo "No user found with that username.";
+}
+
+$stmt->close();
+
+$sql = "SELECT * FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -24,7 +42,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $user_id = $row['user_id'];
 }
-mysqli_select_db($conn, $dbname);
+
 
 $maxIdQuery = "SELECT MAX(order_id) AS max_id FROM orders WHERE email= '$email'";
 $maxIdResult = $conn->query($maxIdQuery);
@@ -34,9 +52,6 @@ if ($row['max_id'] !== null) {
     $order_id = $row['max_id'];
     $_SESSION['order_id'] = $order_id;
 
-
-
-    // Query to retrieve all rows in ascending order
     $selectRowsQuery = "SELECT * FROM cart" . $order_id . "_" . $user_id . " WHERE email='$email' ORDER BY id ASC";
     $selectRowsResult = $conn->query($selectRowsQuery);
 
@@ -47,7 +62,6 @@ if ($row['max_id'] !== null) {
             $rows[] = $row; // Add each row to the array
         }
     }
-
     $product_ids = array(); // Initialize the array before the loop
 
     // Loop through the array of rows
@@ -81,6 +95,7 @@ if ($row['max_id'] !== null) {
         }
         $stmt->close();
 
+
         $newOrderIdQuery = "SELECT MAX(order_id) AS max_id FROM orders WHERE email = '$email'";
         $newOrderIdResult = $conn->query($newOrderIdQuery);
         
@@ -97,9 +112,12 @@ if ($row['max_id'] !== null) {
 }
 
 if (!empty($order_id)) {
-    // Query to retrieve all rows in ascending order
-    $selectRowsQuery = "SELECT * FROM cart" . $order_id . "_" . $user_id . "   WHERE email='$email' ORDER BY id ASC";
-    $selectRowsResult = $conn->query($selectRowsQuery);
+    // Prepare the select statement
+    $tableName = "cart" . $order_id . "_" . $user_id;
+    $stmt = $conn->prepare("SELECT * FROM $tableName WHERE email=? ORDER BY id ASC");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $selectRowsResult = $stmt->get_result();
 
     $rows = []; // Initialize an empty array to store the rows
 
@@ -109,49 +127,24 @@ if (!empty($order_id)) {
         }
     }
 
+    // Prepare the count statement
+    $tableName = "cart" . $order_id . "_" . $user_id;
+    $countStmt = $conn->prepare("SELECT COUNT(*) AS total FROM $tableName WHERE email=?");
+    $countStmt->bind_param("s", $email);
+    $countStmt->execute();
+    $countResult = $countStmt->get_result();
 
-    if (empty($rows)) {
-        $message = "Your cart is empty.";
-        // Append the message as a parameter to the URL
-        header("Location: ../homepage/mainpage.php?message=" . urlencode($message));
-        exit; // Terminate the script after the redirect
-    }
+    if ($countResult && $countResult->num_rows > 0) {
+        $row6 = $countResult->fetch_assoc();
+        $total_rows = $row6['total'];
+    } 
 }
-else{
+
+if (empty($rows)) {
     $message = "Your cart is empty.";
-        // Append the message as a parameter to the URL
-        exit; // Terminate the script after the redirect
+    header("Location: ../homepage/mainpage.php?message2=" . urlencode($message));
+    exit(); // Always exit after a header redirect
 }
-
-?>
-
-
-<!-- Display the products and include the deletion form -->
-<?php
- 
-
- $selectNameQuery = "SELECT usernames FROM users WHERE email = '$email'";
- // Execute the query
- $result = $conn->query($selectNameQuery);
- 
- if ($result->num_rows > 0) {
-     // Fetch the row from the result
-     $row = $result->fetch_assoc();
- }
-     // Get the address value from the fetched row
-     $usernames = $row['usernames'];
-
-
-// Query to count the total number of rows in the table
-$countQuery = "SELECT COUNT(*) AS total FROM cart" . $order_id . "_" . $user_id . "  WHERE email='$email'";
-$countResult = $conn->query($countQuery);
-
-if ($countResult && $countResult->num_rows > 0) {
-    $row6 = $countResult->fetch_assoc();
-    $total_rows = $row6['total'];
-}
-
-
 
 
 ?>
@@ -162,7 +155,7 @@ if ($countResult && $countResult->num_rows > 0) {
 
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>

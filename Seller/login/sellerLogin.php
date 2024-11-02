@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
   mysqli_select_db($conn, $dbname); 
 
   // Retrieve the user's data from the database based on the provided email
-  $sql = "SELECT * FROM seller WHERE usernames = ?";
+  $sql = "SELECT * FROM users WHERE usernames = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $username);
   $stmt->execute();
@@ -38,32 +38,28 @@ if (isset($_POST['submit'])) {
     $row = $result->fetch_assoc();
     $hashed_password = $row['passwords'];
     $emailCode = $row['emailCode'];  
-    $backupEmailCode = $row['backupEmailCode']; 
 
     if ($emailCode != 1) {
       // If the primary email token is not equal to 1, redirect to a specific page
-      header("Location: sellerLogin.html?success=1");
+      header("Location: login.html?success=1");
       exit(); // Stop further script execution
 
-    } elseif ($backupEmailCode != 1) {
-        // If the backup email token is not equal to 1, redirect to another specific page
-        header("Location: sellerLogin.html?success=2");
-        exit(); // Stop further script execution
-
-    } elseif (!password_verify($password, $hashed_password)) {
-      header("Location: sellerLogin.html?success=3");
+    } 
+    
+    elseif (!password_verify($password, $hashed_password)) {
+      header("Location: login.html?success=3");
       exit(); // Stop further script execution
     } 
    
     else {
         // If all checks pass, proceed to the main page
-        header("Location: ../mainpage/mainpage.php");
+        header("Location: ../homepage/mainpage.php");
         exit(); // Ensure that further code execution is stopped after the redirection
     }
   } 
   else {
     // No user found with the provided email
-    header("Location: sellerLogin.html?success=4");
+    header("Location: login.html?success=3");
     exit();
   }
 

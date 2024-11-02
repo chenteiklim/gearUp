@@ -2,12 +2,9 @@
 session_start(); // Start the session if it hasn't been started already
 
 // Clear all session variables
-unset($_SESSION['order_id']);
-unset($_SESSION['orders_id']);
-unset($_SESSION['user_id']);
-unset($_SESSION['username']);
-unset($_SESSION['address']);
-unset($_SESSION['email']);
+
+unset($_SESSION['isLoginAdmin']);
+unset($_SESSION['emailAdmin']);
 
     
 // Destroy the session

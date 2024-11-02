@@ -7,50 +7,15 @@ body{
     margin-top:50px;
     background-color:white;
       width:400px;
-      height:400px;
+      height:250px;
     display: flex;
     flex-direction: column;
     align-items:center;
   }
   
   
-  .button {
-      background-color: darkblue;
-      color: white;
-      cursor: pointer;
-      width:200px;
-      margin-left: 20px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 16px;
-      }
-      
-      button:active {
-        transform: scale(0.9);
-        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-      }
     
-      
-  .btn {
-      background-color: black;
-      color: white;
-      cursor: pointer;
-      width:200px;
-      margin-left: 20px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 16px;
-      }
-      
-      .btn:active {
-        transform: scale(0.9);
-        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-      }
-      
+    
   
       body{
           background-color: bisque;
@@ -59,21 +24,16 @@ body{
       }
    
   
-      .sell{
-          margin-top:30px;
+      #view{
+          margin-top:60px;
       }
       
-      #edit{
-          margin-top:20px;
-      }
-      
-      #sales{
+      #approve{
           margin-top:20px;
       }
 
-      #dailySales{
-        margin-top:20px;
-      }
+    
+    
   
       .img{
         width:50px;
@@ -130,11 +90,20 @@ body{
         padding-bottom: 10px;
         font-size: 12px;
         }
+        button:hover{
+          transform: scale(0.9);
+          background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+        }
+  
         #home{
             margin-left: 10px;
         }
     #login{
         margin-left: 800px;
+    }
+    #logout{
+      height: 80px;    
+      margin-left: 800px;
     }
     #logoImg{
         margin-top: 25px;
@@ -144,11 +113,5 @@ body{
         margin-left: 100px;
     }
     
-        button:hover{
-            transform: scale(0.9);
-            background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-          }
-    
-    
-    
+      
       

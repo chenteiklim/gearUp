@@ -134,7 +134,7 @@ if (isset($_POST['submit'])) {
     }
         
     else{
-            $sql = "SELECT * FROM users WHERE email = ? AND ChangePwdEmailCode = 'Pending'";            
+            $sql = "SELECT * FROM superuser WHERE email = ? AND ChangePwdEmailCode = 'Pending'";            
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -145,7 +145,7 @@ if (isset($_POST['submit'])) {
             $hashedPassword = password_hash($passwords, PASSWORD_BCRYPT);
 
             // Update the password in the database and clear the token
-            $sql = "UPDATE users SET passwords = ?, ChangePwdEmailCode = 0 WHERE email = ? AND ChangePwdEmailCode = 'Pending'";
+            $sql = "UPDATE superuser SET passwords = ?, ChangePwdEmailCode = 0 WHERE email = ? AND ChangePwdEmailCode = 'Pending'";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ss", $hashedPassword, $email );
             $stmt->execute();

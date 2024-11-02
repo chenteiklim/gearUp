@@ -20,7 +20,7 @@ if (Param === '1') {
 const home=document.getElementById('home');
 home.addEventListener('click', function (event) {
   event.preventDefault()
-    window.location.href="../mainpage/mainpage.php"
+    window.location.href="../homepage/homepage.php"
   })
   const registerButton = document.getElementById('register');
 

@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button id="login" class="button">Log in</button>
     <button class="button" id="register">Sign Up</button>

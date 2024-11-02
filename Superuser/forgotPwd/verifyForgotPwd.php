@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
   
     mysqli_select_db($conn, $dbname); 
 
-    $sql2 = "SELECT * FROM users WHERE email = ?";
+    $sql2 = "SELECT * FROM superuser WHERE email = ?";
     $stmt = $conn->prepare($sql2);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     $ChangePwdEmailCode = rand(100000, 999999); // 6-digit code for primary email
     $hashedChangePwdEmailCode = password_hash($ChangePwdEmailCode, PASSWORD_BCRYPT);
 
-    $sql = "UPDATE users SET ChangePwdEmailCode = ? WHERE email = ?";
+    $sql = "UPDATE superuser SET ChangePwdEmailCode = ? WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $hashedChangePwdEmailCode, $email);
     if ($stmt->execute()) {
