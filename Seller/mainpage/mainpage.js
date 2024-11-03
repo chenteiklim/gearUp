@@ -1,4 +1,11 @@
 
+var view= document.getElementById("view");
+
+view.addEventListener("click", function() {
+  // Perform the navigation action here
+  window.location.href = "../CRUDProduct/view/readProduct.php";
+});
+
 var sell= document.getElementById("sell");
 sell.addEventListener("click", function() {
   // Perform the navigation action here

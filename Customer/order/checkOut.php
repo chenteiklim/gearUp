@@ -15,12 +15,27 @@ if ($conn->connect_error) {
 
 
 session_start();
-$email = $_SESSION['email'];
 $order_id=$_SESSION['order_id'];
 mysqli_select_db($conn, $dbname);
 // Execute the first query to get usernames (ensure $selectNameQuery is defined properly)
 
+$usernames=$_SESSION['username'];
+$stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
+$stmt->bind_param("s", $usernames);
+$stmt->execute();
 
+// Get the result
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    // Fetch the result as an associative array
+    $user = $result->fetch_assoc();
+    $email = $user['email']; // Access the email field
+
+} else {
+    echo "No user found with that username.";
+}
+$stmt->close();
 $sql = "SELECT address FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
@@ -40,9 +55,10 @@ if ($result2->num_rows > 0) {
     $row = $result2->fetch_assoc();
     $user_id = $row['user_id'];
 }
+$tableName = "cart" . $user_id;
 
 // Query to count the total number of rows in the table
-$countQuery = "SELECT COUNT(*) AS total FROM cart" . $order_id . "_" . $user_id . "  WHERE email='$email' ORDER BY user_id ASC";
+$countQuery = "SELECT COUNT(*) AS total FROM $tableName WHERE email='$email' ORDER BY user_id ASC";
 $countResult = $conn->query($countQuery);
 
 if ($countResult && $countResult->num_rows > 0) {
@@ -78,7 +94,7 @@ if ($result3 && $result3->num_rows > 0) {
 <body>
     
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
@@ -115,7 +131,7 @@ if ($result3 && $result3->num_rows > 0) {
 <?php
 
 mysqli_select_db($conn, $dbname);
-$selectRowQuery1 = "SELECT * FROM cart" . $order_id . "_" . $user_id . "  WHERE email='$email' ORDER BY user_id ASC";
+$selectRowQuery1 = "SELECT * FROM $tableName WHERE email='$email' ORDER BY user_id ASC";
 $selectResult = $conn->query($selectRowQuery1);
 
 if ($selectResult && $selectResult->num_rows > 0) {
@@ -145,7 +161,7 @@ $grandTotal=0;
 // Loop through the orders
 
 foreach ($product_ids as $product_id) {
-    $selectRowQuery = "SELECT * FROM cart" . $order_id . "_" . $user_id . "  WHERE product_id = $product_id AND email='$email' ORDER BY user_id ASC";
+    $selectRowQuery = "SELECT * FROM $tableName  WHERE product_id = $product_id AND email='$email' ORDER BY user_id ASC";
     $selectRowResult = $conn->query($selectRowQuery);
 
     if ($selectRowResult && $selectRowResult->num_rows > 0) {

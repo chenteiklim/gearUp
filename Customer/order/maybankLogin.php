@@ -13,7 +13,6 @@ if ($conn->connect_error) {
 
 
 session_start();
-$email=$_SESSION['email'];
 $product_ids = $_SESSION['product_ids'];
 $order_id = $_SESSION['order_id'];
 
@@ -26,7 +25,6 @@ if (isset($_POST['submit'])) {
   $email=$_POST['email'];
   $_SESSION['email'] = $email;
   $passwords = $_POST['password'];
-  echo($email); 
 
   mysqli_select_db($conn, $dbname);
  
@@ -51,13 +49,15 @@ if (isset($_POST['submit'])) {
     $address = $row['address'];
     $email=$row['email'];
     $hashed_password = $row['passwords'];
+    $tableName = "cart" . $user_id;
+
     if (!password_verify($passwords, $hashed_password)) {
       header("Location: maybankLogin.php");
       exit(); // Stop further script execution
     } 
     else{
     
-      $sql_delete_cart = "DELETE FROM cart" . $order_id . "_" . $user_id . "  WHERE email = '$email'";
+      $sql_delete_cart = "DELETE FROM $tableName WHERE email = '$email'";
       $conn->query($sql_delete_cart);
       $sql = "UPDATE orders SET order_status = 'purchased', date = '$formattedDate' WHERE order_id = $order_id";
       // Execute query

@@ -29,31 +29,73 @@ if ($result->num_rows > 0) {
 }
 $stmt->close();
 
-$updateCartTable = "";
-$updateOrderTable = "";
 
 if (isset($_POST['addCart'])) {
     $product_id = $_SESSION['product_id'];
-
-    if (isset($_SESSION['orders_id'])) {
-        $order_id=$_SESSION['orders_id'];
-    }
-    else if (isset($_SESSION['order_id'])) {
-        $order_id=$_SESSION['order_id'];
-    }
-    else{          
-        $maxOrderIdQuery = "SELECT MAX(order_id) AS max_order_id FROM `orders` WHERE email = '$email'";
-        $result = $conn->query($maxOrderIdQuery);
-
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $order_id = 0;
-            if($order_id==0){
-                $order_id=1;
-            }
-        }
-    } 
+    $selectOrderQuery = "SELECT MAX(order_id) AS max_order_id FROM orders WHERE email = ?";
+    $stmt = $conn->prepare($selectOrderQuery);
     
+    if ($stmt) {
+        // Bind the email parameter
+        $stmt->bind_param("s", $email); // "s" indicates the type is string 
+        
+        // Execute the statement
+        $stmt->execute();
+        
+        // Get the result
+        $result = $stmt->get_result();
+    
+        // Initialize order_id to 1 by default
+        $order_id = 1; 
+    
+        // Check if there are results
+        if ($result->num_rows > 0) {
+            // Fetch the first result
+            $row = $result->fetch_assoc();
+            if ($row['max_order_id'] === NULL) {
+                // max_order_id is NULL, order_id remains 1
+                echo $order_id;
+            } else if ($row['max_order_id'] > 0) {
+                echo('hello world');
+                // Fetch the order status for the latest order
+                $orderStatusQuery = "SELECT order_status FROM orders WHERE order_id = ? AND email = ?";
+                $statusStmt = $conn->prepare($orderStatusQuery);
+                if ($statusStmt) {
+                    $statusStmt->bind_param("is", $row['max_order_id'], $email);
+                    $statusStmt->execute();
+                    $statusResult = $statusStmt->get_result();
+    
+                    if ($statusResult->num_rows > 0) {
+                        echo('hi');
+                        $statusRow = $statusResult->fetch_assoc();
+                        // Check the order status
+                        if ($statusRow['order_status'] === 'purchased') {
+                            $order_id = $row['max_order_id'] + 1; // Increment order_id if purchased
+                            echo('hello world');
+                        } else {
+                            $order_id = $row['max_order_id']; // Otherwise keep it the same
+                        }
+                    }
+                    $statusStmt->close();
+                }
+            }
+            else{
+                echo('order_id=0');
+            }
+        } else {
+            // No results found for max_order_id
+            echo "No orders found for this user.";
+        }
+        $stmt->close();
+    }
+    else{
+        echo('error');
+    }
+    
+    // Output the final order_id
+    echo "Final Order ID: " . $order_id;
+    
+
     $selectUserQuery = "SELECT * FROM users WHERE email = '$email'";
     // Execute the query
     $result = $conn->query($selectUserQuery);
@@ -84,7 +126,7 @@ if (isset($_POST['addCart'])) {
 $existingQuantity = 0; 
 
 // Construct the table name
-$tableName = "cart" . $order_id . "_" . $user_id;
+$tableName = "cart" . $user_id;
 
 // Check if the cart table exists
 $query = "SHOW TABLES LIKE '$tableName'";
@@ -112,8 +154,8 @@ if ($result && $result->num_rows > 0) {
         $updateOrderQuery = "UPDATE orders SET quantity = $newQuantity, total_price = $newTotalPrice WHERE product_id = $product_id";
         $conn->query($updateOrderQuery);
         $message2 = "Cart added successfully";
-        header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
-    }
+           header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
+       }
     //if want purchase new product
     else{
         $insertcart = "INSERT INTO $tableName (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$usernames', '$email', '$address', '$product_name', '$price', '$image', '$total_price')";
@@ -122,8 +164,8 @@ if ($result && $result->num_rows > 0) {
         $insertorders = "INSERT INTO orders (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$usernames', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
         $conn->query($insertorders); // Execute the insert query   
         $message2 = "Cart added successfully";
-        header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
-    }
+            header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
+        }
     
 } 
 else {
@@ -149,12 +191,10 @@ else {
     // Insert data into the orders table
     $insertorders = "INSERT INTO orders (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$usernames', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
     $conn->query($insertorders); // Execute the insert query
-
-    header("Location: ../homepage/mainpage.php?message=" . urlencode($message2));
+    $message2 = "Cart added successfully";
+    header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
 }
-        
-   
-    
+         
 }
 
 ?>

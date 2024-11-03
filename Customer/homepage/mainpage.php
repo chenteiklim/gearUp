@@ -19,10 +19,6 @@ if (!$username) {
   echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
   exit;  // Stop further execution of the script
 }
-if (isset($_SESSION['orders_id'])) {
-  $order_id = $_SESSION['orders_id'];
-  echo $order_id;
-}
 
 mysqli_select_db($conn, $dbname);
     $maxIdQuery = "SELECT MAX(product_id) AS max_id FROM products";

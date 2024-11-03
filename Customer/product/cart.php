@@ -42,6 +42,8 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $user_id = $row['user_id'];
 }
+$tableName = "cart" . $user_id;
+
 
 
 $maxIdQuery = "SELECT MAX(order_id) AS max_id FROM orders WHERE email= '$email'";
@@ -52,7 +54,7 @@ if ($row['max_id'] !== null) {
     $order_id = $row['max_id'];
     $_SESSION['order_id'] = $order_id;
 
-    $selectRowsQuery = "SELECT * FROM cart" . $order_id . "_" . $user_id . " WHERE email='$email' ORDER BY id ASC";
+    $selectRowsQuery = "SELECT * FROM $tableName WHERE email='$email' ORDER BY id ASC";
     $selectRowsResult = $conn->query($selectRowsQuery);
 
     $rows = []; // Initialize an empty array to store the rows
@@ -82,7 +84,7 @@ if ($row['max_id'] !== null) {
         $product_id_to_delete = $_POST['product_id'];
 
         // Delete the record from the database
-        $stmt = $conn->prepare("DELETE FROM cart" . $order_id . "_" . $user_id . "  WHERE product_id = ?");
+        $stmt = $conn->prepare("DELETE FROM $tableName WHERE product_id = ?");
         $stmt->bind_param("s", $product_id_to_delete);
         $stmt->execute();
         
@@ -113,7 +115,6 @@ if ($row['max_id'] !== null) {
 
 if (!empty($order_id)) {
     // Prepare the select statement
-    $tableName = "cart" . $order_id . "_" . $user_id;
     $stmt = $conn->prepare("SELECT * FROM $tableName WHERE email=? ORDER BY id ASC");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -128,7 +129,6 @@ if (!empty($order_id)) {
     }
 
     // Prepare the count statement
-    $tableName = "cart" . $order_id . "_" . $user_id;
     $countStmt = $conn->prepare("SELECT COUNT(*) AS total FROM $tableName WHERE email=?");
     $countStmt->bind_param("s", $email);
     $countStmt->execute();

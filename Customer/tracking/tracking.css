@@ -77,6 +77,8 @@ html, body {
 
 .title{
    display: flex;
+   margin-top: 20px;
+   margin-bottom: 20px;
     font-size:18px;
     margin-left: 40px;
     gap: 30px;

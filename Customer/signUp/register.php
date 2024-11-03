@@ -118,7 +118,7 @@ function hasRepetitivePattern($passwords) {
     }
 
    
-    else if (!preg_match("/^[a-zA-Z0-9_]{5,30}$/", $username)) {
+    else if (!preg_match("/^[a-zA-Z0-9_]{5,30}$/", $usernames)) {
         header("Location: register.html?success=2");
         exit();
     }
