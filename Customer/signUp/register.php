@@ -118,7 +118,7 @@ function hasRepetitivePattern($passwords) {
     }
 
    
-    else if (!preg_match("/^[a-zA-Z0-9_]{5,30}$/", $usernames)) {
+    else if (!preg_match("/^[a-zA-Z0-9_ ]{5,30}$/", $usernames)) {
         header("Location: register.html?success=2");
         exit();
     }
@@ -180,11 +180,11 @@ function hasRepetitivePattern($passwords) {
     $emailCode = rand(100000, 999999); // 6-digit code for primary email
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
     $param1 = 0;
-   
-    $sql = "INSERT INTO users (email, usernames, address, passwords, emailCode, ChangePwdEmailCode) 
-    VALUES (?, ?, ?, ?, ?, ?)";    
+    $role = 'Customer';
+    $sql = "INSERT INTO users (email, usernames, address, passwords, emailCode, ChangePwdEmailCode, role) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $email, $usernames, $address, $hashed_password, $hashedEmailCode, $param1);
+    $stmt->bind_param("sssssss", $email, $usernames, $address, $hashed_password, $hashedEmailCode, $param1, $role);
        
 
      if ($stmt->execute()) {

@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: rgb(246, 241, 235);
+}
+h1 {
+    color: #333;
+}
+
+h2 {
+    color: #555;
+}
+p {
+    line-height: 1.6;
+    color: #666;
+}
+.steps {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.step {
+    margin-bottom: 15px;
+}
+html, body {
+margin: 0;
+padding: 0;
+width: 100%; /* Ensure full width */
+height: 100%; /* Ensure full height */
+}
+
+#navContainer {
+display: flex;
+background-color: black;
+width: 100%; /* Adjust width as needed */
+height: 80px; /* Adjust height as needed */
+
+/* Ensure it remains visible within the container */
+
+}
+
+
+.button {
+background-color: black;
+color: white;
+cursor: pointer;
+padding-left: 30px;
+padding-right: 30px;
+padding-top: 10px;
+padding-bottom: 10px;
+font-size: 12px;
+}
+#home{
+    margin-left: 10px;
+}
+#name{
+margin-left: 400px;
+}
+#logOut{
+height: 80px;    
+}
+#logoImg{
+margin-top: 25px;
+width: 35px;
+height: 35px;
+border-radius: 5px;
+margin-left: 100px;
+}
+
+button:hover{
+    transform: scale(0.9);
+    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+  }

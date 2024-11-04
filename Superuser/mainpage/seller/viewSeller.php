@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM seller"; // Adjust the SQL as per your table structure
+$sql = "SELECT * FROM users WHERE role = 'Seller' "; // Adjust the SQL as per your table structure
 $result = $conn->query($sql);
 ?>
 
@@ -28,6 +28,10 @@ $result = $conn->query($sql);
         max-width: 1500px; /* Set max width for the table */
         margin: 0 auto; /* Center the table */
         table-layout: fixed; /* Fix the table layout to respect widths */
+        background-color:white;
+        }
+        h1{
+            margin-left:20px;
         }
 
         th, td {
@@ -52,6 +56,7 @@ $result = $conn->query($sql);
         padding: 0;
         width: 100%; /* Ensure full width */
         height: 100%; /* Ensure full height */
+        background-color:bisque;
     }
     
     #navContainer {
@@ -103,7 +108,7 @@ $result = $conn->query($sql);
 
 <body>
 <div id="navContainer"> 
-        <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+        <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
         <button class="button" id="home">Computer Shop</button>
        
 </div>
@@ -112,15 +117,13 @@ $result = $conn->query($sql);
     <table>
         <thead>
             <tr>
-                <th>seller_id</th>
-                <th>usernames</th>
-                <th>email</th>
-                <th>passwords</th>
-                <th>address</th>
-                <th>backupEmail</th>
-                <th>Email Verification Code</th>
-                <th>Backup Email Verification Code</th>
-                <th>Action</th>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Role</th>
+                <th>Change Role</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -128,17 +131,20 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>"; // Start a new table row for each user
-                    echo "<td>" . htmlspecialchars($row['seller_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
+                    echo "<td>" . htmlspecialchars($row['user_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
                     echo "<td>" . htmlspecialchars($row['usernames']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['passwords']) . "</td>"; // Use htmlspecialchars to prevent XSS
                     echo "<td>" . htmlspecialchars($row['address']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['backupEmail']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['emailCode']) . "</td>"; // Use htmlspecialchars to prevent XSS
-                    echo "<td>" . htmlspecialchars($row['backupEmailCode']) . "</td>";
-                    echo "<td><form method='POST' action='deleteSeller.php'>"; // Change 'delete_user.php' to your delete action file
-                    echo "<input type='hidden' name='seller_id' value='" . htmlspecialchars($row['seller_id']) . "' />"; // Include user ID
-                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to delete this customer?\")'>DELETE</button>"; // DELETE button
+                    echo "<td>" . htmlspecialchars($row['role']) . "</td>";
+                    echo "<td><form method='POST' action='changeSeller.php'>"; // Change 'delete_user.php' to your delete action file
+                    echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
+                    echo "<input type='hidden' name='action' value='change' />"; // Specify the action
+                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to change this Seller to Customer?\")'>Change</button>"; // DELETE button
+                    echo "</form></td>";
+                    echo "<td><form method='POST' action='changeSeller.php'>"; // Change 'delete_user.php' to your delete action file     
+                    echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
+                    echo "<input type='hidden' name='action' value='delete' />"; // Specify the action
+                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to delete this Seller?\")'>DELETE</button>"; // DELETE button
                     echo "</form></td>";                    echo "</tr>"; // End the table row
                 }
             } else {
@@ -159,7 +165,7 @@ $conn->close(); // Close the database connection
 var homeButton = document.getElementById("home");    
 document.getElementById("home").addEventListener("click", function() {
     // Replace 'login.html' with the URL of your login page
-    window.location.href = "../seller/seller.html";
+    window.location.href = "../../mainpage/mainpage.php";
 }); 
 
 </script>

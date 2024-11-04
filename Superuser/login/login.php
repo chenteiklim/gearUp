@@ -9,11 +9,6 @@ $conn = new mysqli($servername, $Username, $Password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-require '../../vendor/autoload.php'; // Include Composer's autoload file
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 session_start();
 

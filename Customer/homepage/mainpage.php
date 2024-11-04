@@ -59,6 +59,7 @@ mysqli_select_db($conn, $dbname);
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="seller" type="submit" name="seller" value="">Seller Center</button>
     <button class="button" id="name"><?php echo $username ?></button>
     <form action="../login/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
@@ -163,6 +164,28 @@ window.onload = function() {
     }, 3000);
   }
 }
+
+window.onload = function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  const message3 = urlParams.get('message3');
+
+  if (message3) {
+    var messageContainer = document.getElementById("messageContainer");
+    messageContainer.textContent = decodeURIComponent(message3); // Decode the URL-encoded message
+    messageContainer.style.display = "block";
+    messageContainer.classList.add("message-container");
+    
+    setTimeout(function() {
+      messageContainer.style.display = "none";
+      messageContainer.classList.remove("message-container");
+      
+      // Clear the message from the URL
+      const url = new URL(window.location);
+      url.searchParams.delete('message3');
+      window.history.replaceState({}, document.title, url);
+    }, 10000);
+  }
+}
 var tracking = document.getElementById("tracking");
 
 tracking.addEventListener("click", function() {
@@ -176,6 +199,14 @@ var refund = document.getElementById("refund");
 refund.addEventListener("click", function() {
 // Perform the navigation action here
 window.location.href = "receipt.php";
+});
+
+
+var seller = document.getElementById("seller");
+
+seller.addEventListener("click", function() {
+// Perform the navigation action here
+window.location.href = "seller.php";
 });
 
 

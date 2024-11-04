@@ -22,7 +22,22 @@ window.onload = function() {
         window.history.replaceState({}, document.title, url);    }, 5000);
     }
 
-
+    
+    if (Param === '2') {
+      var messageContainer = document.getElementById("messageContainer");
+      messageContainer.textContent = 'You do not have permission access this page, please register as customer';
+      messageContainer.style.display = "block";
+      messageContainer.classList.add("message-container");
+      
+      setTimeout(function() {
+        
+        messageContainer.style.display = "none";
+        messageContainer.classList.remove("message-container");
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    
+      }, 5000);
+    }
     
     if (Param === '3') {
       var messageContainer = document.getElementById("messageContainer");

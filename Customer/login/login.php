@@ -38,13 +38,17 @@ if (isset($_POST['submit'])) {
     $row = $result->fetch_assoc();
     $hashed_password = $row['passwords'];
     $emailCode = $row['emailCode']; 
+    $role = $row['role'];
 
     if ($emailCode != 1) {
       // If the primary email token is not equal to 1, redirect to a specific page
       header("Location: login.html?success=1");
       exit(); // Stop further script execution
-
     } 
+    if ($role != 'Customer'){
+      header("Location: login.html?success=2");
+      exit(); // Stop further script execution
+    }
     
     elseif (!password_verify($password, $hashed_password)) {
       header("Location: login.html?success=3");
@@ -58,8 +62,7 @@ if (isset($_POST['submit'])) {
     }
   } 
   else {
-    // No user found with the provided email
-    header("Location: login.html?success=3");
+    echo('Username not existed');
     exit();
   }
 

@@ -41,13 +41,13 @@ if ($result->num_rows > 0) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
-    <link rel="stylesheet" href="mainpage.css">
+    <link rel="stylesheet" href="seller.css">
 
 
 </head>
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Pit Stop</button>
 
     <button class="button" id="name"><?php echo $usernames ?></button>
@@ -60,24 +60,21 @@ if ($result->num_rows > 0) {
 </div>
 <div id='content'>
   <div>
-  <p id='title'>Enhance Experiences, Streamline Operations – All in One Place </p>
-  <img id='gadget' src="../../assets/deco.png" alt="">
+  <p id='title'>Cooperation lead to success </p>
+  <img id='gadget' src="../../../assets/customer.jpg" alt="">
   </div>
   <div id="container">
     <div id="messageContainer"></div>
-    <div class="customer">
-    <button id="customer" class="btn"><?php echo 'Manage Customer' ?></button>
+    <div class="approve">
+    <button id="approve" class="btn"><?php echo 'Approve Seller' ?></button>
     </div>
-    <div class="seller">
-    <button id="seller" class="btn"><?php echo 'Manage Seller' ?></button>
-    </div>
-    <div class="product">
-    <button id="product" class="btn"><?php echo 'Manage Product' ?></button>
+    <div class="view">
+    <button id="view" class="btn"><?php echo 'View Seller' ?></button>
     </div>
 </div>
 
 </div>
 
-<script src="mainpage.js"></script>
+<script src="seller.js"></script>
   
    

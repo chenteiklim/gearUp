@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM users"; // Adjust the SQL as per your table structure
+$sql = "SELECT * FROM sellerrequest"; // Adjust the SQL as per your table structure
 $result = $conn->query($sql);
 ?>
 
@@ -28,6 +28,10 @@ $result = $conn->query($sql);
         max-width: 1500px; /* Set max width for the table */
         margin: 0 auto; /* Center the table */
         table-layout: fixed; /* Fix the table layout to respect widths */
+        background-color:white;
+        }
+        h1{
+            margin-left:20px;
         }
 
         th, td {
@@ -52,6 +56,7 @@ $result = $conn->query($sql);
         padding: 0;
         width: 100%; /* Ensure full width */
         height: 100%; /* Ensure full height */
+        background-color:bisque;
     }
     
     #navContainer {
@@ -103,46 +108,64 @@ $result = $conn->query($sql);
 
 <body>
 <div id="navContainer"> 
-        <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+        <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
         <button class="button" id="home">Computer Shop</button>
        
 </div>
 
-    <h1>Customer List</h1>
+    <h1>Seller Apllication List</h1>
     <table>
         <thead>
             <tr>
-                <th>user_id</th>
-                <th>usernames</th>
-                <th>email</th>
-                <th>passwords</th>
-                <th>address</th>
-                <th>backupEmail</th>
-                <th>Email Verification Code</th>
-                <th>Backup Email Verification Code</th>
-                <th>Forget Password Email Verification Code</th>
-                <th>Forget Password Backup Email Verification Code</th>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Store Name</th>
+                <th>Business ID</th>
+                <th>Desciption</th>
+                <th>Role</th>
+                <th>Status</th>
                 <th>Action</th>
+                <th>Delete</th>
+
+
             </tr>
         </thead>
         <tbody>
             <?php
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
+                    $status = $row['status'];
                     echo "<tr>"; // Start a new table row for each user
-                    echo "<td>" . htmlspecialchars($row['user_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
-                    echo "<td>" . htmlspecialchars($row['usernames']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['user_id']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['username']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['passwords']) . "</td>"; // Use htmlspecialchars to prevent XSS
-                    echo "<td>" . htmlspecialchars($row['address']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['backupEmail']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['emailCode']) . "</td>"; // Use htmlspecialchars to prevent XSS
-                    echo "<td>" . htmlspecialchars($row['backupEmailCode']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['ChangePwdEmailCode']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['ChangePwdbackupEmailCode']) . "</td>"; // Use htmlspecialchars to prevent XSS
-                    echo "<td><form method='POST' action='deleteUser.php'>"; // Change 'delete_user.php' to your delete action file
+                    echo "<td>" . htmlspecialchars($row['contact']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['storeName']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['businessID']) . "</td>"; // Use htmlspecialchars to prevent XSS
+                    echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['role']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                    if ($status === 'approved') {
+                        // Display reject button if status is approved
+                        echo "<td> <form method='POST' action='confirmApprove.php'>"; // Script to handle rejection
+                        echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />";
+                        echo "<input type='hidden' name='action' value='reject' />";
+                        echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to reject this seller request?\")'>Reject</button>";
+                        echo "</form>";
+                    } else {
+                        // Display accept button if status is rejected
+                        echo "<td><form method='POST' action='confirmApprove.php'>"; // Script to handle approval
+                        echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />";
+                        echo "<input type='hidden' name='action' value='approve' />";
+                        echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to approve this customer to be seller?\")'>Accept</button>";
+                        echo "</form>";
+                    }
+                    echo "<td><form method='POST' action='confirmApprove.php'>"; // Change 'delete_user.php' to your delete action file     
                     echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
-                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to delete this customer?\")'>DELETE</button>"; // DELETE button
+                    echo "<input type='hidden' name='action' value='delete' />"; // Specify the action
+                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to delete this Request?\")'>DELETE</button>"; // DELETE button
                     echo "</form></td>";                    echo "</tr>"; // End the table row
                 }
             } else {
@@ -163,7 +186,7 @@ $conn->close(); // Close the database connection
 var homeButton = document.getElementById("home");    
 document.getElementById("home").addEventListener("click", function() {
     // Replace 'login.html' with the URL of your login page
-    window.location.href = "../mainpage/mainpage.php";
+    window.location.href = "../../mainpage/mainpage.php";
 }); 
 
 </script>
