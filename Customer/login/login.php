@@ -14,7 +14,6 @@ session_start();
 
 if (isset($_POST['submit'])) {
   $username = $_POST['username'];
-  $_SESSION['username'] = $username;
   $password = $_POST['passwords'];
 
   // Select database
@@ -56,9 +55,9 @@ if (isset($_POST['submit'])) {
     } 
    
     else {
-        // If all checks pass, proceed to the main page
-        header("Location: ../homepage/mainpage.php");
-        exit(); // Ensure that further code execution is stopped after the redirection
+      $_SESSION['username'] = $username;
+      header("Location: ../homepage/mainpage.php");
+      exit(); 
     }
   } 
   else {

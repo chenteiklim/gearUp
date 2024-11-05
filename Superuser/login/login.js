@@ -1,4 +1,8 @@
 
+window.addEventListener('unload', function () {
+  navigator.sendBeacon('logout.php');
+});
+
 // Retrieve the value of the 'success' query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const Param = urlParams.get('success');
@@ -40,14 +44,6 @@ window.onload = function() {
       }, 5000);
     }
   };
-
-  
-
-
-
-const forgotBtn=document.getElementById('forgotBtn');
-
- 
  
   const togglePasswordBtn = document.getElementById('show');
   const passwordInput = document.getElementById('password');
@@ -61,13 +57,4 @@ const forgotBtn=document.getElementById('forgotBtn');
           passwordInput.type = 'password';
           togglePasswordBtn.textContent = 'Show';
       }
-  });
-
-  document.getElementById("register").addEventListener("click", function() {
-    // Replace 'login.html' with the URL of your login page
-    window.location.href = "../signUp/register.html";
-  });
-  document.getElementById("home").addEventListener("click", function() {
-  // Replace 'login.html' with the URL of your login page
-  window.location.href = "../homepage/homepage.php";
   });

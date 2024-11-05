@@ -13,7 +13,16 @@ if ($conn->connect_error) {
 
 session_start();
 mysqli_select_db($conn, $dbname);
-$name=$_SESSION['username'];
+$selectNameQuery = "SELECT * FROM superuser";
+// Execute the query
+$result = $conn->query($selectNameQuery);
+
+if ($result->num_rows > 0) {
+    // Fetch the row from the result
+    $row = $result->fetch_assoc();
+}
+    // Get the address value from the fetched row
+    $name = $row['username'];
 
 
     $selectProductQuery = "SELECT * FROM products";
@@ -38,34 +47,15 @@ if ($result->num_rows > 0) {
         $products[] = $product;
     }
   }
-  
 
-if (isset($_POST['submit'])){   
-  $product_id = $_POST['product_id'];
-  
-  // Prepare the SQL statement to delete the product
-  $deleteProductQuery = "DELETE FROM products WHERE product_id = ?";
-
-  // Prepare and bind the statement
-  $stmt = $conn->prepare($deleteProductQuery);
-  $stmt->bind_param("i", $product_id); // "i" indicates the type (integer)
-
-  // Execute the statement
-  if ($stmt->execute()) {
-      echo "Product deleted successfully.";
-  } else {
-      echo "Error deleting product: " . $conn->error;
+  if (isset($_POST['submit'])) {
+    $product_id = $_POST['product_id'];
+    // Store the product ID in the session
+    $_SESSION['product_id'] = $product_id;
+    header("Location: editSingle.php");
   }
-
-  // Close the statement and connection
-  $stmt->close();
-  $conn->close();
-
-  // Redirect back to the product listing page or show a success message
-  header("Location: deleteProduct.php"); // Change this to your product listing page
-  exit();
-}
-
+  
+  
   ?>
 <head>
 <meta charset="UTF-8">
@@ -143,7 +133,7 @@ if (isset($_POST['submit'])){
 </head>
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="name"><?php echo $name ?></button>
 </div>
@@ -159,10 +149,10 @@ if (isset($_POST['submit'])){
     // ... (retrieve other product attributes as needed)
 
     // Generate the button HTML dynamically
-    echo '<form action="deleteProduct.php" method="post">
+    echo '<form action="editProduct.php" method="post">
     <h3>' . $product_name . '</h3>
     <input type="hidden" name="product_id" value="' . $product_id . '">
-    <button class="button" type="submit" name="submit">delete product</button>
+    <button class="button" type="submit" name="submit">Edit product</button>
   </form>';
 
   }
@@ -175,6 +165,6 @@ if (isset($_POST['submit'])){
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here
     event.preventDefault()
-    window.location.href = "../mainpage/mainpage.php";
+    window.location.href = "../../../../mainpage/mainpage.php";
   });
 </script>

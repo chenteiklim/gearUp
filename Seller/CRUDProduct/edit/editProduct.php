@@ -13,16 +13,9 @@ if ($conn->connect_error) {
 
 session_start();
 mysqli_select_db($conn, $dbname);
-$selectNameQuery = "SELECT * FROM seller";
-$result = $conn->query($selectNameQuery);
+$name=$_SESSION['username'];
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-}
-    $name = $row['usernames'];
-
-
-    $selectProductQuery = "SELECT * FROM products";
+$selectProductQuery = "SELECT * FROM products";
 
 // Execute the query
 $result = $conn->query($selectProductQuery);

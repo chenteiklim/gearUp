@@ -12,17 +12,7 @@ if ($conn->connect_error) {
 }
 
 session_start();
-mysqli_select_db($conn, $dbname);
-$selectNameQuery = "SELECT * FROM seller";
-// Execute the query
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-}
-    // Get the address value from the fetched row
-    $name = $row['usernames'];
+mysqli_select_db($conn, $dbname);$name=$_SESSION['username'];
 
  
 

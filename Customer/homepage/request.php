@@ -22,6 +22,9 @@ if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
     $email = $row['email'];
+    $role=$row['role'];
+    $user_id=$row['user_id'];
+
 }
    
 // Check if the form is submitted
@@ -33,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contact = $_POST['contactInfo'];
     $status = 'pending';
     // Prepare an SQL statement to insert data into sellerrequest table
-    $stmt = $conn->prepare("INSERT INTO sellerrequest (storeName, description, businessID, contact, username, email, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $storeName, $description, $businessID, $contact, $username, $email, $status);
+    $stmt = $conn->prepare("INSERT INTO sellerrequest (storeName, user_id, description, businessID, contact, username, email, role, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssss", $storeName, $user_id, $description, $businessID, $contact, $username, $email, $role, $status);
 
     // Execute the statement
     if ($stmt->execute()) {

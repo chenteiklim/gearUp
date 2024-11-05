@@ -15,17 +15,8 @@ if ($conn->connect_error) {
 session_start();
 
 mysqli_select_db($conn, $dbname);
+$name=$_SESSION['username'];
 
-$selectNameQuery = "SELECT * FROM seller";
-// Execute the query
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-    $name = $row['usernames'];
-
-}
 
 if (isset($_SESSION['product_id'])) {
     $product_id = $_SESSION['product_id']; // Add a semicolon here

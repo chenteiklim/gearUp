@@ -14,18 +14,24 @@ if ($conn->connect_error) {
 
 session_start();
 mysqli_select_db($conn, $dbname);
-$selectNameQuery = "SELECT * FROM users";
-// Execute the query
-$result = $conn->query($selectNameQuery);
+$username = $_SESSION['username'] ?? null;
 
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
+if (!$username) {
+  echo "<h1>This Website is Not Accessible</h1>";
+  echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
+  exit;  // Stop further execution of the script
 }
-    // Get the address value from the fetched row
-    $name = $row['usernames'];
 
-  ?>
+$sql = "SELECT * FROM users WHERE usernames = '$username'";
+$result = $conn->query($sql);
+    
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $role = $row['role'];
+  }
+
+
+?>
 <head>
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +46,7 @@ if ($result->num_rows > 0) {
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Pit Stop</button>
 
-    <button class="button" id="name"><?php echo $name ?></button>
+    <button class="button" id="name"><?php echo $username ?></button>
     <form action="../login/logout.php" method="POST">
       <button type="submit" id="logout" class="button">Log Out</button>
     </form> 

@@ -15,7 +15,17 @@ if ($conn->connect_error) {
 session_start();
 $product_id=$_SESSION['product_id'];
 mysqli_select_db($conn, $dbname);
-$name=$_SESSION['username'];
+
+$selectNameQuery = "SELECT * FROM superuser";
+// Execute the query
+$result = $conn->query($selectNameQuery);
+
+if ($result->num_rows > 0) {
+    // Fetch the row from the result
+    $row = $result->fetch_assoc();
+}
+    // Get the address value from the fetched row
+    $name = $row['username'];
 
 $selectproductName = "SELECT product_name FROM products WHERE product_id = '$product_id'";
 // Execute the query
@@ -207,7 +217,7 @@ html, body {
 
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="name"><?php echo $name ?></button>
 </div>

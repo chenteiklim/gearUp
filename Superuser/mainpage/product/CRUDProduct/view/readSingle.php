@@ -13,50 +13,45 @@ if ($conn->connect_error) {
 }
 
 session_start();
-$product_id=$_SESSION['product_id'];
-mysqli_select_db($conn, $dbname);
-$name=$_SESSION['username'];
 
-$selectproductName = "SELECT product_name FROM products WHERE product_id = '$product_id'";
+mysqli_select_db($conn, $dbname);
+
+$selectNameQuery = "SELECT * FROM superuser";
 // Execute the query
-$result = $conn->query($selectproductName);
+$result = $conn->query($selectNameQuery);
 
 if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
- // Get the address value from the fetched row
- $product_name = $row['product_name'];
-
-
- if (isset($_POST['submit'])) {
-     $product_name = $_POST['productName'];
-     $productImage = $_FILES['productImage']['name'];
-     $price = $_POST['price'];
-     $stock = $_POST['stock'];
-     
-     $targetDir = "/inti/gadgetShop/assets"; // Directory where you want to store the uploaded files
-     $filename = $_FILES['productImage']['name'];
-
-     $targetFile = $targetDir . $filename;
-     move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile);
-
-     // Perform any necessary validation or sanitization of the input values here
-     
-     // Insert the form data into the product table
-     $editProduct = "UPDATE products SET product_name = '$product_name', price = $price, stock = $stock, image='$productImage' WHERE product_id = $product_id";
- 
-     // Execute the SQL statement
-     if ($conn->query($editProduct) === TRUE) {
-       $successMessage = "edit Product successfully!";
-       header("Location: ../../mainpage/mainpage.php"); 
-     } else {
-         echo "Error: " . $mysqli->error;
-     }
- }
-
 }
+    // Get the address value from the fetched row
+    $name = $row['username'];
+if (isset($_SESSION['product_id'])) {
+    $product_id = $_SESSION['product_id']; // Add a semicolon here
+
+    // Assuming you have a database connection in $connection
+    $query = "SELECT * FROM products WHERE product_id = '$product_id'";
+    $result = $conn->query($query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+
+        // Retrieve product details from the $row array
+        $product_id = $row['product_id'];
+        $product_name = $row['product_name'];
+        $price = $row['price'];
+        $image = $row['image'];
+        $stock = $row['stock'];
+        $status = $row['status'];
+        $imageUrl = "/inti/gadgetShop/assets/" . $image;
+
+    } else {
+        echo 'Product not found.';
+    }
+}
+
 else{
-  echo('Product not found');
+  echo('Product not selected');
 }
 
 
@@ -76,12 +71,14 @@ form{
 }
   
 .container {
+    font-size:20px;
   margin-top:20px;
-  width: 550px;
-  height:500px;
+  width: 300px;
+  height: 450px;
   background-color:white;
   display: flex;
   flex-direction: column;
+  align-items:center;
   gap:5px;
 }
 
@@ -142,10 +139,6 @@ input[type=file],input[type=text],input[type=number]{
   border-radius: 5%;
 }
 
-#title{
-  font-size:20px;
-  margin-top:30px;
-}
 
 .content{
   margin-left:40px;
@@ -195,10 +188,27 @@ html, body {
         margin-left: 100px;
     }
     
-        button:hover{
-            transform: scale(0.9);
-            background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-          }
+    button:hover{
+        transform: scale(0.9);
+        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+    #title{
+        font-size: 40px;
+        margin-top:30px;
+    }
+    #id{
+        margin-top:30px;
+    }
+    #stockContainer{
+        margin-top:10px;
+    }
+
+    #status{
+        margin-top:10px;
+    }
+    #img{
+        width: 150px;
+    }
     
     </style>
 </head>
@@ -207,38 +217,31 @@ html, body {
 
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
     <button class="button" id="name"><?php echo $name ?></button>
+
 </div>
 <div class="container">
-  <div class="content">
- 
-<div id='title'>
-  Edit <?php echo $product_name ?>
-</div>
+    <div id='title'>
+    <?php echo $product_name ?>
+    </div>
 
-  <form action="editSingle.php" method="post" enctype="multipart/form-data">
-      <div id="nameContainer">
-        <label for="productName"><b>Product Name</b></label>
-        <input type="text" placeholder="Enter Product Name" name="productName" required>
-      </div>
-    <div class="imageContainer">
-      <label for="productImage"><b>Product Image address</b></label>
-      <input type="file" name="productImage" required>
+    <div id='id'>
+    <?php echo 'Product_id: ' . $product_id ?>
+    </div> 
+    <div id="imageContainer">
+    <img id='img' src="<?php echo $imageUrl; ?>" alt="Description of image" />
     </div>
-    <div class="priceContainer">   
-      <label for="price"><b>Price wanted to sell</b></label>
-      <input type="number" placeholder="Enter price" name="price" required>
+    <div id="priceContainer">   
+    <?php echo 'Price: ' . $price ?>
     </div>
-    <div class='stockContainer'>
-      <label for="stock"><b>Stock</b></label>
-      <input type="text" placeholder="Enter how many stock do you have (minimum 10)" name="stock" required>
+    <div id='stockContainer'>
+      <?php echo 'Stock: ' . $stock ?>
     </div>
-    <input id="createProduct" type="submit" name="submit" value="Edit Product">
-      
-  </form>
-  </div>
+    <div id='status'>
+      <?php echo 'Status: ' . $status ?>
+    </div>
 </div>
  
 <script>

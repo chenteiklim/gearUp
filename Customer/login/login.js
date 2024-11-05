@@ -1,4 +1,5 @@
 
+
 // Retrieve the value of the 'success' query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const Param = urlParams.get('success');

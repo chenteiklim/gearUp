@@ -12,15 +12,14 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 session_start();
-$username = $_SESSION['username'] ?? null;
-
-if (!$username) {
+if (!isset($_SESSION['username'])) {
   echo "<h1>This Website is Not Accessible</h1>";
   echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
   exit;  // Stop further execution of the script
 }
 
 mysqli_select_db($conn, $dbname);
+$username=$_SESSION['username'];
     $maxIdQuery = "SELECT MAX(product_id) AS max_id FROM products";
     $maxIdResult = $conn->query($maxIdQuery);
     
@@ -59,7 +58,8 @@ mysqli_select_db($conn, $dbname);
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="seller" type="submit" name="seller" value="">Seller Center</button>
+    <button class="button" id="seller" type="submit" name="seller" value="">Seller Request</button>
+    <button class="button" id="sellerCenter" type="submit" name="sellerCenter" value="">Seller Center</button>
     <button class="button" id="name"><?php echo $username ?></button>
     <form action="../login/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
@@ -119,7 +119,7 @@ $productHTML = '';
   }
 ?>
 <script>
-  console.log('hello world')
+
 
   window.onload = function() {
   var urlParams = new URLSearchParams(window.location.search);
@@ -209,6 +209,11 @@ seller.addEventListener("click", function() {
 window.location.href = "seller.php";
 });
 
+
+document.getElementById("sellerCenter").addEventListener("click", function() {
+
+  window.location.href = "../../Seller/mainpage/mainpage.php";
+});
 
 
 

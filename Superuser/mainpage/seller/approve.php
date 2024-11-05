@@ -113,11 +113,10 @@ $result = $conn->query($sql);
        
 </div>
 
-    <h1>Seller Apllication List</h1>
+    <h1>Seller Application List</h1>
     <table>
         <thead>
             <tr>
-                <th>User ID</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Contact</th>
@@ -126,6 +125,7 @@ $result = $conn->query($sql);
                 <th>Desciption</th>
                 <th>Role</th>
                 <th>Status</th>
+                <th>Action</th>
                 <th>Action</th>
                 <th>Delete</th>
 
@@ -138,7 +138,6 @@ $result = $conn->query($sql);
                 while($row = $result->fetch_assoc()) {
                     $status = $row['status'];
                     echo "<tr>"; // Start a new table row for each user
-                    echo "<td>" . htmlspecialchars($row['user_id']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['username']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['email']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['contact']) . "</td>";
@@ -162,6 +161,12 @@ $result = $conn->query($sql);
                         echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to approve this customer to be seller?\")'>Accept</button>";
                         echo "</form>";
                     }
+                    echo "<td><form method='POST' action='confirmApprove.php'>"; // Change 'delete_user.php' to your delete action file     
+                    echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
+                    echo "<input type='hidden' name='action' value='pending' />"; // Specify the action
+                    echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to pending this Request?\")'>Pending</button>"; // DELETE button
+                    echo "</form></td>";                    
+
                     echo "<td><form method='POST' action='confirmApprove.php'>"; // Change 'delete_user.php' to your delete action file     
                     echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
                     echo "<input type='hidden' name='action' value='delete' />"; // Specify the action

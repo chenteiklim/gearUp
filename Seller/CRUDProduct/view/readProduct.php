@@ -13,13 +13,7 @@ if ($conn->connect_error) {
 
 session_start();
 mysqli_select_db($conn, $dbname);
-$selectNameQuery = "SELECT * FROM seller";
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-}
-    $name = $row['usernames'];
+$name=$_SESSION['username'];
 
 
 $selectProductQuery = "SELECT * FROM products";
@@ -49,6 +43,7 @@ if ($result->num_rows > 0) {
     header("Location: readSingle.php");
   }
   
+
   
   ?>
 <head>
@@ -141,7 +136,7 @@ if ($result->num_rows > 0) {
     $product_id = $product['product_id'];
     $product_name = $product['product_name'];
     // ... (retrieve other product attributes as needed)
-
+    
     // Generate the button HTML dynamically
     echo '<form action="readProduct.php" method="post">
     <h3>' . $product_name . '</h3>

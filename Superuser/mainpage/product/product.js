@@ -1,40 +1,41 @@
-document.getElementById("CustomerCenter").addEventListener("click", function() {
-  // Perform the navigation action here
-  window.location.href = "../../Customer/homepage/mainpage.php";
-});
 
 var view= document.getElementById("view");
 
 view.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../CRUDProduct/view/readProduct.php";
+  window.location.href = "CRUDProduct/view/readProduct.php";
 });
 
 var sell= document.getElementById("sell");
 sell.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../CRUDProduct/createProduct.php";
+  window.location.href = "CRUDProduct/createProduct.php";
 });
 
 var edit= document.getElementById("edit");
 
 edit.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../CRUDProduct/edit/editProduct.php";
+  window.location.href = "CRUDProduct/edit/editProduct.php";
 });
 
 
+document.getElementById("home").addEventListener("click", function() {
+    // Perform the navigation action here
+    window.location.href = "../mainpage.php";
+  });
+  
 var deletes= document.getElementById("delete");
 
 deletes.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../CRUDProduct/deleteProduct.php";
+  window.location.href = "CRUDProduct/deleteProduct.php";
 });
 
 var sales= document.getElementById("sales");
 sales.addEventListener("click", function() {
   // Perform the navigation action here
-  window.location.href = "../sales.php";
+  window.location.href = "sales.php";
 });
 
 

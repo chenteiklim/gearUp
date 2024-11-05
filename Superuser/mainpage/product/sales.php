@@ -12,13 +12,21 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-
 session_start();
 
-$sellerName=$_SESSION['username'];
-
 mysqli_select_db($conn, $dbname);
+
+$selectNameQuery = "SELECT * FROM superuser";
+// Execute the query
+$result = $conn->query($selectNameQuery);
+
+if ($result->num_rows > 0) {
+    // Fetch the row from the result
+    $row = $result->fetch_assoc();
+}
+    // Get the address value from the fetched row
+    $adminName = $row['username'];
+
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
@@ -324,9 +332,9 @@ height: auto;
 </head>
 
 <div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
+    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
     <button class="button" id="home">Computer Shop</button>
-    <button class="button" id="names"><?php echo $sellerName ?></button>
+    <button class="button" id="names"><?php echo $adminName ?></button>
 </div>
 
 <div id="container">
@@ -429,6 +437,6 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
     var homeButton = document.getElementById("home");
     homeButton.addEventListener("click", function(event) {
     event.preventDefault()
-    window.location.href = "./mainpage/mainpage.php";
+    window.location.href = "../../mainpage/mainpage.php";
   });
 </script>
