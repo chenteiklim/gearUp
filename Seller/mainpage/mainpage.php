@@ -55,7 +55,6 @@ if (isset($_SESSION['username'])) {
       <?php
       }
       else{
-        echo('zzz');
       ?>
       <head>
       <meta charset="UTF-8">

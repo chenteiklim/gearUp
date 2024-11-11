@@ -18,6 +18,11 @@ body {
      /* Ensure it remains visible within the container */
    
    }
+
+   .message-container{
+    margin-left: 20px;
+    color: red;
+   }
    
    .button {
      background-color: black;

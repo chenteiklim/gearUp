@@ -1,24 +1,13 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gadgetShop";
-
-// Create a new connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShopOld/db_connection.php';
 
 session_start();
-$usernames = $_SESSION['username'];
+$username = $_SESSION['username'];
 
 mysqli_select_db($conn, $dbname);
 
 $stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
-$stmt->bind_param("s", $usernames);
+$stmt->bind_param("s",  $username);
 $stmt->execute();
 
 // Get the result
@@ -50,10 +39,7 @@ $maxIdQuery = "SELECT MAX(order_id) AS max_id FROM orders WHERE email= '$email'"
 $maxIdResult = $conn->query($maxIdQuery);
 $row= $maxIdResult->fetch_assoc();
 if ($row['max_id'] !== null) {
-    
     $order_id = $row['max_id'];
-    $_SESSION['order_id'] = $order_id;
-
     $selectRowsQuery = "SELECT * FROM $tableName WHERE email='$email' ORDER BY id ASC";
     $selectRowsResult = $conn->query($selectRowsQuery);
 
@@ -160,8 +146,8 @@ if (empty($rows)) {
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../userLogin/logout.php" method="POST">
+    <button class="button" id="name"><?php echo $username ?></button>
+    <form action="../login/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
 </div>

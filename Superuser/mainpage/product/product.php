@@ -41,7 +41,7 @@ if ($result->num_rows > 0) {
     <button class="button" id="home">Pit Stop</button>
 
     <button class="button" id="name"><?php echo $username ?></button>
-    <form action="../login/logout.php" method="POST">
+    <form action="../../login/logout.php" method="POST">
       <button type="submit" id="logout" class="button">Log Out</button>
     </form> 
 </div>

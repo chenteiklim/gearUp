@@ -19,7 +19,6 @@ if (isset($_POST['submit'])) {
   // Select database
   mysqli_select_db($conn, $dbname); 
 
-  // Retrieve the user's data from the database based on the provided email
   $sql = "SELECT * FROM superuser WHERE email = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
@@ -38,10 +37,10 @@ if (isset($_POST['submit'])) {
     } 
    
     else if (password_verify($password, $hashed_password)) {
-      $_SESSION['isLoginAdmin'] = true;
       $_SESSION['emailAdmin']=$email;
-      header("Location: ../mainpage/mainpage.php");
-
+      echo ($email);
+       header("Location: ../mainpage/mainpage.php");
+ 
     } 
   }
   else {

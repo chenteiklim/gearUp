@@ -1,4 +1,199 @@
-// Retrieve the value of the 'success' query parameter from the URL
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "gadgetShop";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+
+
+mysqli_select_db($conn, $dbname); 
+
+session_start();
+
+// Check if the session variables are set
+// If email or backupEmail is not set, display an error message and exit
+if (!isset($_SESSION['emailAdmin'])) {
+    echo "<h1>This Website is Not Accessible</h1>";
+    echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
+    exit;  // Stop further execution of the script
+}
+$email=$_SESSION['emailAdmin'];
+$selectNameQuery = "SELECT * FROM superuser WHERE email = '$email'";
+// Execute the query
+$result = $conn->query($selectNameQuery);
+
+if ($result->num_rows > 0) {
+    // Fetch the row from the result
+    $row = $result->fetch_assoc();
+    $usernames = $row['username'];
+
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="logo.jpg" type="image/jpg">
+   <style>
+    body {
+ background-color: bisque;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Ensure full height */
+}
+
+#navContainer {
+  display: flex;
+  background-color: black;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
+  
+  /* Ensure it remains visible within the container */
+
+}
+#name{
+  margin-left: 900px;
+}
+.button {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  }
+  #home{
+      margin-left: 10px;
+  }
+#login{
+  margin-left: 900px;
+}
+#logoImg{
+  margin-top: 25px;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  margin-left: 100px;
+}
+
+  button:hover{
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+
+
+#title{
+        font-size: 24px;
+        margin-left: 130px;
+        color: black;
+    }
+
+input[type=text], input[type=password] ,input[type=email] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+
+.container {
+background-color: white;
+width:420px;
+margin-top:20px;
+margin-left:500px;
+padding: 16px;
+}
+p{
+width: 400px;
+}
+
+
+span.psw {
+float: right;
+padding-top: 16px;
+}
+
+.img{
+margin-left:400px;
+width:50px;
+height:50px;
+}
+
+
+#Login{
+ margin-left: 200px;
+}
+
+form{
+ width: 100px;
+}
+
+
+ #confirm{
+   margin-top:20px;
+ }
+   </style>
+</head>
+<body>
+  
+
+<div id="navContainer"> 
+    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
+    <button class="button" id="home">Pit Stop</button>
+
+    <button class="button" id="name"><?php echo $usernames ?></button>
+  
+</div>
+    
+    <form action="addSuperuser.php" method="post">
+      <div class="container">
+        <p id="title">
+          Add Superuser
+        </p>
+        <input type="text" placeholder="Enter Username" name="username" required>
+        <div id="nameContainer"></div>
+  
+        <input type="text" placeholder="Enter Address. Eg: 1250, Jalan6, Kampung Berapit, 14000 BM." name="address" required>
+      
+        <input type="email" placeholder="Enter Email" name="email" required>
+        <div id="emailContainer"></div>
+  
+        <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
+        <button id="show">Show</button>
+ 
+        <div id="passwordContainer"></div>
+  
+        <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
+        <button id="show2">Show</button>
+          <div id="errorContainer"></div>
+  
+  
+        <input id="register" class="button" type="submit" name="submit" value="Register">
+      </div>
+
+    </form>
+    
+
+  
+    </body>
+    <script>
 const urlParams = new URLSearchParams(window.location.search);
 const Param = urlParams.get('success');
 
@@ -36,7 +231,7 @@ else if (Param === '2') {
 else if (Param === '3') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Address  must be 10-50 characters long and can only contain letters, numbers, spaces, commas, periods, and hyphens.'
+  confirmDiv.innerText = 'Address can only contain letters, numbers, spaces, commas, periods, and hyphens.'
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 
@@ -188,8 +383,6 @@ else if (Param === '6') {
   
 
 
-
-
   
   const togglePasswordBtn = document.getElementById('show');
   const passwordInput = document.getElementById('password');
@@ -225,11 +418,10 @@ else if (Param === '6') {
   }
 
 
-document.getElementById("login").addEventListener("click", function() {
-  // Replace 'login.html' with the URL of your login page
-  window.location.href = "../login/login.html";
-});
 document.getElementById("home").addEventListener("click", function() {
 // Replace 'login.html' with the URL of your login page
-window.location.href = "../homepage/homepage.php";
+window.location.href = "../../mainpage/mainpage.php";
 });
+    </script>
+      </html>
+   

@@ -12,7 +12,8 @@ if ($conn->connect_error) {
 
 session_start();
 $product_id = $_SESSION['product_id'];
-$usernames=$_SESSION['username'];
+$username=$_SESSION['username'];
+
 mysqli_select_db($conn, $dbname);
 
 $sql = "SELECT * FROM products WHERE product_id = '$product_id'";
@@ -54,8 +55,8 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../userLogin/logout.php" method="POST">
+    <button class="button" id="name"><?php echo $username ?></button>
+    <form action="../login/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
 </div>

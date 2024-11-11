@@ -159,12 +159,17 @@ if (isset($_POST['submit'])){
     // ... (retrieve other product attributes as needed)
 
     // Generate the button HTML dynamically
-    echo '<form action="deleteProduct.php" method="post">
+    echo '<form action="deleteProduct.php" method="post" onsubmit="return confirmDelete()">
     <h3>' . $product_name . '</h3>
     <input type="hidden" name="product_id" value="' . $product_id . '">
-    <button class="button" type="submit" name="submit">delete product</button>
+    <button class="button" type="submit" name="submit">Delete Product</button>
   </form>';
 
+echo '<script>
+  function confirmDelete() {
+    return confirm("Are you sure you want to delete this product?");
+  }
+</script>';
   }
   ?>
   </div>

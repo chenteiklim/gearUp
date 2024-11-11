@@ -7,7 +7,7 @@
 
 width:1400px;
 height:100%;
-background-color: #FFD900;
+background-color: lightyellow;
 display: flex;
 align-items:center;
 justify-content:center;

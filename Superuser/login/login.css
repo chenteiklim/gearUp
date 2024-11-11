@@ -18,6 +18,22 @@ body {
      /* Ensure it remains visible within the container */
    
    }
+
+   #privacyContainer{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 280px;
+   }
+
+   #privacyCheck{
+    margin-right: 20px;
+    margin-bottom: 20px;
+   }
+
+   #privacyText{
+    width: 200px;
+   }
    
    .button {
      background-color: black;
@@ -56,7 +72,7 @@ body {
         color: red;
         cursor: pointer;
         font-size: 14px;
-        margin-left: 8vw;
+        margin-left: 4vw;
     }
     #loginTag{
         text-decoration: none;

@@ -18,8 +18,11 @@ if (!isset($_SESSION['username'])) {
   exit;  // Stop further execution of the script
 }
 
+
 mysqli_select_db($conn, $dbname);
 $username=$_SESSION['username'];
+
+
     $maxIdQuery = "SELECT MAX(product_id) AS max_id FROM products";
     $maxIdResult = $conn->query($maxIdQuery);
     
@@ -120,10 +123,13 @@ $productHTML = '';
 ?>
 <script>
 
-
   window.onload = function() {
+
   var urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');
+  const message2 = urlParams.get('message2');
+  const message3 = urlParams.get('message3');
+
 
   if (message) {
     var messageContainer = document.getElementById("messageContainer");
@@ -141,11 +147,6 @@ $productHTML = '';
       window.history.replaceState({}, document.title, url);
     }, 3000);
   }
-}
-
-window.onload = function() {
-  var urlParams = new URLSearchParams(window.location.search);
-  const message2 = urlParams.get('message2');
 
   if (message2) {
     var messageContainer = document.getElementById("messageContainer");
@@ -163,11 +164,8 @@ window.onload = function() {
       window.history.replaceState({}, document.title, url);
     }, 3000);
   }
-}
 
-window.onload = function() {
-  var urlParams = new URLSearchParams(window.location.search);
-  const message3 = urlParams.get('message3');
+
 
   if (message3) {
     var messageContainer = document.getElementById("messageContainer");
@@ -191,14 +189,6 @@ var tracking = document.getElementById("tracking");
 tracking.addEventListener("click", function() {
 // Perform the navigation action here
 window.location.href = "../tracking/tracking.php";
-});
-
-
-var refund = document.getElementById("refund");
-
-refund.addEventListener("click", function() {
-// Perform the navigation action here
-window.location.href = "receipt.php";
 });
 
 

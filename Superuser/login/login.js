@@ -1,7 +1,5 @@
 
-window.addEventListener('unload', function () {
-  navigator.sendBeacon('logout.php');
-});
+
 
 // Retrieve the value of the 'success' query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);

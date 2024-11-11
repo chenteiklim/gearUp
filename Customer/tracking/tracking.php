@@ -54,7 +54,7 @@ $stmt->close();
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
     <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../userLogin/logout.php" method="POST">
+    <form action="../login/logout.php" method="POST">
       <button type="submit" id="logOut" class="button">Log Out</button>
     </form>    
 </div>

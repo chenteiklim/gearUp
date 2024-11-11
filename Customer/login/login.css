@@ -19,6 +19,22 @@ body {
    
    }
    
+   #privacyContainer{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 280px;
+   }
+
+   #privacyCheck{
+    margin-right: 20px;
+    margin-bottom: 20px;
+   }
+
+   #privacyText{
+    width: 200px;
+   }
+   
    .button {
      background-color: black;
      color: white;

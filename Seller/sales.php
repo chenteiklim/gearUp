@@ -19,14 +19,6 @@ session_start();
 $sellerName=$_SESSION['username'];
 
 mysqli_select_db($conn, $dbname);
-$sql = "SELECT * FROM users";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // Fetch the user ID from the result
-    $row = $result->fetch_assoc();
-    $address = $row['address'];
-}
 
 
 $sql2 = "SELECT user_id FROM users";
@@ -62,8 +54,6 @@ if ($selectRowsResult && $selectRowsResult->num_rows > 0) {
 foreach ($rows as $row) {
     $product_id = $row['product_id'];
     $product_name = $row['product_name'];
-    $name = $row['name'];
-    $address = $row['address'];
     $price = $row['price'];
     $image = $row['image'];
     $quantity=$row['quantity'];
@@ -84,18 +74,6 @@ if ($countResult && $countResult->num_rows > 0) {
     $total_rows = 0;
 }
 
-$selectNameQuery = "SELECT * FROM users";
-// Execute the query
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-}
-    // Get the address value from the fetched row
-    $name = $row['usernames'];
-
-    
 
 
 ?>
@@ -238,9 +216,7 @@ height: auto;
         display:flex;
     }
 
-    .address{
-        margin-right:20px;
-    }
+    
 
     .item10{
         margin-left:100px
@@ -339,8 +315,6 @@ height: auto;
 <div class='title'>
     <div class="Order_id"><?php echo 'Order_id'; ?></div>
     <div class="User_id"><?php echo 'User_id'; ?></div>
-    <div class="Name"><?php echo 'Name'; ?> </div>
-    <div class="Address"><?php echo 'Address'; ?> </div>
     <div class="Product"><?php echo 'Product'; ?> </div>
     <div class="product_name"><?php echo 'Product Name'; ?></div>
     <div class="price"><?php echo 'Price'; ?></div>
@@ -383,9 +357,7 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
             $product_id = $row['product_id'];
             $product_name = $row['product_name'];
             $user_id=$row['user_id'];
-            $name = $row['name'];
             $date = $row['date'];
-            $address = $row['address'];
             $price = $row['price'];
             $image = $row['image'];
             $quantity = $row['quantity'];
@@ -400,8 +372,6 @@ for ($order_id = 1; $order_id <= $maxId; $order_id++) {
             <div class="content">
             <div id="order_id"><?php echo $order_id;?></div>
             <div id="user_id"><?php echo $user_id; ?></div>
-            <div id="name"><?php echo $name;?></div>
-            <div id="Address"><?php echo $address;?></div>
             <img class="item" src="<?php echo $imageUrl; ?>" alt="">
             <div class="product_name"><?php echo $product_name; ?></div>
             <div id="price"><?php echo 'RM'.$price; ?></div>

@@ -18,6 +18,24 @@ html, body {
 
 }
 
+
+
+
+#privacyContainer{
+  display: flex;
+  margin-top: 10px;
+  margin-left: 0px;
+  width: 470px;
+ }
+
+ #privacyCheck{
+  margin-bottom: 20px;
+ }
+
+ #privacyText{
+  width: 470px;
+ }
+
 .button {
   background-color: black;
   color: white;
@@ -66,10 +84,11 @@ box-sizing: border-box;
 
 .container {
 background-color: white;
-width:420px;
+width:430px;
 margin-top:20px;
 margin-left:500px;
 padding: 16px;
+height: 520px;
 }
 p{
 width: 400px;
@@ -102,19 +121,3 @@ form{
  }
 
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-span.psw {
-display: block;
-float: none;
-}
-.cancelbtn {
-width: 100%;
-}
-
-#register{
-width: 80px;
-}
-
-
-}

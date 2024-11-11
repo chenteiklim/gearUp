@@ -16,6 +16,7 @@ if ($conn->connect_error) {
 
 session_start();
 $order_id=$_SESSION['order_id'];
+echo $order_id;
 mysqli_select_db($conn, $dbname);
 // Execute the first query to get usernames (ensure $selectNameQuery is defined properly)
 

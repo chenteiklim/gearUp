@@ -1,4 +1,3 @@
-console.log('hello world')
 // Ensure you correctly reference your input and buttons
 const quantity_input = document.getElementById('quantity_input'); // Update this to your actual input ID
 const incrementButton = document.getElementById('increment'); // Update this to your actual increment button ID

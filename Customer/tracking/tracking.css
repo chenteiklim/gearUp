@@ -67,6 +67,8 @@ html, body {
     background-color: #CDCDCD;
     display: flex;
     flex-direction:column;
+    width: auto;
+    height: auto;
     }
 
 .item{

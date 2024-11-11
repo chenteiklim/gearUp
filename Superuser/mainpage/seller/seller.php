@@ -17,7 +17,7 @@ session_start();
 // Check if the session variables are set
 
 // If email or backupEmail is not set, display an error message and exit
-if (!isset($_SESSION['emailAdmin']) || !$_SESSION['isLoginAdmin']) {
+if (!isset($_SESSION['emailAdmin'])) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
     exit;  // Stop further execution of the script
@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
     <button class="button" id="home">Pit Stop</button>
 
     <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../login/logout.php" method="POST">
+    <form action="../../login/logout.php" method="POST">
       <button type="submit" id="logout" class="button">Log Out</button>
     </form> 
 </div>

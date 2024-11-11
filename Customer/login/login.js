@@ -22,11 +22,11 @@ window.onload = function() {
         url.searchParams.delete('success');
         window.history.replaceState({}, document.title, url);    }, 5000);
     }
-
+    
     
     if (Param === '2') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'You do not have permission access this page, please register as customer';
+      messageContainer.textContent = 'Email Exist, is that you? Please login now or press forgot password.';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       
@@ -36,10 +36,11 @@ window.onload = function() {
         messageContainer.classList.remove("message-container");
         const url = new URL(window.location);
         url.searchParams.delete('success');
-        window.history.replaceState({}, document.title, url);    
-      }, 5000);
+        window.history.replaceState({}, document.title, url);    }, 20000);
     }
     
+
+
     if (Param === '3') {
       var messageContainer = document.getElementById("messageContainer");
       messageContainer.textContent = 'Invalid username or password';
@@ -58,6 +59,21 @@ window.onload = function() {
     if (Param === '4') {
       var messageContainer = document.getElementById("messageContainer");
       messageContainer.textContent = 'Password Changed Successfully';
+      messageContainer.style.display = "block";
+      messageContainer.classList.add("message-container");
+      
+      setTimeout(function() {
+        
+        messageContainer.style.display = "none";
+        messageContainer.classList.remove("message-container");
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    
+      }, 5000);
+    }
+    if (Param === '5') {
+      var messageContainer = document.getElementById("messageContainer");
+      messageContainer.textContent = 'Username do not exist';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       

@@ -10,14 +10,16 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+
+
+
 mysqli_select_db($conn, $dbname); 
 
 session_start();
 
 // Check if the session variables are set
-
 // If email or backupEmail is not set, display an error message and exit
-if (!isset($_SESSION['emailAdmin']) || !$_SESSION['isLoginAdmin']) {
+if (!isset($_SESSION['emailAdmin'])) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
     exit;  // Stop further execution of the script
@@ -65,6 +67,11 @@ if ($result->num_rows > 0) {
   </div>
   <div id="container">
     <div id="messageContainer"></div>
+
+    <div class="session">
+    <button id="session" class="btn"><?php echo 'Manage Superuser ' ?></button>
+    </div>
+
     <div class="customer">
     <button id="customer" class="btn"><?php echo 'Manage Customer' ?></button>
     </div>

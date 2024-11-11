@@ -44,10 +44,7 @@ if (isset($_POST['submit'])) {
       header("Location: login.html?success=1");
       exit(); // Stop further script execution
     } 
-    if ($role != 'Customer'){
-      header("Location: login.html?success=2");
-      exit(); // Stop further script execution
-    }
+    
     
     elseif (!password_verify($password, $hashed_password)) {
       header("Location: login.html?success=3");
@@ -61,8 +58,8 @@ if (isset($_POST['submit'])) {
     }
   } 
   else {
-    echo('Username not existed');
-    exit();
+    header("Location: login.html?success=5");
+    exit(); // Stop further script execution
   }
 
   $stmt->close();

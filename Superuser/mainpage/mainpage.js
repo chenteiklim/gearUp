@@ -1,16 +1,11 @@
   
-let timeoutDuration = 10 * 1000; // 15 minutes in milliseconds
+let timeoutDuration = 5 * 60 * 1000; 
 let timeout; // Variable to hold the timeout reference
-
 function logout() {
-  // You can use navigator.sendBeacon if you want to do it reliably on unload
   navigator.sendBeacon('../login/logout.php');
-  
-  // Optionally redirect to the login page
-  window.location.href = '../login/login.html';
+   window.location.href = '../login/login.html';
 }
 
-// Function to reset the timeout
 function resetTimeout() {
   clearTimeout(timeout); // Clear the existing timeout
   timeout = setTimeout(logout, timeoutDuration); // Set a new timeout
@@ -25,6 +20,10 @@ window.addEventListener('scroll', resetTimeout);
 // Initialize the timeout when the page loads
 resetTimeout();
 
+
+document.getElementById('session').addEventListener('click', function() {
+  window.location.href = 'superuser/superuser.php';
+});
 
 document.getElementById('customer').addEventListener('click', function() {
   window.location.href = 'user/viewC.php';
