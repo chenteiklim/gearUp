@@ -263,7 +263,7 @@ if ($result->num_rows > 0) {
    
 
 document.getElementById('add').addEventListener('click', function() {
-  window.location.href = 'addSuperuserForm.php';
+  window.location.href = 'register.php';
 });
 
 

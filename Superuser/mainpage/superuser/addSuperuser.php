@@ -66,6 +66,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     return false; // No matches found in either array
 }
 
+
 function hasRepetitivePattern($passwords) {
     $length = strlen($passwords);
 
@@ -95,71 +96,96 @@ function hasRepetitivePattern($passwords) {
 }
 
     mysqli_select_db($conn, $dbname); 
+// First SQL query to check if the username already exists
+$sql = "SELECT * FROM superuser WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $usernames);
+$stmt->execute();
+$userResult = $stmt->get_result(); // Use a different variable name for the first result
 
-    $sql = "SELECT * FROM superuser WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $usernames);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        // Redirect with an error message
-        header("Location: register.html?success=1");
-        exit();
-    }
+if ($userResult->num_rows > 0) {
+    // Redirect with an error message if the username already exists
+    header("Location: register.php?success=1");
+    exit();
+}
+
+// Second SQL query to check the number of superusers
+$sql2 = "SELECT COUNT(*) AS superuser_count FROM superuser";
+$superuserResult = $conn->query($sql2); // Use a different variable for the second query result
+$row = $superuserResult->fetch_assoc();
+
+if ($row['superuser_count'] >= 2) {
+    // Redirect if there are already more than 2 superusers
+    header("Location: register.php?success=3");
+    exit();
+}
+
+
+
     
     // Check if password matches confirm password
     else if ($passwords != $confirm_password) {
-        header("Location: register.html?success=4");
+        header("Location: register.php?success=4");
         exit();
     } 
 
     // Validate email format
     else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: register.html?success=5");
+        header("Location: register.php?success=5");
         exit();
     }
   
 
     // Check minimum length
     else if (strlen($passwords) < 10) {
-        header("Location: register.html?success=7");
+        header("Location: register.php?success=7");
+        exit();
     }
 
     // Check for at least 1 special characters
     else if (preg_match_all('/[\W_]/', $passwords) < 4) {
-        header("Location: register.html?success=8");
+        header("Location: register.php?success=8");
+        exit();
+
     }
 
     // Check for at least one uppercase letter
     else if (!preg_match('/[A-Z]/', $passwords)) {
-        header("Location: register.html?success=9");
+        header("Location: register.php?success=9");
+        exit();
+
     }
 
     // Check for at least one lowercase letter
     else if (!preg_match('/[a-z]/', $passwords)) {
-        header("Location: register.html?success=10");
+        header("Location: register.php?success=10");
+        exit();
+
     }
 
     // Check for at least one number
     else if (!preg_match('/[0-9]/', $passwords)) {
-        header("Location: register.html?success=11");
+        header("Location: register.php?success=11");
+        exit();
+
     }
 
     elseif (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
-        header("Location: register.html?success=12");
+        header("Location: register.php?success=12");
         exit(); // Ensure no further script execution
     }
     elseif (hasRepetitivePattern($passwords)) {
-        header("Location: register.html?success=13");
+        header("Location: register.php?success=13");
         exit();
     }
-
+    date_default_timezone_set('Asia/Kuala_Lumpur');
+    $createdAt = date("Y-m-d H:i:s"); // Format: 'YYYY-MM-DD HH:MM:SS'
     $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
-    $sql = "INSERT INTO superuser (email, username, address, passwords) 
-    VALUES (?, ?, ?, ?)";    
+    $sql = "INSERT INTO superuser (email, username, created_at, passwords) 
+        VALUES (?, ?, ?, ?)";    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $email, $usernames, $address, $hashed_password);
-       
+    $stmt->bind_param("ssss", $email, $usernames, $createdAt, $hashed_password);
+
     if ($stmt->execute()) {
         // Redirect to main page upon success
         header("Location: mainpage.php");
@@ -167,6 +193,8 @@ function hasRepetitivePattern($passwords) {
     } else {
         // Handle errors in execution
         echo "Error executing query: " . $stmt->error;
+        exit();
+
     }
     $stmt->close();
     $conn->close(); 

@@ -15,6 +15,7 @@ session_start();
 
 // Check if the session variables are set
 $email = $_SESSION['email'] ?? null;
+$havenotencryptemail = $_SESSION['haveNotEncrypt'] ?? null;
 $username =$_SESSION['username'];
 
 if (!$email) {
@@ -78,8 +79,8 @@ if ($stmt->num_rows > 0) {
             exit();
         }
     } 
+  
     else {
-       
          header("Location: checkRegister.php?success=1");
     }
 } 

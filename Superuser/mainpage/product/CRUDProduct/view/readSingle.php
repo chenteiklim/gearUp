@@ -249,7 +249,7 @@ html, body {
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here
     event.preventDefault()
-    window.location.href = "../../mainpage/mainpage.php";
+    window.location.href = "../../../mainpage.php";
   });
 </script>
 

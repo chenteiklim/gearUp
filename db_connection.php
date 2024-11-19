@@ -11,5 +11,5 @@ if ($conn->connect_error) {
 }
 
 // to include connection
-//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShopOld/db_connection.php';
+//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 ?>

@@ -67,12 +67,15 @@ html, body {
 
 
 #title{
+  margin-top: 5px;
+  margin-bottom: 10px;
+
         font-size: 24px;
         margin-left: 180px;
         color: black;
     }
 
-input[type=text], input[type=password] ,input[type=email] {
+input[type=text] ,input[type=password] ,input[type=email] {
 width: 100%;
 padding: 12px 20px;
 margin: 8px 0;

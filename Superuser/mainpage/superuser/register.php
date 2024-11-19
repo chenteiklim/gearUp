@@ -228,10 +228,11 @@ else if (Param === '2') {
     url.searchParams.delete('success');
     window.history.replaceState({}, document.title, url);    }, 10000);
 } 
+
 else if (Param === '3') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Address can only contain letters, numbers, spaces, commas, periods, and hyphens.'
+  confirmDiv.innerText = 'Superuser maximum limit is two';
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 
@@ -242,6 +243,8 @@ else if (Param === '3') {
     url.searchParams.delete('success');
     window.history.replaceState({}, document.title, url);    }, 10000);
 } 
+
+
 
 if (Param === '4') {
   const confirmDiv = document.createElement('div');

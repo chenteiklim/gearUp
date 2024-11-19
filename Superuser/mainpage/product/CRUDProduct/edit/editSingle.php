@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
      // Execute the SQL statement
      if ($conn->query($editProduct) === TRUE) {
        $successMessage = "edit Product successfully!";
-       header("Location: ../../mainpage/mainpage.php"); 
+       header("Location: ../../../mainpage/mainpage.php"); 
      } else {
          echo "Error: " . $mysqli->error;
      }
@@ -256,7 +256,7 @@ html, body {
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here
     event.preventDefault()
-    window.location.href = "../../mainpage/mainpage.php";
+    window.location.href = "../../../mainpage.php";
   });
 </script>
 

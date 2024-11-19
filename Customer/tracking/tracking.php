@@ -28,7 +28,8 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     // Fetch the result as an associative array
     $user = $result->fetch_assoc();
-    $email = $user['email']; // Access the email field
+    $encrypted_email = $user['email']; // Access the email field
+    
 
 } else {
     echo "No user found with that username.";
@@ -77,7 +78,7 @@ $stmt->close();
 <?php
 
 // Fetch all orders for the user, excluding those in 'cart' status
-$selectOrdersQuery = "SELECT * FROM orders WHERE email='$email' AND order_status <> 'cart' ORDER BY order_id ASC";
+$selectOrdersQuery = "SELECT * FROM orders WHERE email='$encrypted_email' AND order_status <> 'cart' ORDER BY order_id ASC";
 $selectOrdersResult = $conn->query($selectOrdersQuery);
 
 if ($selectOrdersResult && $selectOrdersResult->num_rows > 0) {
@@ -86,7 +87,12 @@ if ($selectOrdersResult && $selectOrdersResult->num_rows > 0) {
         $product_id = $row['product_id'];
         $product_name = $row['product_name'];
         $date = $row['date'];
-        $address = $row['address'];
+        $encrypted_address = $row['address'];
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+        $address = openssl_decrypt($encrypted_address, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+
+        $email = openssl_decrypt($encrypted_email, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+
         $price = $row['price'];
         $image = $row['image'];
         $imageUrl = "/inti/gadgetShop/assets/" . $image;

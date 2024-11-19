@@ -120,7 +120,7 @@ $result = $conn->query($sql);
                 <th>Superuser_ID</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Address</th>
+                <th>created_at</th>
                 
             </tr>
         </thead>
@@ -132,7 +132,7 @@ $result = $conn->query($sql);
                     echo "<td>" . htmlspecialchars($row['superuser_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
                     echo "<td>" . htmlspecialchars($row['username']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['address']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
                 }
             } else {
                 echo "<tr><td colspan='10'>No users found</td></tr>"; // Ensure colspan matches the number of columns

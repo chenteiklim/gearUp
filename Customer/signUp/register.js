@@ -6,7 +6,7 @@ const Param = urlParams.get('success');
 if (Param === '1') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Username exist';
+  confirmDiv.innerText = 'Nickname exist';
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 
@@ -22,7 +22,7 @@ if (Param === '1') {
 else if (Param === '2') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Username must be 5-30 characters long and can contain letters, numbers, and _ symbols.';
+  confirmDiv.innerText = 'Nickname must be 5-30 characters long and can contain letters, numbers, and _ symbols.';
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 
@@ -185,9 +185,9 @@ else if (Param === '6') {
         url.searchParams.delete('success');
         window.history.replaceState({}, document.title, url);    }, 10000);
   }
+
+ 
   
-
-
 
 
   

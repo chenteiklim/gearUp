@@ -22,7 +22,10 @@ if (isset($_POST['submit'])) {
   $clickDate = date("Y-m-d");
   // Format the date in the desired format "Y-m-d"
   $formattedDate = date("Y-m-d", strtotime($clickDate));
-  $email=$_POST['email'];
+  $haveNotEncryptEmail=$_POST['email'];
+  include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    
+  $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
   $_SESSION['email'] = $email;
   $passwords = $_POST['password'];
 

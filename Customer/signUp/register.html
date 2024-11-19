@@ -18,23 +18,21 @@
     <button id="login" class="button">Log in</button>
 </div>
     
-    <form action="register.php" method="post">
+    <form id="registerForm" action="register.php" method="post">
       <div class="container">
         <p id="title">
           Register
         </p>
-        <input type="text" placeholder="Enter Nickname" name="username" required>
-        <div id="nameContainer"></div>
-  
+        
+        <input type="text" placeholder="Enter Nickname (Don't put your real name here, For login)" name="username" required>
+
         <input type="text" placeholder="Enter Address. Eg: 1250, Jalan6, Kampung Berapit, 14000 BM." name="address" required>
       
         <input type="email" placeholder="Enter Email" name="email" required>
-        <div id="emailContainer"></div>
   
         <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
         <button id="show">Show</button>
  
-        <div id="passwordContainer"></div>
   
         <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
         <button id="show2">Show</button>

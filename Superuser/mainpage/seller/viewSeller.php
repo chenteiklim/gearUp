@@ -120,7 +120,6 @@ $result = $conn->query($sql);
                 <th>User ID</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Address</th>
                 <th>Role</th>
                 <th>Change Role</th>
                 <th>Delete</th>
@@ -134,7 +133,6 @@ $result = $conn->query($sql);
                     echo "<td>" . htmlspecialchars($row['user_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
                     echo "<td>" . htmlspecialchars($row['usernames']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['address']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['role']) . "</td>";
                     echo "<td><form method='POST' action='changeSeller.php'>"; // Change 'delete_user.php' to your delete action file
                     echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID

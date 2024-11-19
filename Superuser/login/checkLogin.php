@@ -24,17 +24,16 @@
             
             
             session_start();
-            if (isset($_SESSION['email'])) {
-                $email = $_SESSION['email'];
-                $havenotencryptemail = $_SESSION['haveNotEncrypt'] ?? null;
+            if (isset($_SESSION['emailAdmin'])) {
+                $email = $_SESSION['emailAdmin'];
 
-                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$havenotencryptemail</span> below to verify your account.</p>";
+                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>
               <form action="verifyCode.php" method="POST">
                 <!-- Primary Email Verification Code -->
                 <div>
-                    <label for="primaryCode" id="primaryCode"> <?php echo $havenotencryptemail; ?> Verification Code:</label>
+                    <label for="primaryCode" id="primaryCode"> <?php echo $email; ?> Verification Code:</label>
                     <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode3" name="primaryCode[]" maxlength="1" required>

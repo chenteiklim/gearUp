@@ -25,13 +25,22 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['submit'])) {
     $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
+    $haveNotEncryptEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
+    $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
+    // Encrypt email
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    
+    $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+    // Encrypt address
+    $address = openssl_encrypt($haveNotEncryptAddress, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+
     $passwords = $_POST['passwords']; // Validate and hash passwords, don't output directly
+    
     $confirm_password = $_POST['confirm_password']; // Same as above
-    $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $_SESSION['username'] = $usernames;
-    $_SESSION['address'] = $address;
     $_SESSION['email'] = $email;
+    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
+
    
         
  // Define separate arrays for common sequences
@@ -76,36 +85,10 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     return false; // No matches found in either array
 }
 
-function hasRepetitivePattern($passwords) {
-    $length = strlen($passwords);
 
-    // Loop through possible substring lengths
-    for ($i = 1; $i <= $length / 2; $i++) {
-        $substring = substr($passwords, 0, $i);
-        $repeatCount = 1; // Start with the first instance of the pattern
-
-        // Loop to check for repetitive patterns
-        for ($j = $i; $j < $length; $j += $i) {
-            $nextSubstring = substr($passwords, $j, $i);
-
-            // If the next substring matches, increase the repeat count
-            if ($substring === $nextSubstring) {
-                $repeatCount++;
-            } else {
-                break; // Stop if the next part of the string doesn't match
-            }
-
-            // If the pattern repeats more than twice, return true (too many repetitions)
-            if ($repeatCount > 2) {
-                return true;
-            }
-        }
-    }
-    return false; // No excessive repetitive pattern found
-}
 
     mysqli_select_db($conn, $dbname); 
-
+    
     $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usernames);
@@ -116,6 +99,7 @@ function hasRepetitivePattern($passwords) {
         header("Location: register.html?success=1");
         exit();
     }
+    
 
    
     else if (!preg_match("/^[a-zA-Z0-9_ ]{5,30}$/", $usernames)) {
@@ -123,7 +107,7 @@ function hasRepetitivePattern($passwords) {
         exit();
     }
 
-    else if (!preg_match("/^[a-zA-Z0-9\s,.-]{10,100}$/", $address)) {
+    else if (!preg_match("/^[a-zA-Z0-9\s,.-]{10,100}$/", $haveNotEncryptAddress)) {
         header("Location: register.html?success=3");
         exit();
     }
@@ -135,7 +119,7 @@ function hasRepetitivePattern($passwords) {
     } 
 
     // Validate email format
-    else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    else if (!filter_var($haveNotEncryptEmail, FILTER_VALIDATE_EMAIL)) {
         header("Location: register.html?success=5");
         exit();
     }
@@ -144,39 +128,46 @@ function hasRepetitivePattern($passwords) {
     // Check minimum length
     else if (strlen($passwords) < 10) {
         header("Location: register.html?success=7");
+        exit();
     }
 
     // Check for at least 1 special characters
     else if (preg_match_all('/[\W_]/', $passwords) < 4) {
         header("Location: register.html?success=8");
+        exit();
+
     }
 
     // Check for at least one uppercase letter
     else if (!preg_match('/[A-Z]/', $passwords)) {
         header("Location: register.html?success=9");
+        exit();
+
     }
 
     // Check for at least one lowercase letter
     else if (!preg_match('/[a-z]/', $passwords)) {
         header("Location: register.html?success=10");
+        exit();
+
     }
 
     // Check for at least one number
     else if (!preg_match('/[0-9]/', $passwords)) {
         header("Location: register.html?success=11");
+        exit();
+
     }
 
-    elseif (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
+    else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
         header("Location: register.html?success=12");
         exit(); // Ensure no further script execution
-    }
-    elseif (hasRepetitivePattern($passwords)) {
-        header("Location: register.html?success=13");
-        exit();
+
     }
     
 
-    $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
+
+     $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
     $emailCode = rand(100000, 999999); // 6-digit code for primary email
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
     $param1 = 0;
@@ -204,11 +195,13 @@ function hasRepetitivePattern($passwords) {
             $mail->Subject = 'Email Verification';
         
             // Send to primary email
-            $mail->addAddress($email);
+            $mail->addAddress($haveNotEncryptEmail);
             $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
             <p>Ref: $emailCode</p>";
             $mail->send();
              header("Location: checkRegister.php");
+             exit();
+
          
         } catch (Exception $e) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -217,7 +210,7 @@ function hasRepetitivePattern($passwords) {
     } else {
         // Handle database insert error
         echo "Error: " . $sql . "<br>" . $conn->error;
-    } 
+    }  
  
     $stmt->close();
     $conn->close(); 

@@ -1,5 +1,5 @@
   
-let timeoutDuration = 5 * 60 * 1000; 
+let timeoutDuration = 2 * 60 * 1000; 
 let timeout; // Variable to hold the timeout reference
 function logout() {
   navigator.sendBeacon('../login/logout.php');

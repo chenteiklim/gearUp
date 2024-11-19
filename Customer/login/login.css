@@ -18,23 +18,8 @@ body {
      /* Ensure it remains visible within the container */
    
    }
-   
-   #privacyContainer{
-    display: flex;
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 280px;
-   }
 
-   #privacyCheck{
-    margin-right: 20px;
-    margin-bottom: 20px;
-   }
 
-   #privacyText{
-    width: 200px;
-   }
-   
    .button {
      background-color: black;
      color: white;
@@ -67,6 +52,21 @@ body {
    
 
 
+       #privacyContainer{
+        display: flex;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 280px;
+       }
+    
+       #privacyCheck{
+        margin-right: 20px;
+        margin-bottom: 20px;
+       }
+    
+       #privacyText{
+        width: 200px;
+       }
     #forgotBtn{
         text-decoration: none;
         color: red;

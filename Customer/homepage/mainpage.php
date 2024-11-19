@@ -17,7 +17,7 @@ if (!isset($_SESSION['username'])) {
   echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
   exit;  // Stop further execution of the script
 }
-
+    
 
 mysqli_select_db($conn, $dbname);
 $username=$_SESSION['username'];
@@ -122,7 +122,6 @@ $productHTML = '';
   }
 ?>
 <script>
-
   window.onload = function() {
 
   var urlParams = new URLSearchParams(window.location.search);

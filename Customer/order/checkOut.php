@@ -16,7 +16,6 @@ if ($conn->connect_error) {
 
 session_start();
 $order_id=$_SESSION['order_id'];
-echo $order_id;
 mysqli_select_db($conn, $dbname);
 // Execute the first query to get usernames (ensure $selectNameQuery is defined properly)
 
@@ -45,8 +44,11 @@ if ($result && $result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
     // Get the address value from the fetched row
-    $address = $row['address'];
+    $encrypted_address = $row['address'];
 } 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+
+$address = openssl_decrypt($encrypted_address, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 
 $sql2 = "SELECT user_id FROM users WHERE email = '$email'";
 $result2 = $conn->query($sql2);
