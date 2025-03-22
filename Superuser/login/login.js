@@ -1,4 +1,4 @@
-
+console.log('hello wrold')
 
 
 // Retrieve the value of the 'success' query parameter from the URL
@@ -28,7 +28,7 @@ window.onload = function() {
     }
     if (Param === '2') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'No user found with these email and backupEmail';
+      messageContainer.textContent = 'No user found with these email';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       

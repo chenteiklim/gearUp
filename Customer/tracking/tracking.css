@@ -1,14 +1,4 @@
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%; /* Ensure full width */
-    height: 100%; /* Ensure full height */
-  }
-  
-  body{
-  background-color: bisque;
-  }
   
  .email{
     margin-left: 20px;
@@ -54,17 +44,9 @@ html, body {
   margin-left: 500px;
   }
   
-  #navContainer {
-    display: flex;
-    align-items: center;
-    background-color: black;
-    width: 100%; /* Adjust width as needed */
-    height: 80px; /* Adjust height as needed */
-    
   
-  }
   #container {
-    background-color: #CDCDCD;
+    background-color: #add8e6;
     display: flex;
     flex-direction:column;
     width: auto;
@@ -255,3 +237,32 @@ html, body {
         margin-left:100px;
         margin-top:20px;
     }
+
+    html, body {
+        background-color: #add8e6;
+         margin: 0;
+         padding: 0;
+         width: 100%; /* Ensure full width */
+         height: 100%; /* Ensure full height */
+       }
+       
+       #navContainer {
+         display: flex;
+         background-color: #BFB9FA;
+         width: 100%; /* Adjust width as needed */
+         height: 80px; /* Adjust height as needed */   
+         align-items: center;
+       }
+       
+       .button {
+        background-color: #BFB9FA;
+        color: black;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        border: none;
+        }
+  

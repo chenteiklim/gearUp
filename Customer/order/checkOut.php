@@ -36,7 +36,7 @@ if ($result->num_rows > 0) {
     echo "No user found with that username.";
 }
 $stmt->close();
-$sql = "SELECT address FROM users WHERE email = '$email'";
+$sql = "SELECT * FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
 // Check if the query was successful and if any rows were returned
@@ -171,7 +171,6 @@ foreach ($product_ids as $product_id) {
         $row = $selectRowResult->fetch_assoc();
         $product_name = $row['product_name'];
         $name = $row['name'];
-        $address = $row['address'];
         $price = $row['price'];
         $image = $row['image'];
         $imageUrl = "/inti/gadgetShop/assets/" . $image;

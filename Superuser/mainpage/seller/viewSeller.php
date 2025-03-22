@@ -23,9 +23,8 @@ $result = $conn->query($sql);
     <title>User Table</title>
     <style>
         table {
-        width: 100%; /* Full width of the container */
         border-collapse: collapse; /* Merge borders */
-        max-width: 1500px; /* Set max width for the table */
+        max-width: auto; /* Set max width for the table */
         margin: 0 auto; /* Center the table */
         table-layout: fixed; /* Fix the table layout to respect widths */
         background-color:white;
@@ -38,7 +37,7 @@ $result = $conn->query($sql);
             padding: 10px; /* Add padding for cells */
             text-align: center; /* Align text to the left */
             border: 1px solid #ccc; /* Border around cells */
-            width:100px;
+            width:200px;
             word-wrap: break-word; /* Allow wrapping of long words */
             white-space: normal; /* Enable normal wrapping */
         }
@@ -100,7 +99,35 @@ $result = $conn->query($sql);
         border-radius: 5px;
         margin-left: 100px;
     }
+    #navContainer {
+      display: flex;
+      background-color: #BFB9FA;
+      width: 100%; /* Adjust width as needed */
+      height: 80px; /* Adjust height as needed */   
+    }
     
+    html, body {
+      background-color: #add8e6;
+      margin: 0;
+      padding: 0;
+      width: 100%; /* Ensure full width */
+      height: 100%; /* Ensure full height */
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+  }
+    .button {
+     background-color: #BFB9FA;
+     width: 150px;
+     color: black;
+     cursor: pointer;
+     padding-left: 30px;
+     padding-right: 30px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     font-size: 14px;
+     border: none;
+     }
   
    
     </style>
@@ -108,8 +135,8 @@ $result = $conn->query($sql);
 
 <body>
 <div id="navContainer"> 
-        <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
-        <button class="button" id="home">Computer Shop</button>
+        <img id="logoImg" src="../../../assets/logo.png" alt="" srcset="">
+        <button class="button" id="home">E-book</button>
        
 </div>
 
@@ -127,12 +154,23 @@ $result = $conn->query($sql);
         </thead>
         <tbody>
             <?php
+              include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+              function decrypt_email($encrypted_email) {
+                  global $encryption_key, $encryption_iv;
+              
+                  // Decrypt the email using AES-256-CBC
+                  $decrypted_email = openssl_decrypt($encrypted_email, 'aes-256-cbc', $encryption_key, 0, $encryption_iv);
+              
+                  return $decrypted_email;
+              }
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
+                    $decrypted_email = decrypt_email($row['email']);  // Make sure to call the decrypt function
+
                     echo "<tr>"; // Start a new table row for each user
                     echo "<td>" . htmlspecialchars($row['user_id']) . "</td>"; // Use htmlspecialchars to prevent XSS
                     echo "<td>" . htmlspecialchars($row['usernames']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                    echo "<td>" . htmlspecialchars($decrypted_email) . "</td>"; 
                     echo "<td>" . htmlspecialchars($row['role']) . "</td>";
                     echo "<td><form method='POST' action='changeSeller.php'>"; // Change 'delete_user.php' to your delete action file
                     echo "<input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "' />"; // Include user ID
@@ -145,13 +183,14 @@ $result = $conn->query($sql);
                     echo "<button class='button' type='submit' onclick='return confirm(\"Are you sure you want to delete this Seller?\")'>DELETE</button>"; // DELETE button
                     echo "</form></td>";                    echo "</tr>"; // End the table row
                 }
-            } else {
+            } 
+            else {
                 echo "<tr><td colspan='10'>No users found</td></tr>"; // Ensure colspan matches the number of columns
             }
             ?>
         </tbody>
     </table>
-
+    
 </body>
 </html>
 

@@ -69,7 +69,9 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
         </div>
         <div>
             <div class="names"><?php echo $product_name; ?> </div>
-            <div id="status" class="status"><?php echo $status.'sold' ; ?></div>
+            <?php if ($status > 0): ?>  
+                <div id="status" class="status"><?php echo $status . ' sold'; ?></div>
+            <?php endif; ?>            
             <div class="stock"><?php echo $stock . 'stock available'; ?></div>
            
             <div id="price" class="prices"><?php echo'RM'.$price; ?></div>

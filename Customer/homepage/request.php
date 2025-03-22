@@ -34,21 +34,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $businessID = $_POST['businessID'];
     $contact = $_POST['contactInfo'];
+    $bankAccount = $_POST['accountInfo'];
     $status = 'pending';
-    // Prepare an SQL statement to insert data into sellerrequest table
-    $stmt = $conn->prepare("INSERT INTO sellerrequest (storeName, user_id, description, businessID, contact, username, email, role, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssss", $storeName, $user_id, $description, $businessID, $contact, $username, $email, $role, $status);
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    $contactEncrypted = openssl_encrypt($contact, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+    $bankAccountEncrypted = openssl_encrypt($bankAccount, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+// Insert into seller table
+$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, description, businessID, contact, username, email, bankAccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt1->bind_param("ssssssss", $storeName, $user_id, $description, $businessID, $contactEncrypted, $username, $email, $bankAccountEncrypted);
 
-    // Execute the statement
-    if ($stmt->execute()) {
+if ($stmt1->execute()) {
+    // Get the inserted seller_id
+    $seller_id = $conn->insert_id; 
+
+    // Update user's role and seller_id in users table
+    $stmt2 = $conn->prepare("UPDATE users SET role = ?, seller_id = ? WHERE user_id = ?");
+    $role = 'seller';
+    $stmt2->bind_param("sii", $role, $seller_id, $user_id);
+
+    if ($stmt2->execute()) {
         $message3 = "Seller Application Form Submitted Successfully";
         header("Location: mainpage.php?message3=" . urlencode($message3));
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error updating role: " . $stmt2->error;
     }
-
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
+} else {
+    echo "Error inserting seller data: " . $stmt1->error;
 }
+
+$stmt1->close();
+$stmt2->close();
+}
+$conn->close();
 ?>

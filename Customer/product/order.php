@@ -96,6 +96,8 @@ if (isset($_POST['addCart'])) {
         $address = $row['address'];
         $user_id = $row['user_id'];
         $_SESSION['user_id']=$user_id;
+        $state=$row['state'];
+
     }
   
 
@@ -149,10 +151,10 @@ if ($result && $result->num_rows > 0) {
        }
     //if want purchase new product
     else{
-        $insertcart = "INSERT INTO $tableName (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price')";
+        $insertcart = "INSERT INTO $tableName (user_id, order_id, state, product_id, quantity, name, email, address, product_name, price, image, total_price) VALUES ('$user_id', '$order_id', '$state', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price')";
         $conn->query($insertcart); // Execute the insert query
         // Insert data into the orders table
-        $insertorders = "INSERT INTO orders (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
+        $insertorders = "INSERT INTO orders (user_id, order_id, state, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$state', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
         $conn->query($insertorders); // Execute the insert query   
         $message2 = "Cart added successfully";
             header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
@@ -170,18 +172,18 @@ else {
         name VARCHAR(255),
         email VARCHAR(255),
         address VARCHAR(255),
+        state VARCHAR(255),
         product_name VARCHAR(255),
         price DECIMAL(10, 2),
         image VARCHAR(255),
         total_price DECIMAL(10, 2)
     )";
     $conn->query($createTableQuery);
-    $insertcart = "INSERT INTO $tableName (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price')";
+    $insertcart = "INSERT INTO $tableName (user_id, order_id, state, product_id, quantity, name, email, address, product_name, price, image, total_price) VALUES ('$user_id', '$order_id', '$state', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price')";
     $conn->query($insertcart); // Execute the insert query
-
     // Insert data into the orders table
-    $insertorders = "INSERT INTO orders (user_id, order_id, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
-    $conn->query($insertorders); // Execute the insert query
+    $insertorders = "INSERT INTO orders (user_id, order_id, state, product_id, quantity, name, email, address, product_name, price, image, total_price, order_status) VALUES ('$user_id', '$order_id', '$state', '$product_id', '$quantity', '$username', '$email', '$address', '$product_name', '$price', '$image', '$total_price', 'cart')";
+    $conn->query($insertorders); // Execute the insert query   
     $message2 = "Cart added successfully";
     header("Location: ../homepage/mainpage.php?message2=" . urlencode($message2));
 }

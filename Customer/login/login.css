@@ -1,6 +1,6 @@
 
 body {
-    background-color: bisque;
+    background-color:  #f0f0f0;
    }
    html, body {
      margin: 0;
@@ -87,7 +87,7 @@ body {
     #purple_container{
         margin-top: 70px;
         margin-left: 500px;
-       background-color:white;
+       background-color:#e8e8e8;
         border-radius: 5px;
         width: 320px;
         height: 320px;
@@ -163,6 +163,32 @@ body {
 
     }
 
-
+    html, body {
+        background-color: #add8e6;
+         margin: 0;
+         padding: 0;
+         width: 100%; /* Ensure full width */
+         height: 100%; /* Ensure full height */
+       }
+       
+       #navContainer {
+         display: flex;
+         background-color: #BFB9FA;
+         width: 100%; /* Adjust width as needed */
+         height: 80px; /* Adjust height as needed */   
+       }
+       
+       .button {
+        background-color: #BFB9FA;
+        color: black;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        border: none;
+        }
+    
 
 

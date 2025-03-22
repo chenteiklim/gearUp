@@ -1,12 +1,4 @@
-body {
- background-color: bisque;
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Ensure full width */
-  height: 100%; /* Ensure full height */
-}
+
 
 #navContainer {
   display: flex;
@@ -36,16 +28,6 @@ html, body {
   width: 470px;
  }
 
-.button {
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 12px;
-  }
   #home{
       margin-left: 10px;
   }
@@ -122,5 +104,31 @@ form{
  #confirm{
    margin-top:20px;
  }
+ html, body {
+  background-color: #add8e6;
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 100%; /* Ensure full height */
+ }
+ 
+ #navContainer {
+   display: flex;
+   background-color: #BFB9FA;
+   width: 100%; /* Adjust width as needed */
+   height: 80px; /* Adjust height as needed */   
+ }
+ 
+ .button {
+  background-color: #BFB9FA;
+  color: black;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
 
 

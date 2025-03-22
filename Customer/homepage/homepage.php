@@ -39,7 +39,10 @@ session_start();
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="home">Trust Toradora</button>
+    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
+    <button class="button" id="seller" type="submit" name="seller" value="">Seller Request</button>
+    <button class="button" id="sellerCenter" type="submit" name="sellerCenter" value="">Seller Center</button>
     <button id='register' class="button"><?php echo 'Register'?></button>
     <button id="login" class="button"><?php echo 'Log in' ?></button>
 </div>
@@ -72,7 +75,7 @@ session_start();
         <div class="stock">' . ($stock > 0 ? $stock . ' stock available' : 'Out of stock') . '</div>
         <div class="status">' . $status . ' sold</div>
         <form action="" method="post">
-          <button id="View" class="button" type="submit" name="view" value="' . $product_id . '">View</button>
+          <button id="view" class="button" type="submit" name="view" value="' . $product_id . '">View</button>
         </form>
       </div>
     </div>

@@ -57,7 +57,7 @@ if ($result->num_rows > 0) {
             color: #555;
         }
         input, textarea {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ddd;
@@ -77,35 +77,11 @@ if ($result->num_rows > 0) {
         button:hover {
             background-color: #45a049;
         }
+#sellerRequestForm{
+    margin-top:20px;
+    margin-left:550px;
+}
         
-html, body {
-margin: 0;
-padding: 0;
-width: 100%; /* Ensure full width */
-height: 100%; /* Ensure full height */
-}
-
-#navContainer {
-display: flex;
-background-color: black;
-width: 100%; /* Adjust width as needed */
-height: 80px; /* Adjust height as needed */
-
-/* Ensure it remains visible within the container */
-
-}
-
-
-.button {
-background-color: black;
-color: white;
-cursor: pointer;
-padding-left: 30px;
-padding-right: 30px;
-padding-top: 10px;
-padding-bottom: 10px;
-font-size: 12px;
-}
 #home{
     margin-left: 10px;
 }
@@ -127,12 +103,43 @@ button:hover{
     transform: scale(0.9);
     background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
   }
+  
+#navContainer {
+  display: flex;
+  background-color: #BFB9FA;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */   
+}
+
+html, body {
+  background-color: #add8e6;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 900px; /* Ensure full height */
+  display:flex;
+  flex-direction:column;
+}
+.button {
+ background-color: #BFB9FA;
+ width: 150px;
+ color: black;
+ cursor: pointer;
+ padding-left: 30px;
+ padding-right: 30px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ font-size: 14px;
+ border: none;
+ }
+
+
     </style>
 </head>
 <body>
 <div id="navContainer"> 
         <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-        <button class="button" id="home">Computer Shop</button>
+        <button class="button" id="home">Trust Toradora</button>
         <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
         <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
         <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
@@ -147,12 +154,16 @@ button:hover{
         <label for="description">Store Description:</label>
         <textarea id="description" name="description" rows="4" required></textarea>
 
-        <label for="businessID">Business ID:</label>
-        <input type="text" id="businessID" name="businessID" required>
+        <label for="businessID">Business ID (optional):</label>
+        <input type="text" id="businessID" name="businessID">
 
     
         <label for="contactInfo">Contact Information (0xx-1234567):</label>
         <input type="text" id="contactInfo" name="contactInfo" required>
+
+        
+        <label for="accountInfo">Bank Account Number (***********):</label>
+        <input type="text" id="accountInfo" name="accountInfo" required>
 
         <button type="submit">Submit Request</button>
     </form>

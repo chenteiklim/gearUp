@@ -1,35 +1,4 @@
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%; /* Ensure full width */
-    height: 100%; /* Ensure full height */
-}
-
-#navContainer {
-    display: flex;
-    background-color: black;
-    width: 100%; /* Adjust width as needed */
-    height: 80px; /* Adjust height as needed */
-    
-  
-  }
-.button {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 12px;
-    }
-    #home{
-        margin-left: 10px;
-    }
-#register{
-    margin-left: 800px;
-}
 #logoImg{
     margin-top: 25px;
     width: 35px;
@@ -77,12 +46,6 @@ margin-right: 10px;
 }
 
 
-
-body{
-background-color: bisque;
-}
-
-
 #logOut{
 margin-left: 200px;
 }
@@ -91,7 +54,6 @@ display: grid;
 grid-template-columns: repeat(6, 1fr);
 gap: 10px;
 margin-top: 10px;
-background-color: 	#CDCDCD;
 flex-wrap: wrap;
 width: 1510px;
 height:auto;
@@ -109,16 +71,19 @@ font-size: 12px;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 letter-spacing: 0.2px
 }
+
 .imageContainer{
-    margin-left: 10px;
-width: 200px;
-height: 200px;
-background-color: antiquewhite;
-}
+    display: flex;
+    align-items: center;
+    justify-content:center;
+      width: 180px;
+      height: 170px;
+      background-color: antiquewhite;
+  }
 
 #view{
-    margin-left: 40px;
-    margin-top: 10px;
+    margin-left: 15px;
+    margin-top: 20px;
 }
 .name{
 font-size: 15px;
@@ -127,9 +92,15 @@ padding-left: 10px;
 text-align: center;
 }
 .product{
-    margin-left: 20px;
-    height: auto;
+    margin: 20px;
+    background-color: white;
+    width: 180px;
+    height: 400px;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.2px
 }
+   
 .product_name{
     margin-top: 40px;
     margin-left: 60px;
@@ -172,10 +143,45 @@ height: 20px;
 }
 
 .item{
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
 }
 
 .checked{
 color: orange;
 }
+
+
+    #navContainer {
+      display: flex;
+      background-color: #BFB9FA;
+      width: 100%; /* Adjust width as needed */
+      height: 80px; /* Adjust height as needed */   
+    }
+    
+    html, body {
+      background-color: #add8e6;
+      margin: 0;
+      padding: 0;
+      width: 100%; /* Ensure full width */
+      height: 100%; /* Ensure full height */
+      display:flex;
+      flex-direction:column;
+  }
+  #register{
+    margin-left:600px;
+  }
+    .button {
+     background-color: #BFB9FA;
+     width: 150px;
+     color: black;
+     cursor: pointer;
+     padding-left: 30px;
+     padding-right: 30px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     font-size: 14px;
+     border: none;
+     }
+  
+  

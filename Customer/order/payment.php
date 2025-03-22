@@ -1,119 +1,116 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+
+session_start();
+if (!isset($_SESSION['product_ids'], $_SESSION['order_id'])) {
+    die("Session data missing.");
+}
+
+$product_ids = $_SESSION['product_ids'];
+$order_id = (int) $_SESSION['order_id']; // Ensure it's an integer
+$clickDate = date("Y-m-d");
+$username = $_SESSION['username'];
+
+// Get user_id
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if (!$result || $result->num_rows === 0) {
+    die("User not found.");
+}
+
+$row = $result->fetch_assoc();
+$user_id = (int) $row['user_id'];
+$tableName = "cart" . $user_id;
+
+// Secure table name usage
+if (!preg_match('/^\w+$/', $tableName)) {
+    die("Invalid table name.");
+}
+
+// Delete from cart
+$stmt = $conn->prepare("DELETE FROM $tableName WHERE name = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+
+// Update order status to "purchased"
+$stmt = $conn->prepare("UPDATE orders SET order_status = 'purchased', date = ? WHERE order_id = ?");
+$stmt->bind_param("si", $clickDate, $order_id);
+if (!$stmt->execute()) {
+    die("Error updating order: " . $stmt->error);
+}
+
+// Fetch order's state
+$stmt = $conn->prepare("SELECT state FROM orders WHERE order_id = ?");
+$stmt->bind_param("i", $order_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("Order not found.");
+}
+
+$order = $result->fetch_assoc();
+$order_state = $order['state'];
+
+// Find an available rider in the same state
+$sql = "SELECT rider_id FROM rider WHERE available = 1 AND state = ? LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $order_state);
+$stmt->execute();
+$riders = $stmt->get_result();
+
+if ($riders->num_rows > 0) {
+    $rider = $riders->fetch_assoc();
+    $assigned_rider = $rider['rider_id'];
+
+    // Assign the rider to the order and mark them as unavailable
+    $stmt = $conn->prepare("UPDATE orders SET assigned_rider = ?, order_status = 'assigned' WHERE order_id = ?");
+    $stmt->bind_param("ii", $assigned_rider, $order_id);
+    $stmt->execute();
+
+    // Update rider table: Set currentOrder and mark as unavailable
+    $stmt = $conn->prepare("UPDATE rider SET currentOrder = ?, available = 0 WHERE rider_id = ?");
+    $stmt->bind_param("ii", $order_id, $assigned_rider);
+    $stmt->execute();
+
+    echo "Order ID: $order_id assigned to Rider ID: $assigned_rider.";
+} else {
+    echo "No available riders in state: $order_state.";
+}
+
+// Update product stock
+if (!is_array($product_ids) || empty($product_ids)) {
+    die("Invalid product data.");
+}
+
+$product_ids_str = implode(',', array_map('intval', $product_ids));
+$quantities = $_SESSION['quantities'];
+
+$sql_select = "SELECT product_id, stock, status FROM products WHERE product_id IN ($product_ids_str)";
+$result = $conn->query($sql_select);
+
+if (!$result) {
+    die("Error fetching product data: " . $conn->error);
+}
+
+while ($row = $result->fetch_assoc()) {
+    $product_id = (int) $row['product_id'];
+    $stock = (int) $row['stock'];
+    $status = (int) $row['status'];
+    $quantity = isset($quantities[$product_id]) ? (int) $quantities[$product_id] : 0;
+
+    $updated_stock = max(0, $stock - $quantity);
+    $updated_status = max(0, $status + $quantity);
+
+    $stmt = $conn->prepare("UPDATE products SET stock = ?, status = ? WHERE product_id = ?");
+    $stmt->bind_param("iii", $updated_stock, $updated_status, $product_id);
+    $stmt->execute();
+}
+
+$_SESSION['orders_id'] = $order_id + 1;
+header("Location: success.php");
+exit;
 ?>
-<head>
-<style>
-
-#container {
-
-width:1400px;
-height:100%;
-background-color: lightyellow;
-display: flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-}
-
-.text1{
-    margin-left:150px;
-    font-size:18px;
-    margin-top:20px;
-}
-
-#item{
-    background-color:white;
-    width:400px;
-    height:80%;
-    color:black;
-}
-.content{
-    margin-top:10px;
-    margin-left:40px;
-    font-size:18px;
-    background-color:#dcdcdc;
-    border:1px solid grey;
-    width:80%;
-    height:50%;
-}
-
-.subcontent{
-    
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:16px;
-    margin-left:40px;
-    background-color:#f4f0ec; 
-    width:70%;
-    height:20%;
-}
-
-.button {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    margin-left: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    font-size: 16px;
-    }
-    
-    .button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-
-.topic{
-    margin-top:20px;
-    margin-left:20px;
-}
-#email{
-    margin-top:20px;
-    margin-left:20px;
-}
-
-input[type=email], input[type=password] {
-    margin-top:5px;
-}
-#login{
-    margin-top:10px;
-}
-
-#reset{
-    margin-top:5px;
-}
-
-</style>
-</head>
-<body>
-    <div id='container'>
-        <div id='item'>
-            <div class='text1'>
-                Maybank2u
-            </div>
-            <div class='content'>
-                <div class='topic'>
-                    Log in to Maybank2u.com online Banking
-                </div>
-                <div class='subContent'>
-                    Note: You are in a secure site.
-                </div>
-                
-            <form action="maybankLogin.php" method="post">
-                <div id='email'>
-                    <input type="email" placeholder="Enter email" name="email" required>
-                    <input type="password" placeholder="Enter Password" name="password" required>
-                </div>
-                <input id="login" class="button" type="submit" name="submit" value="login">
-                <div>
-                    <button id="reset" class='button' type="submit" name="forgetPassword" formnovalidate>Forget Password</butto>
-                </div>
-            </form>
-        </div>
-    </div>
-</body>
-
-

@@ -31,8 +31,8 @@ if ($result->num_rows > 0) {
     // Fetch the row from the result
     $row = $result->fetch_assoc();
     $usernames = $row['username'];
-
 }
+
     // Get the address value from the fetched row
 
 ?>

@@ -41,9 +41,6 @@ if ($result->num_rows > 0) {
         <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
         <button class="button" id="home">Computer Shop</button>
         <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-        <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-        <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-        <button class="button" id="seller" type="submit" name="seller" value="">Seller Center</button>
         <button class="button" id="name"><?php echo $name ?></button>
         <form action="../login/logout.php" method="POST">
           <button type="submit" id="logOut" class="button">Log Out</button>
@@ -52,7 +49,6 @@ if ($result->num_rows > 0) {
     <div class="container">
         <h1>How to Become a Seller on Our E-Commerce Platform</h1>
         <div class="steps">
-            <h2>Note: Only 'Technology product' is allowed.</h2>
             <h2>Follow These Simple Steps:</h2>
             <div class="step">
                 <h3>1. Fill Out the Seller Application</h3>
@@ -75,6 +71,6 @@ if ($result->num_rows > 0) {
 <script>
    document.getElementById("home").addEventListener("click", function() {
     // Replace 'login.html' with the URL of your login page
-    window.location.href = "../homepage/mainpage.php";
+    window.location.href = "mainpage.php";
 });  
 </script>

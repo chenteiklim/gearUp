@@ -50,7 +50,7 @@ $stmt->close();
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
+    <button class="button" id="home">Trust Toradora</button>
     <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
     <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
     <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
@@ -64,6 +64,7 @@ $stmt->close();
 <div id="bigTitle">Order Status</div>
 
 <div class='title'>
+    <div class="Orders_id"><?php echo 'Orders_id'; ?></div>
     <div class="Order_id"><?php echo 'Order_id'; ?></div>
     <div class="email"><?php echo 'Email'; ?></div>
     <div class="Address"><?php echo 'Address'; ?> </div>
@@ -103,6 +104,7 @@ if ($selectOrdersResult && $selectOrdersResult->num_rows > 0) {
         
         ?>
         <div class="content">
+            <div id="orders_id" class='itemContent'><?php echo $row['orders_id']; ?></div>
             <div id="order_id" class='itemContent'><?php echo $row['order_id']; ?></div>
             <div id="user_id" class='itemContent'><?php echo $email; ?></div>
             <div id="Address" class='itemContent'><?php echo $address; ?></div>
@@ -113,8 +115,10 @@ if ($selectOrdersResult && $selectOrdersResult->num_rows > 0) {
             <div id="total_price" class='itemContent'><?php echo 'RM' . $total_price; ?></div> 
             <div id="order_status" class='itemContent'><?php echo $order_status; ?></div> 
             <div id="order_date" class='itemContent'><?php echo $date; ?></div> 
-            <form action="" method="post">
-                <button id="refunds" class="button" type="submit" name="refund" value="<?php echo $button_id ?>">refund</button>
+            <form action="refundRequestForm.php" method="post">
+                <input type="hidden" name="orders_id" value="<?php echo $row['orders_id']; ?>">
+                <input type="hidden" name="product_name" value="<?php echo $product_name; ?>">
+                <button id="refunds" class="button" type="submit" name="refund">Refund</button>
             </form>
         </div>
         <?php

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Rider Tracking</title>
+</head>
+<body>
+    <h2>Rider Location (Admin View)</h2>
+    <p id="location">Waiting for location...</p>
+<script>
+    function updateLocation() {
+        fetch("trackRider.php")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("location").innerText = 
+                    `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
+            });
+    }
+    setInterval(updateLocation, 5000);
+</script>
+</body>
+</html>

@@ -6,10 +6,12 @@ body {
 }
 h1 {
     color: #333;
+    margin-left: 20px;
 }
 
 h2 {
     color: #555;
+    margin-left: 20px;
 }
 p {
     line-height: 1.6;
@@ -23,35 +25,39 @@ p {
 }
 .step {
     margin-bottom: 15px;
-}
-html, body {
-margin: 0;
-padding: 0;
-width: 100%; /* Ensure full width */
-height: 100%; /* Ensure full height */
-}
+    margin-left: 20px;
 
+}
 #navContainer {
-display: flex;
-background-color: black;
-width: 100%; /* Adjust width as needed */
-height: 80px; /* Adjust height as needed */
-
-/* Ensure it remains visible within the container */
-
+  display: flex;
+  background-color: #BFB9FA;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */   
 }
 
-
+html, body {
+  background-color: #add8e6;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Ensure full height */
+  display:flex;
+  flex-direction:column;
+}
 .button {
-background-color: black;
-color: white;
-cursor: pointer;
-padding-left: 30px;
-padding-right: 30px;
-padding-top: 10px;
-padding-bottom: 10px;
-font-size: 12px;
-}
+ background-color: #BFB9FA;
+ width: 150px;
+ color: black;
+ cursor: pointer;
+ padding-left: 30px;
+ padding-right: 30px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ font-size: 14px;
+ border: none;
+ }
+
+
 #home{
     margin-left: 10px;
 }

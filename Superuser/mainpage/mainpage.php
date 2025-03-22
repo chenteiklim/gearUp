@@ -35,6 +35,7 @@ if ($result->num_rows > 0) {
     $usernames = $row['username'];
 
 }
+
     // Get the address value from the fetched row
 
 ?>
@@ -50,7 +51,7 @@ if ($result->num_rows > 0) {
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Pit Stop</button>
+    <button class="button" id="home">Trust Toradora</button>
 
     <button class="button" id="name"><?php echo $usernames ?></button>
     <form action="../login/logout.php" method="POST">
@@ -62,29 +63,53 @@ if ($result->num_rows > 0) {
 </div>
 <div id='content'>
   <div>
-  <p id='title'>Enhance Experiences, Streamline Operations – All in One Place </p>
+  <p id='title'>Admin Mainpage </p>
   <img id='gadget' src="../../assets/deco.png" alt="">
   </div>
   <div id="container">
     <div id="messageContainer"></div>
-
-    <div class="session">
-    <button id="session" class="btn"><?php echo 'Manage Superuser ' ?></button>
-    </div>
-
-    <div class="customer">
-    <button id="customer" class="btn"><?php echo 'Manage Customer' ?></button>
-    </div>
     <div class="seller">
-    <button id="seller" class="btn"><?php echo 'Manage Seller' ?></button>
+        <button id="seller" class="button"><?php echo 'Manage Seller' ?></button>
+        <div class="dropdown">
+            <button onclick="location.href='seller/viewSeller.php'">Seller List</button>
+        </div>
     </div>
-    <div class="product">
-    <button id="product" class="btn"><?php echo 'Manage Product' ?></button>
+    <div class="customer">
+        <button id="customer" class="button"><?php echo 'Manage Customer' ?></button>
     </div>
+   
+    <div class='product'>
+        <button id="product" class="button"><?php echo 'Manage Product' ?></button>
+        <div class="dropdowns">
+            <button onclick="location.href='CRUDProduct/createProduct.php'">Create Product</button>
+            <button onclick="location.href='CRUDProduct/view/viewProduct.php'">View Product</button>
+        </div>
+    </div>
+
+    <div class="order">
+        <button id="order" class="button"><?php echo 'Manage Order' ?></button>
+    </div>
+
+ 
+</div>
+  
 </div>
 
 </div>
 
-<script src="mainpage.js"></script>
+<script >
+   
+    document.getElementById("order").addEventListener("click", function() 
+    {
+        window.location.href = "../order/order.php";
+    });
+
+    document.getElementById("rider").addEventListener("click", function() 
+    {
+        window.location.href = "../mainpage/rider/assignRider.php";
+    });
+    
+
+</script>
 
    

@@ -29,62 +29,76 @@ $primaryCode = implode('', $_POST['primaryCode']);
 
 // Retrieve the hashed codes from the database
 $stmt = $conn->prepare("SELECT emailCode FROM users WHERE email = ? AND usernames = ?");
+echo($email);
+echo $havenotencryptemail;
 $stmt->bind_param("ss", $email, $username);
 $stmt->execute();
 $stmt->store_result();
 $stmt->bind_result($hashedEmailCode);
 $stmt->fetch();
-
 if ($stmt->num_rows > 0) {
     // Verify the primary email code
     if (password_verify($primaryCode, $hashedEmailCode)) {
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND usernames <> ?");
+        // Close the first statement before preparing a new one
+        $stmt->close();
 
-        // Bind the email parameter to the query (bind_param data type: 's' for string)
+        // Check if another user exists with the same email but a different username
+        $stmt = $conn->prepare("SELECT 1 FROM users WHERE email = ? AND usernames <> ?");
         $stmt->bind_param("ss", $email, $username);
-
-        // Execute the statement
         $stmt->execute();
-
-        // Get the result
         $result = $stmt->get_result();
 
-        // Check if the email exists
         if ($result->num_rows > 0) {
-            // Check if the email exists
-            $stmt->close();  // Close the select statement
+            // Another user exists with the same email but different username
+            $stmt->close();
 
-            // Prepare the DELETE query to remove the record
+            // Prepare DELETE statement
             $delete_stmt = $conn->prepare("DELETE FROM users WHERE email = ? AND usernames = ?");
             $delete_stmt->bind_param("ss", $email, $username);
-        
-            // Execute the DELETE query
+
             if ($delete_stmt->execute()) {
-                // If the deletion is successful, redirect to login page with success message
+                $delete_stmt->close();
                 header("Location: ../login/login.html?success=2");
                 exit();
-            }
-            else{
-                echo('error delete user');
+            } else {
+                echo "Error deleting user.";
             }
         }
-
-        else {
+        else {   
+            // Prepare the update query
             $updateSql = "UPDATE users SET emailCode = '1' WHERE email = ?";
             $updateStmt = $conn->prepare($updateSql);
+        
+            if ($updateStmt === false) {
+                die("Error in preparing statement: " . $conn->error);
+            }
+        
+            // Bind the email parameter
             $updateStmt->bind_param("s", $email);
-            // Email does not exist, redirect to mainpage.html
-            header("Location: mainpage.html");
+        
+            // Execute the update
+            if ($updateStmt->execute()) {
+                if ($updateStmt->affected_rows > 0) {
+                    header("Location: ../homepage/mainpage.php");
+                } else {
+                    echo "No rows updated. Email might not exist.<br>";
+                }
+            } else {
+                echo "Error executing update: " . $updateStmt->error . "<br>";
+            }
+        
+            // Close the statement
+            $updateStmt->close();
+        
+            // Redirect or exit
             exit();
         }
     } 
-  
     else {
          header("Location: checkRegister.php?success=1");
     }
 } 
-
 else {
     // User not found
     header("Location: checkRegister.php?success=2");

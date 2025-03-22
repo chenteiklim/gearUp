@@ -1,39 +1,8 @@
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%; /* Ensure full width */
-    height: 100%; /* Ensure full height */
-  }
-  
-  body{
-  background-color: bisque;
-  }
-  
-  #navContainer {
-    display: flex;
-    align-items: center;
-    background-color: black;
-    width: 100%; /* Adjust width as needed */
-    height: 80px; /* Adjust height as needed */
-    
-    /* Ensure it remains visible within the container */
-  
-  }
 
   #logOut{
     margin-top: 20px;
   }
-  .button {
-  border: none;
-  height:40px;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    font-size: 12px;
-    }
   #home{
     margin-left: 10px;
   }
@@ -71,10 +40,11 @@ html, body {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     width:800px;
-    grid-gap: 80px;
+    grid-gap: 130px;
     margin-top: 50px;
     margin-bottom:40px;
     font-size:20px;
+    margin-right: 200px;
    
 }
 .total_price{
@@ -85,7 +55,7 @@ html, body {
     font-size:20px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 50px;
+    grid-gap: 30px;
     align-items:center;
     margin-bottom: 50px;
     
@@ -163,3 +133,33 @@ html, body {
     text-align:center;
 }
 
+
+#navContainer {
+  display: flex;
+  background-color: #BFB9FA;
+  align-items: center;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */   
+}
+
+html, body {
+  background-color: #add8e6;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Ensure full height */
+  display:flex;
+  flex-direction:column;
+}
+.button {
+ background-color: #BFB9FA;
+ width: 150px;
+ color: black;
+ cursor: pointer;
+ padding-left: 30px;
+ padding-right: 30px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ font-size: 14px;
+ border: none;
+ }

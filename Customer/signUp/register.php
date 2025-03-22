@@ -25,6 +25,7 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['submit'])) {
     $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
+    $state = htmlspecialchars($_POST['state'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $haveNotEncryptEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
     $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     // Encrypt email
@@ -102,15 +103,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     
 
    
-    else if (!preg_match("/^[a-zA-Z0-9_ ]{5,30}$/", $usernames)) {
-        header("Location: register.html?success=2");
-        exit();
-    }
-
-    else if (!preg_match("/^[a-zA-Z0-9\s,.-]{10,100}$/", $haveNotEncryptAddress)) {
-        header("Location: register.html?success=3");
-        exit();
-    }
+   
     
     // Check if password matches confirm password
     else if ($passwords != $confirm_password) {
@@ -172,10 +165,10 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
     $param1 = 0;
     $role = 'Customer';
-    $sql = "INSERT INTO users (email, usernames, address, passwords, emailCode, ChangePwdEmailCode, role) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)";    
+    $sql = "INSERT INTO users (email, usernames, address, state, passwords, emailCode, ChangePwdEmailCode, role) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $email, $usernames, $address, $hashed_password, $hashedEmailCode, $param1, $role);
+    $stmt->bind_param("ssssssss", $email, $usernames, $address, $state, $hashed_password, $hashedEmailCode, $param1, $role);
        
 
      if ($stmt->execute()) {

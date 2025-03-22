@@ -1,0 +1,142 @@
+
+
+#privacyContainer{
+  display: flex;
+  margin-top: 10px;
+  margin-left: 0px;
+  width: 470px;
+ }
+
+ #privacyCheck{
+  margin-bottom: 20px;
+ }
+
+ #privacyText{
+  width: 470px;
+ }
+
+  #home{
+      margin-left: 10px;
+  }
+#login{
+  margin-left: 900px;
+}
+#logoImg{
+  margin-top: 25px;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  margin-left: 100px;
+}
+
+  button:hover{
+      transform: scale(0.9);
+      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+    }
+
+
+#title{
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+        font-size: 24px;
+        margin-left: 180px;
+        color: black;
+    }
+
+input[type=text] ,input[type=password] ,input[type=email], input[type=tel]{
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+#IC{
+  margin-top: 30px;
+}
+
+#vehicle{
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+#Lesen{
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.container {
+background-color: white;
+width:500px;
+margin-left:500px;
+padding: 16px;
+height: auto;
+padding-bottom: 40px;
+}
+
+p{
+width: 400px;
+}
+
+
+span.psw {
+float: right;
+padding-top: 16px;
+}
+
+.img{
+margin-left:400px;
+width:50px;
+height:50px;
+}
+
+
+#Login{
+ margin-left: 200px;
+}
+
+form{
+ width: 100px;
+}
+
+.password{
+  display: flex;
+  align-items: center;
+}
+i {
+  font-size: 22px; /* Adjust the size (default is ~16px) */
+  cursor: pointer;
+  position: relative;
+}
+ #confirm{
+   margin-top:20px;
+ }
+ html, body {
+  background-color: #add8e6;
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 950px; /* Ensure full height */
+ }
+ 
+ #navContainer {
+   display: flex;
+   background-color: #BFB9FA;
+   width: 100%; /* Adjust width as needed */
+   height: 80px; /* Adjust height as needed */   
+ }
+ 
+ .button {
+  background-color: #BFB9FA;
+  color: black;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
+
+
