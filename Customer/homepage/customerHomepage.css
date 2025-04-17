@@ -1,0 +1,113 @@
+
+html, body {
+    background-color: #add8e6;
+    margin: 0;
+    padding: 0;
+   
+    display:flex;
+    flex-direction:column;
+}
+
+#navContainer {
+    display: flex;
+    background-color: #BFB9FA;
+    width: 100%; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */   
+}
+
+#logoImg{
+    margin-top: 25px;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 100px;
+}  
+#login{
+  margin-left:800px;
+}
+
+.button {
+   background-color: #BFB9FA;
+   width: 150px;
+   color: black;
+   cursor: pointer;
+   padding-left: 30px;
+   padding-right: 30px;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   font-size: 14px;
+   border: none;
+}
+
+
+button:hover{
+    transform: scale(0.9);
+    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
+}
+
+#container{
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+gap: 10px;
+margin-top: 10px;
+flex-wrap: wrap;
+width: 1480px;
+height:auto;
+}
+
+.imageContainer{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+      width: 180px;
+      height: 170px;
+      background-color: antiquewhite;
+  }
+
+#view{
+    margin-left: 15px;
+    margin-top: 20px;
+    
+}
+.productDetails{
+    height: 600px;
+}
+.product{
+    margin: 20px;
+    background-color: white;
+    width: 180px;
+    height: 450px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.2px
+}
+   
+.product_name{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.price{
+display: flex;
+margin-left: 60px;
+align-items: center;
+margin-top: 40px;
+font-size: 16px;
+
+}
+
+.stock{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.status{
+margin-left: 60px;
+margin-top: 5px;
+}
+
+.item{
+    width: 100px;
+    height: 100px;
+}
+
+  
+  

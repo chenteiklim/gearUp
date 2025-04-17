@@ -40,16 +40,7 @@ html, body {
   #name{
   margin-left: 500px;
   }
-  #navContainer {
-    display: flex;
-    align-items: center;
-    background-color: black;
-    width: 100%; /* Adjust width as needed */
-    height: 80px; /* Adjust height as needed */
-    
-    /* Ensure it remains visible within the container */
-  
-  }
+
   #container {
 
     background-color: #CDCDCD;
@@ -121,11 +112,11 @@ html, body {
     color:red;
 }
 #checkOut{
-   margin-top: 50px;
-   margin-left: 1100px;
+   margin-top: 20px;
+   margin-left: 700px;
 }
 
-.text{
+#footers{
     background-color:white;
     display:flex;
     font-size: 20px;
@@ -133,6 +124,39 @@ html, body {
     height:250px;
     position: fixed;
     bottom: 0px;
+}
+#paymentMethod{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    margin-top: 30px;
+}
+
+#paymentTitle{
+    margin-left: 20px;
+}
+
+.paymentButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    background-color: white ; /* Default color */
+}
+
+.paymentButton.selected {
+    background-color: #dcd7d7; /* Green for selected */
+    color: black;
+}
+#COD{
+    margin-top: 20px;
+    width: 180px;
+}
+#wallet{
+    margin-top: 10px;
+    width: 180px;
+
 }
 #total_item{
     padding-left:10px;
@@ -153,22 +177,6 @@ html, body {
 }
 
 
-button {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    margin-left: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 16px;
-    }
-    
-    button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
     
    
   
@@ -248,14 +256,13 @@ button {
     flex-direction:column;
   }
   .button {
-   background-color: #BFB9FA;
-   width: 150px;
-   color: black;
-   cursor: pointer;
-   padding-left: 30px;
-   padding-right: 30px;
-   padding-top: 10px;
-   padding-bottom: 10px;
-   font-size: 14px;
-   border: none;
-   }
+    background-color: #BFB9FA;
+    width: 150px;
+    color: black;
+    cursor: pointer;
+    padding: 10px 30px; /* Combines padding into shorthand */
+    font-size: 14px;
+    border: none;
+    letter-spacing: 1px; /* Adds spacing between letters */
+    text-align: center; /* Ensures text is centered */
+ }

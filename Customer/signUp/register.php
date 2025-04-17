@@ -32,6 +32,9 @@ if (isset($_POST['submit'])) {
     include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
     
     $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+    $_SESSION['email'] = $email;
+    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
+
     // Encrypt address
     $address = openssl_encrypt($haveNotEncryptAddress, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 
@@ -39,9 +42,7 @@ if (isset($_POST['submit'])) {
     
     $confirm_password = $_POST['confirm_password']; // Same as above
     $_SESSION['username'] = $usernames;
-    $_SESSION['email'] = $email;
-    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
-
+   
    
         
  // Define separate arrays for common sequences
@@ -85,10 +86,6 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 
     return false; // No matches found in either array
 }
-
-
-
-    mysqli_select_db($conn, $dbname); 
     
     $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
@@ -164,7 +161,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     $emailCode = rand(100000, 999999); // 6-digit code for primary email
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
     $param1 = 0;
-    $role = 'Customer';
+    $role = 'customer';
     $sql = "INSERT INTO users (email, usernames, address, state, passwords, emailCode, ChangePwdEmailCode, role) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";    
     $stmt = $conn->prepare($sql);

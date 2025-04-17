@@ -2,14 +2,12 @@
 session_start();
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-
-
-if (!isset($_POST['refund']) || !isset($_FILES['proof'])) {
+if (!isset($_POST['orders_id']) || !isset($_FILES['proof'])) {
     die("Invalid request.");
 }
 
-$order_id = $_POST['refund'];
-$productName= $_POST['productName'];
+$orders_id = $_POST['orders_id'];
+$productName = $_POST['productName'];
 $username = $_SESSION['username'];
 $reason = $_POST['reason'] ?? ''; // Get reason if available
 
@@ -34,12 +32,14 @@ if (move_uploaded_file($_FILES["proof"]["tmp_name"], $targetFile)) {
     $fileUrl = "/inti/gadgetShop/assets/" . $fileName; // Relative path for database
 
     // Insert refund request into the database
-    $stmt = $conn->prepare("INSERT INTO refund_requests (order_id, usernames, productName, reason, proof, status, date) 
+    $stmt = $conn->prepare("INSERT INTO refundRequest (orders_id, usernames, productName, reason, proof, status, date) 
                             VALUES (?, ?, ?, ?, ?, 'pending', NOW())");
-    $stmt->bind_param("issss", $order_id, $username, $productName, $reason, $fileUrl);
+    $stmt->bind_param("issss", $orders_id, $username, $productName, $reason, $fileUrl);
 
     if ($stmt->execute()) {
         echo "Refund request submitted successfully!";
+        header("Location: tracking.php");
+        exit();
     } else {
         echo "Database error: " . $conn->error;
     }

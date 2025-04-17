@@ -1,23 +1,12 @@
 <?php
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";  
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-$conn = new mysqli($servername, $Username, $Password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 session_start();
 
 if (isset($_POST['submit'])) {
   $username = $_POST['username'];
   $password = $_POST['passwords'];
-
-  // Select database
-  mysqli_select_db($conn, $dbname); 
 
   // Retrieve the user's data from the database based on the provided email
   $sql = "SELECT * FROM rider WHERE username = ?";
@@ -51,8 +40,8 @@ if (isset($_POST['submit'])) {
     } 
    
     else {
-      $_SESSION['username'] = $username;
-      header("Location: ../mainpage/mainpage.php");
+      $_SESSION['riderUsername'] = $username;
+      header("Location: ../mainpage/riderMainpage.php");
       exit(); 
     }
   } 

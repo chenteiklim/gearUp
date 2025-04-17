@@ -80,7 +80,7 @@ if ($stmt->num_rows > 0) {
             // Execute the update
             if ($updateStmt->execute()) {
                 if ($updateStmt->affected_rows > 0) {
-                    header("Location: ../mainpage/mainpage.php");
+                    header("Location: ../mainpage/riderMainpage.php");
                 } else {
                     echo "No rows updated. Email might not exist.<br>";
                 }

@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
    
     else {
       $_SESSION['username'] = $username;
-      header("Location: ../homepage/mainpage.php");
+      header("Location: ../mainpage/customerMainpage.php");
       exit(); 
     }
   } 

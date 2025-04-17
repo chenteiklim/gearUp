@@ -1,20 +1,22 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
 
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 session_start();
 $username=$_SESSION['username'];
-mysqli_select_db($conn, $dbname);
 
+
+$stmt = $conn->prepare("SELECT storeName FROM seller WHERE usernames = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+  $storeName= $row['storeName'];
+} else {
+    echo "No store found for this seller.";
+}
 
 if (isset($_POST['submit'])) {
   $productName = $_POST['productName'];
@@ -56,9 +58,6 @@ if (isset($_POST['submit'])) {
     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 }
 
-
-  mysqli_select_db($conn, $dbname);
-
 $nextProductIDQuery = "SELECT MAX(product_id) AS max_id FROM products";
 $result = $conn->query($nextProductIDQuery);
 $row = $result->fetch_assoc();
@@ -66,7 +65,7 @@ $maxProductID = $row['max_id'];
 $nextProductID = $maxProductID + 1;
 
 // Insert the product with the custom incrementing value
-$insertProduct = "INSERT INTO products (product_id, product_name, image, price, stock, sellerName, user_id, status) VALUES ('$nextProductID', '$productName', '$productImage', '$price', '$stock', '$username', '$seller_id', 0)";
+$insertProduct = "INSERT INTO products (product_id, product_name, image, price, stock, sellerName, storeName, user_id, status) VALUES ('$nextProductID', '$productName', '$productImage', '$price', '$stock', '$username', '$storeName', '$seller_id', 0)";
     
         // Execute the SQL statement
         if ($conn->query($insertProduct) === TRUE) {
@@ -243,6 +242,8 @@ input[type="number"] {
         <label for="productName">Product Name</label>
         <input type="text" placeholder="Enter Product Name" name="productName" required>
       </div>
+      
+
       <div class="stockContainer">
         <label for="stock">Stock</label>
         <input type="number" placeholder="Enter Stock" name="stock" required>

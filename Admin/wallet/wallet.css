@@ -1,0 +1,63 @@
+
+.container { 
+    width: 50%; 
+    margin: auto; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background: white; 
+}
+.btn { 
+    padding: 10px 20px; 
+    margin: 10px; 
+    cursor: pointer; 
+    background: blue; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#navContainer {
+    display: flex;
+    background-color: #BFB9FA;
+    width: 100%; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */   
+}
+  
+html, body {
+    background-color: #add8e6;
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Ensure full width */
+    height: 100%; /* Ensure full height */
+    display:flex;
+    flex-direction:column;
+}
+  .button {
+   background-color: #BFB9FA;
+   width: 150px;
+   color: black;
+   cursor: pointer;
+   padding-left: 30px;
+   padding-right: 30px;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   font-size: 14px;
+   border: none;
+}
+
+#logoImg{
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 50px;
+}

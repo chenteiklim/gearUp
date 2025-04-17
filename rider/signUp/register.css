@@ -1,142 +1,94 @@
-
-
-#privacyContainer{
-  display: flex;
-  margin-top: 10px;
-  margin-left: 0px;
-  width: 470px;
- }
-
- #privacyCheck{
-  margin-bottom: 20px;
- }
-
- #privacyText{
-  width: 470px;
- }
-
-  #home{
-      margin-left: 10px;
-  }
-#login{
-  margin-left: 900px;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fa;
+  margin: 0;
+  padding: 0;
 }
-#logoImg{
-  margin-top: 25px;
-  width: 35px;
-  height: 35px;
+
+/* Form Styles */
+#registerForm {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input[type="text"], input[type="email"], input[type="password"], select, input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
   border-radius: 5px;
-  margin-left: 100px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
 
-  button:hover{
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-
-
-#title{
-  margin-top: 5px;
-  margin-bottom: 10px;
-
-        font-size: 24px;
-        margin-left: 180px;
-        color: black;
-    }
-
-input[type=text] ,input[type=password] ,input[type=email], input[type=tel]{
-width: 100%;
-padding: 12px 20px;
-margin: 8px 0;
-display: inline-block;
-border: 1px solid #ccc;
-box-sizing: border-box;
+input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focus, select:focus, input[type="file"]:focus {
+  border-color: #007BFF;
 }
 
-#IC{
-  margin-top: 30px;
+label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
 }
 
-#vehicle{
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-
-#Lesen{
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-.container {
-background-color: white;
-width:500px;
-margin-left:500px;
-padding: 16px;
-height: auto;
-padding-bottom: 40px;
-}
-
-p{
-width: 400px;
-}
-
-
-span.psw {
-float: right;
-padding-top: 16px;
-}
-
-.img{
-margin-left:400px;
-width:50px;
-height:50px;
-}
-
-
-#Login{
- margin-left: 200px;
-}
-
-form{
- width: 100px;
-}
-
-.password{
-  display: flex;
-  align-items: center;
-}
-i {
-  font-size: 22px; /* Adjust the size (default is ~16px) */
-  cursor: pointer;
+.password {
   position: relative;
 }
- #confirm{
-   margin-top:20px;
- }
- html, body {
-  background-color: #add8e6;
-   margin: 0;
-   padding: 0;
-   width: 100%; /* Ensure full width */
-   height: 950px; /* Ensure full height */
- }
- 
- #navContainer {
-   display: flex;
-   background-color: #BFB9FA;
-   width: 100%; /* Adjust width as needed */
-   height: 80px; /* Adjust height as needed */   
- }
- 
- .button {
-  background-color: #BFB9FA;
-  color: black;
+
+.password i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   cursor: pointer;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+}
+
+#privacyContainer {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+#privacyContainer input {
+  margin-right: 10px;
+}
+
+#privacyContainer label {
   font-size: 14px;
+  color: #666;
+}
+
+#register {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 12px;
+  font-size: 18px;
   border: none;
-  }
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+#register:hover {
+  background-color: #0056b3;
+}
 
+/* Error Container */
+#errorContainer {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

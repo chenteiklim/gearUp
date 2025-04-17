@@ -1,19 +1,11 @@
 <?php
-
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $username = $_SESSION['username'];
 ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,17 +93,6 @@ height: 520px;
     </style>
 </head>
 <body>
-    <div id="navContainer"> 
-        <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-        <button class="button" id="home">Computer Shop</button>
-        <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-        <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-        <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-        <button class="button" id="name"><?php echo $username ?></button>
-        <form action="../userLogin/logout.php" method="POST">
-          <button type="submit" id="logOut" class="button">Log Out</button>
-        </form>    
-    </div>
     <div class="container">     
        
         <h1>Thank you for purchasing from Trust Toradora</h1>
@@ -126,13 +107,3 @@ height: 520px;
     </div>
 </body>
 </html>
-
-<script>
-var homeButton = document.getElementById("home");
-
-homeButton.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "../homepage/mainpage.php";
-});
-</script>

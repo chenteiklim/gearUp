@@ -1,40 +1,62 @@
-
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gadgetShop";
-
-// Create a new connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
-mysqli_select_db($conn, $dbname);
-$usernames=$_SESSION['username'];
+$usernames = $_SESSION['username'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
 
+// Fetch user email
 $stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $usernames);
 $stmt->execute();
-// Get the result
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // Fetch the result as an associative array
     $user = $result->fetch_assoc();
-    $encrypted_email = $user['email']; // Access the email field
-    
-
+    $encrypted_email = $user['email'];
 } else {
-    echo "No user found with that username.";
+    die("No user found with that username.");
 }
 $stmt->close();
+
+// Fetch orders
+$selectOrdersQuery = "SELECT * FROM orders WHERE email='$encrypted_email' AND order_status <> 'cart' ORDER BY order_id ASC";
+$selectOrdersResult = $conn->query($selectOrdersQuery);
+
+if (!$selectOrdersResult) {
+    die("Query failed: " . $conn->error);
+}
+
+$orders = [];
+while ($row = $selectOrdersResult->fetch_assoc()) {
+    $orders_id = $row['orders_id'];
+    $store_name = $row['store_name']; // Make sure this column exists in your DB
+    $product_name = $row['product_name'];
+    $image = $row['image'];
+    $imageUrl = "/inti/gadgetShop/assets/" . $image;
+    $quantity = $row['quantity'];
+    $total_price = $row['total_price'];
+    $order_status = $row['order_status'];
+
+    $orders[$orders_id][$store_name][] = [
+        'product_name' => $product_name,
+        'image' => $imageUrl,
+        'quantity' => $quantity,
+        'total_price' => $total_price,
+        'order_status' => $order_status
+    ];
+}
+
+// Get all orders with refund already requested and their status
+$refundQuery = $conn->query("SELECT orders_id, status, rejectReason FROM refundRequest WHERE usernames = '$usernames'");
+$refundedOrders = [];
+
+while ($row = $refundQuery->fetch_assoc()) {
+    $refundedOrders[$row['orders_id']] = [
+        'status' => $row['status'],
+        'rejectReason' => $row['rejectReason'] // Store rejection reason
+    ]; // Store the refund status and rejection reason
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,98 +64,107 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Order Tracking</title>
     <link rel="stylesheet" href="tracking.css">
+    <style>
+        /* Add some style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding-bottom: 20px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+        }
+        .close {
+            margin-left:350px;
+            cursor: pointer;
+            font-size: 30px;
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    
 
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../login/logout.php" method="POST">
-      <button type="submit" id="logOut" class="button">Log Out</button>
-    </form>    
-</div>
 <div id="container">
-    
-<div id="bigTitle">Order Status</div>
+    <?php foreach ($orders as $orders_id => $stores): ?>
+        <div class="order-group">
+            <h3>Order #<?= $orders_id ?></h3>
 
-<div class='title'>
-    <div class="Orders_id"><?php echo 'Orders_id'; ?></div>
-    <div class="Order_id"><?php echo 'Order_id'; ?></div>
-    <div class="email"><?php echo 'Email'; ?></div>
-    <div class="Address"><?php echo 'Address'; ?> </div>
-    <div class="Product"><?php echo 'Product'; ?> </div>
-    <div class="product_name"><?php echo 'Product Name'; ?></div>
-    <div class="Pricess"><?php echo 'Price'; ?></div>
-    <div class="quantity"><?php echo 'Quantity'; ?></div>
-    <div class="total_price"><?php echo 'Total Price'; ?></div>
-    <div class="order_status"><?php echo 'Order Status'; ?></div>
-    <div class="purchase_date"><?php echo 'Purchase date'; ?></div>
-</div>
-<?php
+            <?php foreach ($stores as $store_name => $items): ?>
+                <div class="store-group">
+                    <h4>Store: <?= htmlspecialchars($store_name) ?></h4>
 
-// Fetch all orders for the user, excluding those in 'cart' status
-$selectOrdersQuery = "SELECT * FROM orders WHERE email='$encrypted_email' AND order_status <> 'cart' ORDER BY order_id ASC";
-$selectOrdersResult = $conn->query($selectOrdersQuery);
-
-if ($selectOrdersResult && $selectOrdersResult->num_rows > 0) {
-    // Loop through the results
-    while ($row = $selectOrdersResult->fetch_assoc()) {
-        $product_id = $row['product_id'];
-        $product_name = $row['product_name'];
-        $date = $row['date'];
-        $encrypted_address = $row['address'];
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
-        $address = openssl_decrypt($encrypted_address, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
-
-        $email = openssl_decrypt($encrypted_email, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
-
-        $price = $row['price'];
-        $image = $row['image'];
-        $imageUrl = "/inti/gadgetShop/assets/" . $image;
-        $quantity = $row['quantity'];
-        $order_status = $row['order_status'];
-        $total_price = $row['total_price'];
-        $button_id = $product_id;
-        
-        ?>
-        <div class="content">
-            <div id="orders_id" class='itemContent'><?php echo $row['orders_id']; ?></div>
-            <div id="order_id" class='itemContent'><?php echo $row['order_id']; ?></div>
-            <div id="user_id" class='itemContent'><?php echo $email; ?></div>
-            <div id="Address" class='itemContent'><?php echo $address; ?></div>
-            <img class="item" class='itemContent' src="<?php echo $imageUrl; ?>" alt="">
-            <div class="product_name" class='itemContent'><?php echo $product_name; ?></div>
-            <div id="price" class='itemContent'><?php echo 'RM' . $price; ?></div>
-            <div id="quantity" class='itemContent'>x<?php echo $quantity; ?></div>
-            <div id="total_price" class='itemContent'><?php echo 'RM' . $total_price; ?></div> 
-            <div id="order_status" class='itemContent'><?php echo $order_status; ?></div> 
-            <div id="order_date" class='itemContent'><?php echo $date; ?></div> 
-            <form action="refundRequestForm.php" method="post">
-                <input type="hidden" name="orders_id" value="<?php echo $row['orders_id']; ?>">
-                <input type="hidden" name="product_name" value="<?php echo $product_name; ?>">
-                <button id="refunds" class="button" type="submit" name="refund">Refund</button>
-            </form>
+                    <?php if (array_key_exists($orders_id, $refundedOrders)): ?>
+                        <!-- Refund requested, show status buttons -->
+                        <?php 
+                            $refundStatus = $refundedOrders[$orders_id]['status'];
+                            $rejectionReason = $refundedOrders[$orders_id]['rejectReason']; 
+                            if ($refundStatus === 'approved'): ?>
+                                <button disabled style="background-color: #4CAF50; color: white;">Refund Approved</button>
+                            <?php elseif ($refundStatus === 'rejected'): ?>
+                                <button disabled style="background-color: #f44336; color: white;">Refund Rejected</button>
+                                <!-- View Reject Reason Button -->
+                                <button class="view-reason-btn" data-reason="<?= htmlspecialchars($rejectionReason) ?>" onclick="showRejectReason(this)">View Reject Reason</button>
+                            <?php else: ?>
+                                <button disabled style="background-color: grey; color: white;">Refund Requested</button>
+                            <?php endif; ?>
+                    <?php else: ?>
+                        <!-- Show request refund button -->
+                        <button class="refund-btn" data-order-id="<?= $orders_id ?>">Request Refund</button>
+                    <?php endif; ?>
+                    
+                    <div id="store-<?= $orders_id ?>-<?= $store_name ?>">
+                        <?php foreach ($items as $index => $item): ?>
+                            <div class="order-item" <?= $index > 0 ? 'style="display: none;"' : '' ?>>
+                                <img src="<?= $item['image'] ?>" alt="">
+                                <div class="order-info">
+                                    <div><strong><?= htmlspecialchars($item['product_name']) ?></strong></div>
+                                    <div>Quantity: x<?= $item['quantity'] ?></div>
+                                    <div>Total: RM<?= $item['total_price'] ?></div>
+                                    <div class="order-status"><?= htmlspecialchars($item['order_status']) ?></div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <?php
+    <?php endforeach; ?>
+</div>
+
+<!-- Modal for displaying rejection reason -->
+<div id="rejectReasonModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRejectReason()">&times;</span>
+        <h4>Rejection Reason</h4>
+        <p id="rejectReasonText"></p>
+    </div>
+</div>
+
+<script>
+    function showRejectReason(button) {
+        var reason = button.getAttribute('data-reason');
+        document.getElementById('rejectReasonText').innerText = reason;
+        document.getElementById('rejectReasonModal').style.display = 'flex';
     }
-} else {
-    echo "No orders found for this user.";
-}
-?>
 
-</div>
-
-</div>
-
-</div>
+    function closeRejectReason() {
+        document.getElementById('rejectReasonModal').style.display = 'none';
+    }
+</script>
 
 </body>
-<script src="tracking.js"></script>
+<script src="trackings.js?v=1.0.1"></script>
+
 </html>

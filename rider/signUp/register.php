@@ -1,44 +1,81 @@
+
 <?php
 
-session_start();
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-// Create a database connection
-$conn = new mysqli($servername, $Username, $Password, $dbname);
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
+session_start();
 
 if (isset($_POST['submit'])) {
-    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
+    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize username
     $haveNotEncryptEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
 
-    // Encrypt email
+    // Include encryption helper
     include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
-    
-    $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 
+    // Encrypt email
+    $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
+    $_SESSION['email'] = $email;
+    $_SESSION['username'] = $username;
+    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
+    $ICImage = $_FILES['IC']['name'];
+    $licenseImage = $_FILES['license']['name'];
+
+
+    $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);
+    }
+    $targetFile = $targetDir . basename($ICImage);
+  
+    // Allowed file types
+    $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
+    $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+  
+    if (in_array($fileExtension, $allowedTypes)) {
+      if (move_uploaded_file($_FILES['IC']['tmp_name'], $targetFile)) {
+          // Display the uploaded image
+          $imageUrl = "/inti//gadgetShop/assets/" . basename($ICImage);
+          // Insert the product info into the database here
+      } else {
+          echo "Sorry, there was an error uploading your file.";
+      }
+  } else {
+      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  }
+  
+ 
+  $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
+  if (!is_dir($targetDir)) {
+      mkdir($targetDir, 0777, true);
+  }
+  $targetFile = $targetDir . basename($licenseImage);
+
+  // Allowed file types
+  $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
+  $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+  if (in_array($fileExtension, $allowedTypes)) {
+    if (move_uploaded_file($_FILES['license']['tmp_name'], $targetFile)) {
+        // Display the uploaded image
+        $imageUrl = "/inti//gadgetShop/assets/" . basename($licenseImage);
+        // Insert the product info into the database here
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+} else {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+}
 
     $passwords = $_POST['passwords']; // Validate and hash passwords, don't output directly
     
     $confirm_password = $_POST['confirm_password']; // Same as above
     $_SESSION['username'] = $username;
-    $_SESSION['email'] = $email;
-    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
+    
     $district = htmlspecialchars($_POST['district'], ENT_QUOTES, 'UTF-8'); // Sanitize address
 
 
@@ -85,10 +122,6 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 
     return false; // No matches found in either array
 }
-
-
-
-    mysqli_select_db($conn, $dbname); 
     
     $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
@@ -161,11 +194,15 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
     $param1 = 0;
     $param2= 1;
-    $sql = "INSERT INTO rider (username, email, passwords, state, emailCode, ChangePwdEmailCode, available) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)";    
+    $param3= 'pending';
+    $sql = "INSERT INTO rider (username, email, license, IC,  passwords, state, emailCode, ChangePwdEmailCode, available, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $username, $email, $hashed_password, $district, $hashedEmailCode, $param1, $param2);
-       
+    $stmt->bind_param("ssssssssss", $username, $email,  $licenseImage, $ICImage, $hashed_password, $district, $hashedEmailCode, $param1, $param2, $param3);
+      echo $_SESSION['email']; 
+      if (isset($_SESSION['email'])) {
+        echo 'hello world';
+      }
 
      if ($stmt->execute()) {
         // Send verification email
@@ -200,8 +237,9 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
         // Handle database insert error
         echo "Error: " . $sql . "<br>" . $conn->error;
     }  
- 
+  
     $stmt->close();
     $conn->close(); 
  
     } 
+   ?> 

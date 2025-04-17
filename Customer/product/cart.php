@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShopOld/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $username = $_SESSION['username'];
@@ -33,7 +33,8 @@ if ($result->num_rows > 0) {
 }
 $tableName = "cart" . $user_id;
 
-
+$product_ids = array();
+$quantities = array();
 
 $maxIdQuery = "SELECT MAX(order_id) AS max_id FROM orders WHERE email= '$email'";
 $maxIdResult = $conn->query($maxIdQuery);
@@ -56,7 +57,6 @@ if ($row['max_id'] !== null) {
     foreach ($rows as $row) {
         $product_id = $row['product_id'];
         $product_name = $row['product_name'];
-        $name = $row['name'];
         $address = $row['address'];
         $price = $row['price'];
         $image = $row['image'];
@@ -128,7 +128,7 @@ if (!empty($order_id)) {
 
 if (empty($rows)) {
     $message = "Your cart is empty.";
-    header("Location: ../homepage/mainpage.php?message2=" . urlencode($message));
+    header("Location: ../mainpage/customerMainpage.php?message2=" . urlencode($message));
     exit(); // Always exit after a header redirect
 }
 
@@ -170,7 +170,6 @@ foreach ($rows as $row) {
         $product_name = $row['product_name'];
         $image=$row['image'];
         $imageUrl = "/inti/gadgetShop/assets/" . $image;
-        $name = $row['name'];
         $address = $row['address'];
         $price = $row['price'];
         $quantity = $row['quantity'];
@@ -178,9 +177,13 @@ foreach ($rows as $row) {
         $grandTotal += $total_price;
         $product_ids[] = $product_id;
         $quantities[$product_id] = $quantity;
+        $_SESSION['quantities'] = $quantities;
+        $_SESSION['product_ids'] = $product_ids;
+
     
 ?>  
 <div class="content" id="row_<?php echo $product_id; ?>">
+<pre><?php print_r($_SESSION['product_ids']); ?></pre>
     <img class="item" src="<?php echo $imageUrl; ?>" alt="">
     <div class="product_name"><?php echo $product_name; ?></div>
     <div id="price"><?php echo 'RM'.$price; ?></div>
@@ -199,10 +202,8 @@ foreach ($rows as $row) {
 ?>
 </div>
 </div>
-
 <?php
-$_SESSION['quantities'] = $quantities;
-$_SESSION['product_ids'] = $product_ids;
+
 $product_ids_string = implode(", ", $product_ids);
 $quantities_string = implode(", ", $quantities);
 ?>

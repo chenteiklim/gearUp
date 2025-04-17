@@ -1,23 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gadgetShop";
-
-// Create a new connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 
 session_start();
-$order_id=$_SESSION['order_id'];
-mysqli_select_db($conn, $dbname);
-// Execute the first query to get usernames (ensure $selectNameQuery is defined properly)
 
 $usernames=$_SESSION['username'];
 $stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
@@ -82,6 +67,8 @@ if ($result3 && $result3->num_rows > 0) {
     $usernames = $row['usernames'];
 } 
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
+
     
 
 
@@ -96,17 +83,6 @@ if ($result3 && $result3->num_rows > 0) {
 </head>
 <body>
     
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
-    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="name"><?php echo $usernames ?></button>
-    <form action="../userLogin/logout.php" method="POST">
-      <button type="submit" id="logOut" class="button">Log Out</button>
-    </form>    
-</div>
   
 </div>
 <div id="container">
@@ -170,7 +146,6 @@ foreach ($product_ids as $product_id) {
     if ($selectRowResult && $selectRowResult->num_rows > 0) {
         $row = $selectRowResult->fetch_assoc();
         $product_name = $row['product_name'];
-        $name = $row['name'];
         $price = $row['price'];
         $image = $row['image'];
         $imageUrl = "/inti/gadgetShop/assets/" . $image;
@@ -193,34 +168,31 @@ $Total=$grandTotal+9;
 }
 ?>
  </div>
-    <div class='text'>
+    <div id='footers'>
+        <div id="paymentMethod">
+            <div id="paymentTitle">Payment Method</div>
+            <button id="COD" class="paymentButton selected" onclick="selectPayment('COD')">Cash On Delivery</button>
+            <button id="walletSelection" class="paymentButton" onclick="selectPayment('walletSelection')">Wallet</button>
+        </div>
         <form id="checkOut" action="payment.php" method="POST">
+            <input type="hidden" name="payment_method" id="selectedPayment" value="COD"> <!-- Default: COD -->
             <div id='merchandise' class="row">
-                <div>
-                    Merchandise Subtotal
-                </div>
-                <div class='row2'>
-                    <?php echo "RM $grandTotal"?>
-                </div>
+                <div>Merchandise Subtotal</div>
+                <div class='row2'> <?php echo "RM $grandTotal"?></div>
             </div>
+
             <div class="row">
-            <div>
-                    Shipping total
-                </div>
-                <div class='row3'>
-                    <?php echo "RM 9.00"?>
-                </div>
+                <div>Shipping total</div>
+                <div class='row3'><?php echo "RM 9.00"?></div>
             </div>
+
             <div class='row'>
-                <div>
-                    Total Payment
-                </div>
-                <div class='row4'>
-                    <?php echo "RM $Total"?>
-                </div>
+                <div>Total Payment</div>
+                <div class='row4'><?php echo "RM $Total"?></div>
             </div>
-                <button id="checkOutbtn" class="button"><?php echo 'Place Order' ?></button>
-            </form>  
+            
+            <button id="checkOutbtn" class="button"><?php echo 'Place Order' ?></button>
+        </form>  
 
 </div>
 </div>
