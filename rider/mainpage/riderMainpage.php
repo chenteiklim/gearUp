@@ -9,6 +9,10 @@ if (!isset($_SESSION['riderUsername'])) {
 }
     
 $username=$_SESSION['riderUsername'];
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Rider/riderNavbar.php';
+
 ?>
             <head>
             <meta charset="UTF-8">
@@ -17,16 +21,13 @@ $username=$_SESSION['riderUsername'];
                 <title>Product</title>
                 <link rel="stylesheet" href="mainpage.css">
             </head>
-            <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/riderNavbar.php';?>
 
             <div>
 
             </div>
-            <div id='content'>
-            <div>
-                <p id='title'>Rider Mainpage </p>
-                <img id='gadget' src="../../assets/deco.png" alt="">
-            </div>
+        
+            <p id='title'>Rider Mainpage </p>
+         
             <div id="container">
                 <div id="messageContainer"></div>                  
             

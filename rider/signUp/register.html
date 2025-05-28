@@ -11,9 +11,14 @@
    
 </head>
 <body>
+
   
-  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/riderNavbar.php';?>
-    
+<div id="navContainer">
+        <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+        <button class="button" id="home">Trust Toradora</button>
+        <button class="button" id="register">Sign Up</button>
+
+      </div>    
 <form id="registerForm" action="register.php" method="post" enctype="multipart/form-data">
   <div class="container">
     <p id="title">Apply as a Rider</p>
@@ -22,11 +27,6 @@
 
     <input type="email" placeholder="Enter Email" name="email" required>
 
-<label for="selfieImage">Upload Selfie with IC:</label>
-<input type="file" id="selfieImage" name="IC" accept="image/*" required>
-
-<label for="licenseImage">Upload Driving License:</label>
-<input type="file" id="licenseImage" name="license" accept="image/*" required>
 
     <label for="district">State:</label>
     <select id="district" name="district" required onchange="fillPostcode()">

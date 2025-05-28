@@ -182,8 +182,8 @@ foreach ($rows as $row) {
 
     
 ?>  
-<div class="content" id="row_<?php echo $product_id; ?>">
-<pre><?php print_r($_SESSION['product_ids']); ?></pre>
+    <div class="content" id="row_<?php echo $product_id; ?>">
+    <!-- <pre><?php /* print_r($_SESSION['product_ids']); */ ?></pre>-->    
     <img class="item" src="<?php echo $imageUrl; ?>" alt="">
     <div class="product_name"><?php echo $product_name; ?></div>
     <div id="price"><?php echo 'RM'.$price; ?></div>

@@ -1,12 +1,13 @@
 <?php
     session_start(); // Start session to access $_SESSION
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['riderUsername'])) {
         die("User not logged in.");
     }
+    $username = $_SESSION['riderUsername'];
 
-    $username = $_SESSION['username'];
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+
     echo "Username: $username <br>";
 
     // Fetch rider ID based on username

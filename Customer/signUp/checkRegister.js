@@ -41,26 +41,9 @@ window.onload = function() {
 const home=document.getElementById('home');
 home.addEventListener('click', function (event) {
   event.preventDefault()
-    window.location.href="../homepage/homepage.php"
+    window.location.href="../homepage/customerHomepage.php"
   })
-  const registerButton = document.getElementById('register');
-
-  // Add an event listener to the button
-  registerButton.addEventListener('click', function() {
-    // Code to navigate to another page goes here
-    // For example, you can use the window.location.href property to redirect to a new URL
-    window.location.href = '../signUp/register.html';
-  });
-  
-  
-  const loginButton = document.getElementById('login');
-  
-  // Add an event listener to the button
-  loginButton.addEventListener('click', function() {
-    // Code to navigate to another page goes here
-    // For example, you can use the window.location.href property to redirect to a new URL
-    window.location.href = '../userLogin/login.html';
-  });
+ 
   
   document.addEventListener('keydown', function(event) {
     const inputs = document.querySelectorAll('input[type="text"]');

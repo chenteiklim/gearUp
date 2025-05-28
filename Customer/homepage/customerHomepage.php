@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
 
 // Get product list
 $selectRowsQuery = "SELECT * FROM products ORDER BY product_id ASC";
@@ -28,10 +28,7 @@ if ($selectRowsResult && $selectRowsResult->num_rows > 0) {
                     <div class="unit">RM</div>
                     <div><?php echo htmlspecialchars($product['price']); ?></div>
                 </div>
-                <div class="stock">
-                    <?php echo $product['stock'] > 0 ? $product['stock'] . ' stock available' : 'Out of stock'; ?>
-                </div>
-                <div class="status"><?php echo htmlspecialchars($product['status']); ?> sold</div>
+              
                 <button id="view" class="button" onclick="location.href='../login/login.html'">View</button>
             </div>
         </div>

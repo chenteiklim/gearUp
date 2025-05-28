@@ -192,7 +192,7 @@ input[type="number"] {
     </style>
 </head>
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';?>
 
 <div class="container">
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>

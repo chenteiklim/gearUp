@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
 
 $username = $_SESSION['username'];
 
@@ -35,6 +35,8 @@ $stmt->close();
 // Fetch products
 $selectRowsQuery = "SELECT * FROM products ORDER BY product_id ASC";
 $selectRowsResult = $conn->query($selectRowsQuery);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -51,33 +53,24 @@ $selectRowsResult = $conn->query($selectRowsQuery);
 <div id="messageContainer"></div>
 
 <div id="container">
-    <?php while ($row = $selectRowsResult->fetch_assoc()): ?>
-        <div class="product">
-            <div class="imageContainer">
-                <img class="item" src="/inti/gadgetShop/assets/<?= $row['image'] ?>" alt="">
-            </div>
-            <div class="productDetails">
-                <div class="product_name"><?= htmlspecialchars($row['product_name']) ?></div>
-                <div class="price">
-                    <div class="unit">RM</div>
-                    <div><?= number_format($row['price'], 2) ?></div>
-                </div>
-                <div class="stock"><?= $row['stock'] > 0 ? $row['stock'] . ' stock available' : 'Out of stock' ?></div>
-                <?php if ($row['status'] > 0): ?>
-                    <div class="status"><?= $row['status'] ?> sold</div>
-                <?php endif; ?>
-                <div class="sellerName">
-                    Store Name: <?= htmlspecialchars($row['storeName']) ?>
-                </div>
-                <div class="sellerName">
-                    Seller Name: <?= htmlspecialchars($row['sellerName']) ?>
-                </div>
-                <form action="" method="post">
-                    <button class="button" type="submit" name="view" value="<?= $row['product_id'] ?>">View</button>
-                </form>
-            </div>
+<?php while ($row = $selectRowsResult->fetch_assoc()): ?>
+    <div class="product">
+        <div class="imageContainer">
+            <img class="item" src="/inti/gadgetShop/assets/<?= $row['image'] ?>" alt="">
         </div>
-    <?php endwhile; ?>
+        <div class="productDetails">
+            <div class="product_name"><?= htmlspecialchars($row['product_name']) ?></div>
+            <div class="price">
+                <div class="unit">RM</div>
+                <div><?= number_format($row['price'], 2) ?></div>
+            </div>
+            
+            <form action="" method="post">
+                <button id="view" class="button" type="submit" name="view" value="<?= $row['product_id'] ?>">View</button>
+            </form>
+        </div>
+    </div>
+<?php endwhile; ?>
 </div>
 
 <div id="chatIcon">

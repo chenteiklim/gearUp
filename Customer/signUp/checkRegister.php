@@ -11,9 +11,7 @@
 <body>
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button id="login" class="button">Log in</button>
-    <button id="register" class="button">Register</button>
+    <button class="button" id="home">GearUp</button>
 
 </div>
     

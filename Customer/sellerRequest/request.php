@@ -1,19 +1,9 @@
 <?php
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $username=$_SESSION['username'];
 
-mysqli_select_db($conn, $dbname);
 $selectNameQuery = "SELECT * FROM users WHERE usernames = '$username'";
 // Execute the query
 $result = $conn->query($selectNameQuery);
@@ -24,8 +14,9 @@ if ($result->num_rows > 0) {
     $email = $row['email'];
     $role=$row['role'];
     $user_id=$row['user_id'];
-
 }
+
+$param1='pending';
    
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,14 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $businessID = $_POST['businessID'];
     $contact = $_POST['contactInfo'];
-    $bankAccount = $_POST['accountInfo'];
     $status = 'pending';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
     $contactEncrypted = openssl_encrypt($contact, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
-    $bankAccountEncrypted = openssl_encrypt($bankAccount, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 // Insert into seller table
-$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, description, businessID, contact, username, email, bankAccount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt1->bind_param("ssssssss", $storeName, $user_id, $description, $businessID, $contactEncrypted, $username, $email, $bankAccountEncrypted);
+$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, description, businessID, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt1->bind_param("ssssss", $storeName, $user_id, $description, $businessID, $contactEncrypted, $param1);
 
 if ($stmt1->execute()) {
     // Get the inserted seller_id
@@ -54,7 +43,7 @@ if ($stmt1->execute()) {
 
     if ($stmt2->execute()) {
         $message3 = "Seller Application Form Submitted Successfully";
-        header("Location: mainpage.php?message3=" . urlencode($message3));
+        header("Location: ../mainpage/customerMainpage.php?message3=" . urlencode($message3));
         exit();
     } else {
         echo "Error updating role: " . $stmt2->error;

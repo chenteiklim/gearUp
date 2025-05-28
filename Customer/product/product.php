@@ -1,20 +1,11 @@
 <?php
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
 
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $product_id = $_SESSION['product_id'];
 $username=$_SESSION['username'];
 
-mysqli_select_db($conn, $dbname);
 
 $sql = "SELECT * FROM products WHERE product_id = '$product_id'";
 $result = $conn->query($sql);
@@ -30,14 +21,30 @@ if ($result->num_rows > 0) {
     $status = $row['status'];
 }
 $imageUrl = "/inti/gadgetShop/assets/" . $image;
+/* Fetch Ratings for Each Product Inside the Loop  */
 
+$selectRatingsQuery = "SELECT rating FROM ratings WHERE product_id = ?";
+$ratingStmt = $conn->prepare($selectRatingsQuery);
+$ratingStmt->bind_param("i", $row['product_id']);
+$ratingStmt->execute();
+$ratingResult = $ratingStmt->get_result();
+$ratingCount = $ratingResult->num_rows;
 
+$averageRating = 0;
+if ($ratingCount > 0) {
+    $totalRating = 0;
+    while ($ratingRow = $ratingResult->fetch_assoc()) {
+        $totalRating += $ratingRow['rating'];
+    }
+    $averageRating = $totalRating / $ratingCount;
+}
+$ratingStmt->close();
+          
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="logo.jpg" type="image/jpg">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,35 +52,49 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
 
 <link rel="stylesheet" href="product.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';?>
 
 </head>
 <body>
 
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
-    <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-    <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-    <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-    <button class="button" id="name"><?php echo $username ?></button>
-    <form action="../login/logout.php" method="POST">
-      <button type="submit" id="logOut" class="button">Log Out</button>
-    </form>    
-</div>
-
 
 </style>
     <div id="container">
-        <div>
-            <img class="keyboard" src="<?php echo $imageUrl; ?>" alt="">
-        </div>
-        <div>
+        <div id=imageContainer>
+            <div>
+                <img class="img" src="<?php echo $imageUrl; ?>" alt="">
+            </div>
+               <!-- Display Rating -->
+            <div class="productRating">
+                <?php
+                if ($ratingCount > 0) {
+                    // Display average rating in stars
+                    for ($i = 1; $i <= 5; $i++) {
+                        // Add 'selected' class if the rating is greater than or equal to the current star number
+                        echo '<span class="star ' . ($i <= $averageRating ? 'selected' : '') . '">&#9733;</span>';
+                    }
+                    echo " ($ratingCount ratings)";
+                } else {
+                    echo "No ratings yet.";
+                }
+                ?>
+            </div>
+        </div>        
+
+        <div id="rightSideText">
             <div class="names"><?php echo $product_name; ?> </div>
             <?php if ($status > 0): ?>  
                 <div id="status" class="status"><?php echo $status . ' sold'; ?></div>
             <?php endif; ?>            
             <div class="stock"><?php echo $stock . 'stock available'; ?></div>
-           
+           <div id="seller">
+                <div id="storeName">
+                    Store Name: <?= htmlspecialchars($row['storeName']) ?>
+                </div>
+                <div id="sellerName">
+                    Seller Name: <?= htmlspecialchars($row['sellerName']) ?>
+                </div>
+            </div>
             <div id="price" class="prices"><?php echo'RM'.$price; ?></div>
             <form action="order.php?product_id=1" method="post">
                 <div class="quantity">
@@ -83,6 +104,10 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
                     <input type="number" id="quantity_input" name="quantity_input" min="1" value="1">
                     <button id="decrement">-</button>
                 </div>
+
+         
+
+           
                 <div class="buyBtn">
                     <div>
                         <input id="addCartButton" class="button" type="submit" name="addCart" value="Add To Cart">
@@ -95,5 +120,5 @@ $imageUrl = "/inti/gadgetShop/assets/" . $image;
             <div id="messageContainer3"></div>
         </div>
     </div>
-<script src="product.js"></script>
 </html>
+<script src="product.js"></script>

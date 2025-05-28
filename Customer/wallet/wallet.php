@@ -41,7 +41,8 @@ $stmt->bind_param("ss", $username, $username);
 $stmt->execute();
 $transactions = $stmt->get_result();
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+
 
 ?>
 

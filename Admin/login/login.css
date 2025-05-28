@@ -1,21 +1,13 @@
 
    html, body {
-    background-color: #add8e6;
      margin: 0;
      padding: 0;
      width: 100%; /* Ensure full width */
      height: 100%; /* Ensure full height */
    }
    
-   #navContainer {
-     display: flex;
-     background-color: #BFB9FA;
-     width: 100%; /* Adjust width as needed */
-     height: 80px; /* Adjust height as needed */   
-   }
-   
    .button {
-    background-color: #BFB9FA;
+    background-color: black;
     color: black;
     cursor: pointer;
     padding-left: 30px;
@@ -57,14 +49,6 @@
      margin-left: 100px;
    }
    
-     button:hover{
-         transform: scale(0.9);
-         background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-       }
-   
-   
-
-
     #forgotBtn{
         text-decoration: none;
         color: red;
@@ -152,7 +136,7 @@
         width: 280px;
         margin-top: 30px;
         margin-left: 20px;
-        background-color: rgb(15, 124, 15);
+        background-color:rgb(33, 12, 102);
         border:none;
         border-radius: 5px;
         cursor: pointer;

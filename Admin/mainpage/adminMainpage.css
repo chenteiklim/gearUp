@@ -1,7 +1,6 @@
 
 #container {
-  margin-top: 40px;
-  margin-left: 100px;
+  margin-top: 20px;
   background-color:#f4f4f4;
   width:300px;
   height:450px;
@@ -10,46 +9,15 @@
   align-items:center;
   border-radius: 5px;
 }
-#content{
-  margin-top: 50px;
-  display: flex;
-  margin-right: 180px;
-}
+
 #title {
   font-size: 20px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  color: #333;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(90deg, #8840da, #0c0b4b);
-  -webkit-background-clip: text;
-  color: transparent;
+  margin-top: 50px;
   padding: 10px;
-  margin-left: 100px;
-  margin-bottom: 0px;
-  letter-spacing: 1.5px;
-  line-height: 1.6; /* Adds spacing between lines of text */
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+  margin-left:300px;
   width: 450px;
 }
 
-    button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-  
-    #gadget{
-      margin-top: 10px;
-      width: 500px;
-      height: 400px;
-    }
-    
-    .button:active {
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-    
 
   
     .customer{
@@ -64,37 +32,6 @@
         margin-top:30px;
     }
 
-    
-    html, body {
-      background-color: #add8e6;
-      margin: 0;
-      padding: 0;
-      width: 100%; /* Ensure full width */
-      height: 100%; /* Ensure full height */
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-  }
-    .button {
-     background-color: #BFB9FA;
-     width: 150px;
-     color: black;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 14px;
-     border: none;
-     }
-  
-    #navContainer {
-      display: flex;
-      align-items: center;
-      background-color: #BFB9FA;
-      width: 100%; /* Adjust width as needed */
-      height: 80px; /* Adjust height as needed */   
-    }
     
   
     .message-container {

@@ -1,19 +1,11 @@
 <?php
-
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
 session_start();
-mysqli_select_db($conn, $dbname);
 $username=$_SESSION['username'];
+
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
+
 
 
 $selectProductQuery = "SELECT * FROM products WHERE sellerName = '$username'";
@@ -53,18 +45,7 @@ if ($result->num_rows > 0) {
     <style>
    
           
-    #logoImg{
-        margin-top: 25px;
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-        margin-left: 100px;
-    }
 
-    button:hover{
-        transform: scale(0.9);
-        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
 
       .container{
         background-color:white;
@@ -85,37 +66,7 @@ if ($result->num_rows > 0) {
         width: 1490px;
         height:auto;
       }
-            
-      #navContainer {
-        display: flex;
-        background-color: #BFB9FA;
-        align-items: center;
-        width: 100%; /* Adjust width as needed */
-        height: 80px; /* Adjust height as needed */   
-      }
-
-      html, body {
-        background-color: #add8e6;
-        margin: 0;
-        padding: 0;
-        width: 100%; /* Ensure full width */
-        height: 100%; /* Ensure full height */
-        display:flex;
-        flex-direction:column;
-      }
-      .button {
-      background-color: #BFB9FA;
-      width: 150px;
-      color: black;
-      cursor: pointer;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 14px;
-      border: none;
-      }
-    
+        
     #img{
       width: 160px;
       height:180px;
@@ -139,12 +90,6 @@ if ($result->num_rows > 0) {
 
     </style>
 </head>
-
-<div id="navContainer"> 
-    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button class="button" id="name"><?php echo $username ?></button>
-</div>
 
 
 
@@ -198,11 +143,3 @@ if ($result->num_rows > 0) {
   </div>
 </div>
 
-<script>
-  var homeButton = document.getElementById("home");
-  homeButton.addEventListener("click", function(event) {
-    // Perform the navigation action here
-    event.preventDefault()
-    window.location.href = "../../mainpage/mainpage.php";
-  });
-</script>

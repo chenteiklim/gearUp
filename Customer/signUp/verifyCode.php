@@ -1,21 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gadgetShop";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-mysqli_select_db($conn, $dbname); 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 
 // Check if the session variables are set
 $email = $_SESSION['email'] ?? null;
-$havenotencryptemail = $_SESSION['haveNotEncrypt'] ?? null;
 $username =$_SESSION['username'];
 
 if (!$email) {
@@ -30,7 +20,6 @@ $primaryCode = implode('', $_POST['primaryCode']);
 // Retrieve the hashed codes from the database
 $stmt = $conn->prepare("SELECT emailCode FROM users WHERE email = ? AND usernames = ?");
 echo($email);
-echo $havenotencryptemail;
 $stmt->bind_param("ss", $email, $username);
 $stmt->execute();
 $stmt->store_result();
@@ -59,7 +48,7 @@ if ($stmt->num_rows > 0) {
 
             if ($delete_stmt->execute()) {
                 $delete_stmt->close();
-                header("Location: ../login/login.html?success=2");
+                header("Location: ../login/login.php?success=2");
                 exit();
             } else {
                 echo "Error deleting user.";
@@ -80,7 +69,7 @@ if ($stmt->num_rows > 0) {
             // Execute the update
             if ($updateStmt->execute()) {
                 if ($updateStmt->affected_rows > 0) {
-                    header("Location: ../homepage/mainpage.php");
+                    header("Location: ../mainpage/customerMainpage.php");
                 } else {
                     echo "No rows updated. Email might not exist.<br>";
                 }

@@ -70,25 +70,38 @@ label {
   color: #666;
 }
 
-#register {
-  background-color: #007BFF;
-  color: #fff;
-  padding: 12px;
-  font-size: 18px;
-  border: none;
-  border-radius: 5px;
-  width: 100%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#register:hover {
-  background-color: #0056b3;
-}
-
 /* Error Container */
 #errorContainer {
   color: red;
   font-size: 14px;
   margin-top: 10px;
 }
+
+
+
+html, body {
+  background-color: #add8e6;
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 100%; /* Ensure full height */
+ }
+ 
+ #navContainer {
+   display: flex;
+   background-color: #BFB9FA;
+   width: 100%; /* Adjust width as needed */
+   height: 80px; /* Adjust height as needed */   
+ }
+ 
+ .button {
+  background-color: #BFB9FA;
+  color: black;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }

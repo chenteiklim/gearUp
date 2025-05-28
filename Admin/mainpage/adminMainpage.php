@@ -13,6 +13,7 @@ if (!isset($_SESSION['adminUsername'])) {
     exit;  // Stop further execution of the script
 }
 $username=$_SESSION['adminUsername'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';
 
 ?>
 <head>
@@ -21,23 +22,11 @@ $username=$_SESSION['adminUsername'];
 
 
 </head>
-
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button class="button" id="wallet" onclick="window.location.href = '../wallet/adminWallet.php';">Wallet</button>
-    <button class="button" id="name"><?php echo $username ?></button>
-    <form action="../login/logout.php" method="POST">
-      <button type="submit" id="logout" class="button">Log Out</button>
-    </form> 
-</div>
 <div>
 
 </div>
-<div id='content'>
   <div>
   <p id='title'>Admin Mainpage </p>
-  <img id='gadget' src="../../assets/deco.png" alt="">
   </div>
   <div id="container">
     <div id="messageContainer"></div>

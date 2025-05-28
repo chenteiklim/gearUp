@@ -40,17 +40,16 @@ height:40px;
   border-radius: 5px;
   margin-left: 50px;
 }
-  button:hover{
-      transform: scale(0.9);
-      background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
+  
 #name{
 margin-left: 500px
 }
-.keyboard{
-        width: 300px;
-        height: 300px;
-    }
+.img{
+  margin-top: 40px;
+  margin-left: 200px;
+  width: 300px;
+  height: 300px;
+}
 
     .names{
       font-size: 30px;
@@ -196,7 +195,6 @@ display: grid;
 grid-template-columns: repeat(6, 1fr);
 gap: 10px;
 margin-top: 10px;
-background-color: 	#CDCDCD;
 
 flex-wrap: wrap;
 }
@@ -247,11 +245,6 @@ font-size: 10.5px;
 display: flex;
 align-items: center;
 }
-#rating{
-margin-top: 20px;
-margin-left: 50px;
-display: flex;
-}
 
 .status{
 margin-left: 10px;
@@ -297,3 +290,20 @@ html, body {
  border: none;
  }
 
+#storeName{
+  margin-top: 20px;
+  margin-left: 50px;
+}
+#sellerName{
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.productRating{
+  margin-left: 200px;
+  font-size: 30px;
+}
+
+#rightSideText{
+  margin-top: 20px;
+}

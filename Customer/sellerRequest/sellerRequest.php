@@ -1,18 +1,9 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
 
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gadgetShop";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 session_start();
-mysqli_select_db($conn, $dbname);
 $selectNameQuery = "SELECT * FROM users";
 // Execute the query
 $result = $conn->query($selectNameQuery);
@@ -48,7 +39,7 @@ if ($result->num_rows > 0) {
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 300px;
             margin: auto;
         }
         label {
@@ -66,17 +57,7 @@ if ($result->num_rows > 0) {
         input[type="file"] {
             padding: 3px;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
+
 #sellerRequestForm{
     margin-top:20px;
     margin-left:550px;
@@ -99,55 +80,12 @@ border-radius: 5px;
 margin-left: 100px;
 }
 
-button:hover{
-    transform: scale(0.9);
-    background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-  }
-  
-#navContainer {
-  display: flex;
-  background-color: #BFB9FA;
-  width: 100%; /* Adjust width as needed */
-  height: 80px; /* Adjust height as needed */   
-}
-
-html, body {
-  background-color: #add8e6;
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Ensure full width */
-  height: 900px; /* Ensure full height */
-  display:flex;
-  flex-direction:column;
-}
-.button {
- background-color: #BFB9FA;
- width: 150px;
- color: black;
- cursor: pointer;
- padding-left: 30px;
- padding-right: 30px;
- padding-top: 10px;
- padding-bottom: 10px;
- font-size: 14px;
- border: none;
- }
-
 
     </style>
 </head>
 <body>
-<div id="navContainer"> 
-        <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-        <button class="button" id="home">Trust Toradora</button>
-        <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';"><?php echo 'Shopping Cart'; ?></button>
-        <button class="button" id="tracking"><?php echo 'Tracking' ?></button>
-        <button class="button" id="refund" type="submit" name="refund" value="">refund</button>
-        <button class="button" id="seller" type="submit" name="seller" value="">Seller Center</button>
-        <button class="button" id="name"><?php echo $name ?></button>
-    </div>
     <h1>Seller Application Form</h1>
-    <form id="sellerRequestForm" action="../homepage/request.php" method="POST" enctype="multipart/form-data">
+    <form id="sellerRequestForm" action="request.php" method="POST" enctype="multipart/form-data">
         <label for="storeName">Store Name:</label>
         <input type="text" id="storeName" name="storeName" required>
 
@@ -161,19 +99,9 @@ html, body {
         <label for="contactInfo">Contact Information (0xx-1234567):</label>
         <input type="text" id="contactInfo" name="contactInfo" required>
 
-        
-        <label for="accountInfo">Bank Account Number (***********):</label>
-        <input type="text" id="accountInfo" name="accountInfo" required>
-
-        <button type="submit">Submit Request</button>
+        <button class='button' type="submit">Submit Request</button>
     </form>
 </body>
 </html>
 
 
-<script>
-   document.getElementById("home").addEventListener("click", function() {
-    // Replace 'login.html' with the URL of your login page
-    window.location.href = "../homepage/mainpage.php";
-});  
-</script>

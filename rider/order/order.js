@@ -1,6 +1,4 @@
-document.getElementById("home").addEventListener("click", function() {
-    window.location.href = "../mainpage/mainpage.php";
-});
+
 window.onload = function() {
 var urlParams = new URLSearchParams(window.location.search);
 const message2 = urlParams.get('message2');

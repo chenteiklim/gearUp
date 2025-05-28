@@ -27,7 +27,7 @@ $resultOrder = $conn->query($sql);
 </head>
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';
 
 // Display orders in a table
 if ($resultOrder->num_rows > 0) {

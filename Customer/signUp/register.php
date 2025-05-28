@@ -1,21 +1,9 @@
 <?php
 
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gadgetShop";
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -26,14 +14,12 @@ use PHPMailer\PHPMailer\Exception;
 if (isset($_POST['submit'])) {
     $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $state = htmlspecialchars($_POST['state'], ENT_QUOTES, 'UTF-8'); // Sanitize address
-    $haveNotEncryptEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
     $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     // Encrypt email
     include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
     
-    $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
     $_SESSION['email'] = $email;
-    $_SESSION['haveNotEncrypt'] = $haveNotEncryptEmail;
 
     // Encrypt address
     $address = openssl_encrypt($haveNotEncryptAddress, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
@@ -109,7 +95,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     } 
 
     // Validate email format
-    else if (!filter_var($haveNotEncryptEmail, FILTER_VALIDATE_EMAIL)) {
+    else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: register.html?success=5");
         exit();
     }
@@ -185,7 +171,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
             $mail->Subject = 'Email Verification';
         
             // Send to primary email
-            $mail->addAddress($haveNotEncryptEmail);
+            $mail->addAddress($email);
             $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
             <p>Ref: $emailCode</p>";
             $mail->send();
@@ -206,3 +192,78 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     $conn->close(); 
  
     } 
+?>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="register.css">
+    <link rel="icon" href="logo.jpg" type="image/jpg">
+   
+</head>
+<body>
+  
+<div id="navContainer"> 
+  <img id="logoImg" src="/inti/gadgetShop/assets/logo.jpg" alt="" srcset="">
+  <button class="navButton" id="home">GearUp</button>
+  <button class="navButton" id="login">Login</button>
+</div>
+    <form id="registerForm" action="register.php" method="post">
+      <div class="container">
+        <div id="title">
+       Register
+        </div>
+        <input type="text" placeholder="Enter Nickname" name="username" required>
+
+        <input type="text" placeholder="Enter Full Address." name="address" required>
+
+        <label for="state">State:</label>
+        <select id="state" name="state" required >
+            <option value="">Select State</option>
+            <option value="Johor">Johor</option>
+            <option value="Kedah">Kedah</option>
+            <option value="Kelantan">Kelantan</option>
+            <option value="Melaka">Melaka</option>
+            <option value="Negeri Sembilan">Negeri Sembilan</option>
+            <option value="Pahang">Pahang</option>
+            <option value="Perak">Perak</option>
+            <option value="Perlis">Perlis</option>
+            <option value="Pulau Pinang">Pulau Pinang</option>
+            <option value="Sabah">Sabah</option>
+            <option value="Sarawak">Sarawak</option>
+            <option value="Selangor">Selangor</option>
+            <option value="Terengganu">Terengganu</option>
+        </select>
+      
+     
+        <input type="email" placeholder="Enter Email" name="email" required>
+  
+        <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
+        <button id="show">Show</button>
+ 
+  
+        <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
+        <button id="show2">Show</button>
+          <div id="errorContainer"></div>
+          <div id="privacyContainer">
+            <label for="privacyCheck" id = 'privacytext'>
+                I have read and agree to the 
+                <a href="privacy-policy.html" target="_blank">Privacy Policy</a> 
+                and <a href="termAndService.html" target="_blank">Terms of Service</a>.
+            </label>
+            <input type="checkbox" id="privacyCheck" name="privacyCheck" required>
+  
+        </div>
+  
+        <input id="register" class="button" type="submit" name="submit" value="Register">
+      </div>
+
+    </form>
+    
+    </body>
+    <script src="register.js"></script>
+</html>
+   

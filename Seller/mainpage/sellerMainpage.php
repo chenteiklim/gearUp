@@ -1,12 +1,12 @@
 
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-
-
 session_start();
-$username = $_SESSION['username'];
+
 if (isset($_SESSION['username'])) {
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/sellerNavbar.php';
+$username=$_SESSION['username'];
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
 
     // Use prepared statements to prevent SQL injection
     $checkLogin = $conn->prepare("SELECT * FROM users WHERE usernames = ?");
@@ -21,7 +21,7 @@ if (isset($_SESSION['username'])) {
         
         if ($role !== 'seller') { // Make sure 'Seller' is in quotes
           $message4 = "Login failed, please submit seller application form";
-          header("Location: ../../Customer/homepage/mainpage.php?message4=" . urlencode($message4));
+          header("Location: ../../Customer/mainpage/customerMainpage.php?message4=" . urlencode($message4));
   
         }
         else{   
@@ -45,10 +45,8 @@ if (isset($_SESSION['username'])) {
     });
 </script>
             </head>
-            <div id='content'>
             <div>
                 <p id='title'>Seller Mainpage </p>
-                <img id='gadget' src="../../assets/deco.png" alt="">
             </div>
             <div id="container">
                 <div id="messageContainer"></div>                  
@@ -61,10 +59,9 @@ if (isset($_SESSION['username'])) {
                         </div>
 
                     </div>
-                    <div id="customerList">
-                            <h3>Chat with Customer</h3>
-                            <div id="customersContainer"></div>
-                        </div>
+                <div>
+                    <button id="sales" class="button" onclick="location.href='sales.php'">Sales</button>
+                </div>
 
                 </div>
 
@@ -73,8 +70,20 @@ if (isset($_SESSION['username'])) {
   <div id="chatIcon">
     <i class="fa fa-comment"></i>
 </div>
+<div id="customerList">
+    <div id="customerNavbar">
+      <h3 id="customerHeader">
+          Chat with Customer
+      </h3>
+      <button id="closeCustomerList" class="close-btn">&times;</button>
+    </div>              
+    <div id="customersContainer">
+        <!-- Seller items will be dynamically inserted here -->
+    </div>
+</div>
 <!-- Chat Popup Window -->
 <div id="chatPopup">
+     
     <div id="chatHeader">
     <span>Chat with <span id="chatCustomerName"></span></span>
     <button id="closeChat">&times;</button>

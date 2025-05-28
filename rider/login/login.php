@@ -1,7 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
-
 session_start();
 
 if (isset($_POST['submit'])) {
@@ -55,3 +54,4 @@ if (isset($_POST['submit'])) {
 
 $conn->close();
 ?>
+

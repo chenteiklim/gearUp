@@ -11,10 +11,31 @@ $homePages = ['customerHomepage.php']; // Remove 'customerMainpage.php'
 $isHomePage = in_array($currentPage, $homePages);
 ?>
 <style>
-    
+html, body {
+        background-color: white;
+         margin: 0;
+         padding: 0;
+         width: 100%; /* Ensure full width */
+         height: 100%; /* Ensure full height */
+       }
+          
+  
+      
+    .button {
+    background-color:black;
+    color: white;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    border: none;
+}   
+
 #navContainer {
   display: flex;
-  background-color: #BFB9FA;
+background-color:#e8e8e8;
   align-items: center;
   width: 100%; /* Adjust width as needed */
   height: 80px; /* Adjust height as needed */   
@@ -31,8 +52,9 @@ $isHomePage = in_array($currentPage, $homePages);
   margin-left: 250px
 }
 
-.button {
-        background-color: #BFB9FA;
+.navButton {
+      
+        background-color:#e8e8e8;
         width: 150px;
         color: black;
         cursor: pointer;
@@ -42,35 +64,38 @@ $isHomePage = in_array($currentPage, $homePages);
         padding-bottom: 10px;
         font-size: 14px;
         border: none;
-     }
-     .button:hover{
-        transform: scale(0.9);
-        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
- 
+}
+
+
+  .button:hover{
+      transform: scale(0.9);
+      background: #222; 
+  }
+
 </style>
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="">
 
     <!-- Home button becomes unclickable if on homepage or main page -->
-    <button class="button" id="home"
+    <button class="navButton" id="home"
         onclick="window.location.href = '<?php echo $isHomePage ? '/inti/gadgetShop/Customer/homepage/customerHomepage.php' : '/inti/gadgetShop/Customer/mainpage/customerMainpage.php'; ?>'">
-        Trust Toradora
+        GearUp
     </button>
 
     <?php if ($isLoggedIn): ?>
-        <button class="button" id="cart" onclick="window.location.href = '../product/cart.php';">Shopping Cart</button>
-        <button class="button" id="tracking" onclick="window.location.href = '../tracking/tracking.php';">Tracking</button>
-        <button class="button" id="seller" onclick="window.location.href = '../seller/request.php';">Seller Request</button>
-        <button class="button" id="sellerCenter">Seller Center</button>
-        <button class="button" id="wallet" onclick="window.location.href = '../wallet/wallet.php';">Wallet</button>
-        <button class="button" id="name"><?php echo htmlspecialchars($username); ?></button>
+        <button class="navButton" id="cart" onclick="window.location.href = '../product/cart.php';">Shopping Cart</button>
+        <button class="navButton" id="tracking" onclick="window.location.href = '../tracking/tracking.php';">Tracking</button>
+        <button class="navButton" id="seller" onclick="window.location.href = '../sellerRequest/sellerRequest.php';">Seller Request</button>
+        <button class="navButton" id="sellerCenter">Seller Center</button>
+        <button class="navButton" id="wallet" onclick="window.location.href = '../wallet/wallet.php';">Wallet</button>
+        <button class="navButton" id="notification" >Notification</button>
+        <button class="navButton" id="name"><?php echo htmlspecialchars($username); ?></button>
         <form action="../login/logout.php" method="POST">
-            <button type="submit" id="logOut" class="button">Log Out</button>
+            <button type="submit" id="logOut" class="navButton">Log Out</button>
         </form>    
     <?php else: ?>
-        <button id="login" class="button" onclick="">Login</button>
-        <button id="register" class="button" onclick="">Register</button>
+        <button id="login" class="navButton" onclick="">Login</button>
+        <button id="register" class="navButton" onclick="">Register</button>
     <?php endif; ?>
 </div>
 
@@ -91,13 +116,6 @@ $isHomePage = in_array($currentPage, $homePages);
   window.location.href = "../../Seller/mainpage/sellerMainpage.php";
   });
 
-  var seller = document.getElementById("seller");
-  
-  seller.addEventListener("click", function() {
-  // Perform the navigation action here
-  window.location.href = "seller.php";
-  });
-
   
   var wallet = document.getElementById("wallet");
   
@@ -106,14 +124,7 @@ $isHomePage = in_array($currentPage, $homePages);
   window.location.href = "../wallet/wallet.php";
   });
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const chatPopup = document.getElementById("chatPopup");
-    const closeChat = document.getElementById("closeChat");
-    
-    closeChat.addEventListener("click", function () {
-        chatPopup.style.display = "none"; // Hide chat window
-    });
-});
+ 
 </script>
 
-<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';?>
+<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';?>

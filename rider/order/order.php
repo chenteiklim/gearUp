@@ -1,11 +1,13 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 
 $username = $_SESSION['riderUsername'];
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Rider/riderNavbar.php';
+
 function decrypt_address($encrypted_address) {
     global $encryption_key, $encryption_iv;
     return openssl_decrypt($encrypted_address, 'aes-256-cbc', $encryption_key, 0, $encryption_iv);
@@ -29,7 +31,6 @@ $resultOrder = $conn->query($sql);
     <title>Product</title>
     <link rel="stylesheet" href="order.css">
 </head>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/riderNavbar.php';?>
 
 <div id="messageContainer"></div>
 <table border="1">
@@ -50,7 +51,7 @@ $resultOrder = $conn->query($sql);
     <?php while ($row = $resultOrder->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['order_id']) ?></td>
-            <td><?= htmlspecialchars($row['name']) ?></td>
+            <td><?= htmlspecialchars($row['usernames']) ?></td>
             <td><?= htmlspecialchars(decrypt_address($row['address'])) ?></td>
             <td>
                 <?php if (!empty($row['image'])): ?>

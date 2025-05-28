@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+
 session_start();
 
 // Check if admin is logged in
@@ -9,6 +9,8 @@ if (!isset($_SESSION['adminUsername'])) {
 }
 $username = $_SESSION['adminUsername'];
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php'; 
 
 // Fetch pending refund requests
 $stmt = $conn->prepare("SELECT * FROM refundRequest WHERE status = 'pending'");
@@ -160,7 +162,6 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="refund.css">
 </head>
 <body>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php'; ?>
 <div id="content">
     <h1>Manage Refund Requests</h1>
 

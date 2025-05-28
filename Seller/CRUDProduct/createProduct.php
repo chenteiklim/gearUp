@@ -1,22 +1,31 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-
-
-
 session_start();
 $username=$_SESSION['username'];
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
 
-$stmt = $conn->prepare("SELECT storeName FROM seller WHERE usernames = ?");
+
+
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($row = $result->fetch_assoc()) {
-  $storeName= $row['storeName'];
+    $user_id = $row['user_id'];
 } else {
-    echo "No store found for this seller.";
+    echo "User not found.";
 }
+
+$stmt = $conn->prepare("SELECT storeName FROM seller WHERE user_id = ?");
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+  $storeName= $row['storeName'];
+} 
 
 if (isset($_POST['submit'])) {
   $productName = $_POST['productName'];
@@ -81,7 +90,7 @@ $insertProduct = "INSERT INTO products (product_id, product_name, image, price, 
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust Toradora</title>
+    <title>GearUp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
     <style>
 form{
@@ -144,37 +153,7 @@ input[type="number"] {
   margin-left:80px;
   width: 480px;
 }
- 
-html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%; /* Ensure full width */
-        height: 100%; /* Ensure full height */
-        background-color: #add8e6;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-    }
-    
-    #navContainer {
-      display: flex;
-      background-color: #BFB9FA;
-      width: 100%; /* Adjust width as needed */
-      height: 80px; /* Adjust height as needed */   
-    }
-    
-    .button {
-     background-color: #BFB9FA;
-     width: 150px;
-     color: black;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 14px;
-     border: none;
-     }
+
         #home{
             margin-left: 10px;
             width:160px;
@@ -219,14 +198,6 @@ input[type="number"] {
     </style>
 </head>
 
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button class="button" id="name"><?php echo $username ?></button>
-    <form action="../login/logout.php" method="POST">
-      <button type="submit" id="logout" class="button">Log Out</button>
-    </form> 
-</div>
 <div class="container">
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
     <div id="successMessage" style="color: black; font-weight: bold; margin-top: 10px; margin-left: 100px;">
@@ -264,12 +235,6 @@ input[type="number"] {
   </div>
 </div>
 <script>
-  var homeButton = document.getElementById("home");
-  homeButton.addEventListener("click", function(event) {
-    // Perform the navigation action here
-    event.preventDefault()
-    window.location.href = "../mainpage/mainpage.php";
-  });
   document.addEventListener("DOMContentLoaded", function () {
     var successMessage = document.getElementById("successMessage");
 

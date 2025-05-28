@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $usernames = $_SESSION['username'];
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
 
 // Fetch user email
 $stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
@@ -66,33 +66,6 @@ while ($row = $refundQuery->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Tracking</title>
     <link rel="stylesheet" href="tracking.css">
-    <style>
-        /* Add some style for the modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: white;
-            padding-bottom: 20px;
-            border-radius: 10px;
-            width: 400px;
-            text-align: center;
-        }
-        .close {
-            margin-left:350px;
-            cursor: pointer;
-            font-size: 30px;
-            color: red;
-        }
-    </style>
 </head>
 <body>
 
@@ -133,6 +106,11 @@ while ($row = $refundQuery->fetch_assoc()) {
                                     <div>Quantity: x<?= $item['quantity'] ?></div>
                                     <div>Total: RM<?= $item['total_price'] ?></div>
                                     <div class="order-status"><?= htmlspecialchars($item['order_status']) ?></div>
+
+                                    <!-- Rate Product Button -->
+                                    <?php if ($item['order_status'] === 'sent'): ?>
+                                        <button class="rate-product-btn" onclick="location.href='rateProduct.php?order_id=<?= $orders_id ?>&product_name=<?= urlencode($item['product_name']) ?>'">Rate this product</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>

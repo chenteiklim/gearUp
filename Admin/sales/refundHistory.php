@@ -23,7 +23,7 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="refund.css"> <!-- Link to your existing CSS -->
 </head>
 <body>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php'; ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php'; ?>
 
 <div id="content">
     <h1>Refund Request History</h1>

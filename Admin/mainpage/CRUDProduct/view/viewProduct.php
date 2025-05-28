@@ -132,7 +132,7 @@ if ($result->num_rows > 0) {
 </head>
 
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';?>
 
 <div id="container">
   <div id='productContainer'>
@@ -184,11 +184,3 @@ if ($result->num_rows > 0) {
   </div>
 </div>
 
-<script>
-  var homeButton = document.getElementById("home");
-  homeButton.addEventListener("click", function(event) {
-    // Perform the navigation action here
-    event.preventDefault()
-    window.location.href = "../../mainpage.php";
-  });
-</script>

@@ -112,7 +112,7 @@ const forgotBtn=document.getElementById('forgotBtn');
 
   document.getElementById("register").addEventListener("click", function() {
     // Replace 'login.html' with the URL of your login page
-    window.location.href = "../signUp/register.html";
+    window.location.href = "../signUp/register.php";
   });
   document.getElementById("home").addEventListener("click", function() {
   // Replace 'login.html' with the URL of your login page

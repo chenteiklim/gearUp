@@ -1,4 +1,3 @@
-console.log('zzzz')
 window.onload = function() {
 
     var urlParams = new URLSearchParams(window.location.search);
@@ -78,5 +77,12 @@ window.onload = function() {
       }, 10000);
     }
   }
-  
+ document.addEventListener("DOMContentLoaded", function () {
+    const chatPopup = document.getElementById("chatPopup");
+    const closeChat = document.getElementById("closeChat");
+    
+    closeChat.addEventListener("click", function () {
+        chatPopup.style.display = "none"; // Hide chat window
+    });
+});
   

@@ -14,8 +14,8 @@ if (isset($_COOKIE[session_name()])) {
 
 // Check if the session is empty and redirect to login page
 if (empty($_SESSION)) {
-    header("Location: ../login/login.html");  // Redirect to login page
-    exit();  // Stop further script execution
+     header("Location: /inti/gadgetShop/Customer/login/login.php");  // Redirect to login page
+     exit();  // Stop further script execution
 } else {
     echo "Session destruction failed.";  // If session still exists, show this message
 }
