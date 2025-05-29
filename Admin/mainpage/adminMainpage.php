@@ -1,7 +1,7 @@
 
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 
@@ -13,7 +13,7 @@ if (!isset($_SESSION['adminUsername'])) {
     exit;  // Stop further execution of the script
 }
 $username=$_SESSION['adminUsername'];
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';
 
 ?>
 <head>
@@ -44,13 +44,19 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php
         <button id="order" class="button"><?php echo 'Sales' ?></button>
     </div>
     <div>
-    <button id="assignRidersButton" class="button">Assign Riders</button>
+    <button id="assignRiders" class="button">Assign Riders</button>
     </div>
     <div>
-    <button id="approveRiderButton" class="button">Approve Riders</button>
+    <button id="approveSeller" class="button">Approve Seller</button>
+    </div>
+    <div>
+    <button id="approveRider" class="button">Approve Rider</button>
     </div>
     <div class="refund">
         <button id="refund" class="button"><?php echo 'Refund' ?></button>
+    </div>
+     <div class="wallet">
+        <button id="wallet" class="button"><?php echo 'Wallet' ?></button>
     </div>
 
  
@@ -66,15 +72,25 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php
     {
         window.location.href = "../sales/sales.php";
     });
-    document.getElementById("assignRidersButton").addEventListener("click", function() {
+    document.getElementById("assignRiders").addEventListener("click", function() {
         fetch("assign_riders.php")
             .then(response => response.text())
             .then(data => alert("Riders assigned: " + data))
             .catch(error => alert("Error: " + error));
     });  
-    document.getElementById("refund").addEventListener("click", function() 
+     document.getElementById("refund").addEventListener("click", function() 
     {
         window.location.href = "../sales/refund.php";
+    });
+
+    document.getElementById("approveSeller").addEventListener("click", function() 
+    {
+        window.location.href = "../approve/approveSeller.php";
+    });
+
+      document.getElementById("wallet").addEventListener("click", function() 
+    {
+        window.location.href = "../wallet/superuserWallet.php";
     });
 </script>
 

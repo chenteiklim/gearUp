@@ -187,9 +187,19 @@ else if (Param === '6') {
   }
 
  
-  
+function togglePassword(fieldId, iconElement) {
+    var passwordField = document.getElementById(fieldId);
 
-
+    if (passwordField.type === "password") {
+        passwordField.type = "text"; // Show password
+        iconElement.classList.remove("fa-eye"); 
+        iconElement.classList.add("fa-eye-slash"); // Change to hide icon
+    } else {
+        passwordField.type = "password"; // Hide password
+        iconElement.classList.remove("fa-eye-slash"); 
+        iconElement.classList.add("fa-eye"); // Change back to show icon
+    }
+}
   
   const togglePasswordBtn = document.getElementById('show');
   const passwordInput = document.getElementById('password');
@@ -224,13 +234,12 @@ else if (Param === '6') {
     });
   }
 
-
 document.getElementById("login").addEventListener("click", function() {
   // Replace 'login.html' with the URL of your login page
-  window.location.href = "../login/login.html";
+  window.location.href = "../login/login.php";
 });
 document.getElementById("home").addEventListener("click", function() {
 // Replace 'login.html' with the URL of your login page
-window.location.href = "../homepage/homepage.php";
+window.location.href = "../homepage/customerHomepage.php";
 });
 

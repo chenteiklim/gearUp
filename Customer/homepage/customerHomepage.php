@@ -1,6 +1,6 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 // Get product list
 $selectRowsQuery = "SELECT * FROM products ORDER BY product_id ASC";
@@ -20,7 +20,7 @@ if ($selectRowsResult && $selectRowsResult->num_rows > 0) {
     <?php foreach ($products as $product): ?>
         <div class="product">
             <div class="imageContainer">
-                <img class="item" src="/inti/gadgetShop/assets/<?php echo htmlspecialchars($product['image']); ?>" alt="">
+                <img class="item" src="/inti/gearUp/assets/<?php echo htmlspecialchars($product['image']); ?>" alt="">
             </div>
             <div class="productDetails">
                 <div class="product_name"><?php echo htmlspecialchars($product['product_name']); ?></div>
@@ -29,7 +29,7 @@ if ($selectRowsResult && $selectRowsResult->num_rows > 0) {
                     <div><?php echo htmlspecialchars($product['price']); ?></div>
                 </div>
               
-                <button id="view" class="button" onclick="location.href='../login/login.html'">View</button>
+                <button id="view" class="button" onclick="location.href='../login/login.php'">View</button>
             </div>
         </div>
     <?php endforeach; ?>

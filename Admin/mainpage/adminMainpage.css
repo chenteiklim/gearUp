@@ -54,27 +54,6 @@
     margin-top: 20px;
   }
 
-    #home{
-        margin-left: 10px;
-    }
-  #name{
-      margin-left: 800px;
-  }
-  #logout{
-    height: 80px;    
-  }
-  #logoImg{
-      margin-top: 25px;
-      width: 35px;
-      height: 35px;
-      border-radius: 5px;
-      margin-left: 100px;
-  }
-  
-      button:hover{
-          transform: scale(0.9);
-          background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-        }
   
         .seller, .product, .rider {
           position: relative;
@@ -123,19 +102,13 @@
   display: block;
 }
 
-#order{
-  margin-top: 20px;
-}
+
 
 #rider{
   margin-top: 20px;
 }
-#assignRidersButton{
-  margin-top: 20px;
-}
-#approveRiderButton{
-  margin-top: 20px;
-}
-#refund{
+
+
+.button{
   margin-top: 20px;
 }

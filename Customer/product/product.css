@@ -136,6 +136,10 @@ margin-left: 500px
     .buyBtn{
       display: flex;
     }
+    #description{
+      margin-top:50px;
+      margin-left:50px;
+    }
     .message-container {
       
       background-color: rgba(0, 0, 0, 0.7);
@@ -155,7 +159,7 @@ margin-left: 500px
       margin-top:10px;
       margin-left:50px;
     }
-    successMessage{
+    .successMessage{
       background-color: #dff0d8;
       color: #3c763d;
       padding: 10px;
@@ -300,7 +304,7 @@ html, body {
 }
 
 .productRating{
-  margin-left: 200px;
+  margin-left: 250px;
   font-size: 30px;
 }
 

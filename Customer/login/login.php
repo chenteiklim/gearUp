@@ -1,7 +1,7 @@
 <?php
 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 
 session_start();
@@ -73,7 +73,7 @@ $conn->close();
 <body>
   
 <div id="navContainer"> 
-  <img id="logoImg" src="/inti/gadgetShop/assets/logo.jpg" alt="" srcset="">
+  <img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
   <button class="navButton" id="home">GearUp</button>
   <button class="navButton" id="register">Register</button>
 </div>

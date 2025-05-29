@@ -94,8 +94,8 @@ background-color:#e8e8e8;
             <button type="submit" id="logOut" class="navButton">Log Out</button>
         </form>    
     <?php else: ?>
-        <button id="login" class="navButton" onclick="">Login</button>
-        <button id="register" class="navButton" onclick="">Register</button>
+        <button id="login" class="navButton" onclick="window.location.href = '../login/login.php';">Login</button>
+        <button id="register" class="navButton" onclick="window.location.href = '../signUp/register.php';">Register</button>
     <?php endif; ?>
 </div>
 

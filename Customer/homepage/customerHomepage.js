@@ -1,7 +1,3 @@
-document.getElementById("view").addEventListener("click", function() {
-  // Perform the navigation action here
-  window.location.href = "../login/login.php";
-  });
 
 
 window.onload = function() {
@@ -19,27 +15,4 @@ window.onload = function() {
     }
   };
 
-    const registerButton = document.getElementById('register');
-
-    // Add an event listener to the button
-    registerButton.addEventListener('click', function() {
-      // Code to navigate to another page goes here
-      // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = '../signUp/register.php';
-    });
-    
-    
-    const loginButton = document.getElementById('login');
-    
-    // Add an event listener to the button
-    loginButton.addEventListener('click', function() {
-      // Code to navigate to another page goes here
-      // For example, you can use the window.location.href property to redirect to a new URL
-      window.location.href = '../login/login.php';
-    });
-    
-    
-    // Add an event listener to the button
-   
-    
     

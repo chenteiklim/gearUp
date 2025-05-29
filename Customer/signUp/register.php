@@ -220,7 +220,6 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 
         <input type="text" placeholder="Enter Full Address." name="address" required>
 
-        <label for="state">State:</label>
         <select id="state" name="state" required >
             <option value="">Select State</option>
             <option value="Johor">Johor</option>
@@ -241,12 +240,15 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
      
         <input type="email" placeholder="Enter Email" name="email" required>
   
+       <div class="password">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
-        <button id="show">Show</button>
- 
-  
-        <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
-        <button id="show2">Show</button>
+        <i class="fa fa-eye" onclick="togglePassword('password', this)"></i>
+            </div> 
+            <div class="password"> 
+            <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
+        <i class="fa fa-eye" onclick="togglePassword('password2', this)"></i>
+            </div> 
           <div id="errorContainer"></div>
           <div id="privacyContainer">
             <label for="privacyCheck" id = 'privacytext'>

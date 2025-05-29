@@ -1,11 +1,13 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-
 
 session_start();
-
 $usernames=$_SESSION['username'];
-$stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $usernames);
 $stmt->execute();
 
@@ -14,160 +16,86 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     // Fetch the result as an associative array
-    $user = $result->fetch_assoc();
-    $email = $user['email']; // Access the email field
+    $row = $result->fetch_assoc();
+    $user_id = $row['user_id'];
+    $encryptedAddress= $row['address'];
+    $address = openssl_decrypt($encryptedAddress, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 
 } else {
     echo "No user found with that username.";
 }
 $stmt->close();
-$sql = "SELECT * FROM users WHERE email = '$email'";
-$result = $conn->query($sql);
+$orderQuery = $conn->prepare("SELECT order_id, total_price FROM orders WHERE user_id = ? AND order_status = 'cart'");
+$orderQuery->bind_param("i", $user_id);
+$orderQuery->execute();
+$orderResult = $orderQuery->get_result();
+$rows = [];
+if ($orderRow = $orderResult->fetch_assoc()) {
+    $order_id = $orderRow['order_id'];
+    $grandTotal = $orderRow['total_price'];
 
-// Check if the query was successful and if any rows were returned
-if ($result && $result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-    // Get the address value from the fetched row
-    $encrypted_address = $row['address'];
-} 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
-
-$address = openssl_decrypt($encrypted_address, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
-
-$sql2 = "SELECT user_id FROM users WHERE email = '$email'";
-$result2 = $conn->query($sql2);
-
-if ($result2->num_rows > 0) {
-    // Fetch the user ID from the result
-    $row = $result2->fetch_assoc();
-    $user_id = $row['user_id'];
+    // Get items
+    $itemQuery = $conn->prepare("SELECT *, (quantity * price) AS total_price FROM order_items WHERE order_id = ?");
+    $itemQuery->bind_param("i", $order_id);
+    $itemQuery->execute();
+    $itemsResult = $itemQuery->get_result();
+    while ($row = $itemsResult->fetch_assoc()) {
+        $rows[] = $row;
+    }
 }
-$tableName = "cart" . $user_id;
-
-// Query to count the total number of rows in the table
-$countQuery = "SELECT COUNT(*) AS total FROM $tableName WHERE email='$email' ORDER BY user_id ASC";
-$countResult = $conn->query($countQuery);
-
-if ($countResult && $countResult->num_rows > 0) {
-    $row6 = $countResult->fetch_assoc();
-    $total_rows = $row6['total'];
-} else {
-    $total_rows = 0;
-}
-
-$sql = "SELECT usernames FROM users WHERE email = '$email'";
-$result3 = $conn->query($sql);
-
-// Check if the query was successful and if any rows were returned
-if ($result3 && $result3->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result3->fetch_assoc();
-    // Get the address value from the fetched row
-    $usernames = $row['usernames'];
-} 
-
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/customerNavbar.php';
-
-    
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../product/cart.css">
     <link rel="stylesheet" href="checkOut.css">
 </head>
 <body>
+    <div id="messageContainer"></div>
+     <div class='address'>
+        Shipping Address:
+        <?php echo $address;?>
+    </div>   
     
-  
-</div>
 <div id="container">
-    <div class='item10'>
-    <div class='user-info'>
-        <div class='title2'>
-            Delivery Address
-        </div>
-        <div class='content2'>
-           
-            <div class='address'>
-                <?php echo $address;?>
-            </div>   
-        </div>
+    <div class='title'>
+        <div class="Product">Product</div>
+        <div class="product_name">Product Name</div>
+        <div class="price">Price</div>
+        <div class="quantity">Quantity</div>
+        <div class="total_price">Total Price</div>
     </div>
 
-<div class='title'>
-    <div class="Product"><?php echo 'Product'; ?> </div>
-    <div class="product_name"><?php echo 'Product Name'; ?></div>
-    <div class="price"><?php echo 'Price'; ?></div>
-    <div class="quantity"><?php echo 'Quantity'; ?></div>
-    <div class="total_price"><?php echo 'Total Price'; ?></div>
+    <?php if (empty($rows)): ?>
+        <p>Your cart is empty.</p>
+    <?php else: ?>
+        <?php foreach ($rows as $row): 
+            $product_id = $row['product_id']; 
+            $product_name = $row['product_name'];
+            $imageUrl = "/inti/gadgetShop/assets/" . $row['image'];
+            $price = $row['price'];
+            $quantity = $row['quantity'];
+            $total_price = $row['total_price'];
+        ?>
+        <div class="content" id="row_<?php echo $product_id; ?>">
+            <img class="item" src="<?php echo $imageUrl; ?>" alt="">
+            <div class="product_name"><?php echo $product_name; ?></div>
+            <div id="price">RM<?php echo $price; ?></div>
+            <div id="quantity">x<?php echo $quantity; ?></div>
+            <div id="total_price">RM<?php echo $total_price; ?></div>
+
+         
+        </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
-<?php
-
-mysqli_select_db($conn, $dbname);
-$selectRowQuery1 = "SELECT * FROM $tableName WHERE email='$email' ORDER BY user_id ASC";
-$selectResult = $conn->query($selectRowQuery1);
-
-if ($selectResult && $selectResult->num_rows > 0) {
-    $product_ids = array(); // Initialize an empty array
-
-    while ($row2 = $selectResult->fetch_assoc()) {
-        $product_ids[] = $row2['product_id']; // Add each product_id to the array
-    }
-}
-
-$grandTotal = 0;
-$total_rows = count($product_ids);
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
-    
-    // Delete the record from the database
-    $sql = "DELETE FROM user_$user_id WHERE product_id = '$product_id'";
-    $result = $conn->query($sql);
-    
-    // Redirect the user back to the current page after deletion
-    header("Location: cart.php");
-    exit;
-}
-
-$grandTotal=0;
-// Loop through the orders
-
-foreach ($product_ids as $product_id) {
-    $selectRowQuery = "SELECT * FROM $tableName  WHERE product_id = $product_id AND email='$email' ORDER BY user_id ASC";
-    $selectRowResult = $conn->query($selectRowQuery);
-
-    if ($selectRowResult && $selectRowResult->num_rows > 0) {
-        $row = $selectRowResult->fetch_assoc();
-        $product_name = $row['product_name'];
-        $price = $row['price'];
-        $image = $row['image'];
-        $imageUrl = "/inti/gadgetShop/assets/" . $image;
-        $quantity = $row['quantity'];
-        $total_price = $row['total_price'];
-        $grandTotal += $total_price;
-
-?>  
-<div class="content">
-    <img class="item" src="<?php echo $imageUrl; ?>" alt="">
-    <div class="product_name"><?php echo $product_name; ?></div>
-    <div id="price"><?php echo 'RM'.$price; ?></div>
-    <div id="quantity">x<?php echo $quantity; ?></div>
-    <div id="total_price"><?php echo 'RM'.$total_price; ?></div> 
-</div>
-
-<?php
-$Total=$grandTotal+9;
-    }
-}
-?>
- </div>
     <div id='footers'>
         <div id="paymentMethod">
             <div id="paymentTitle">Payment Method</div>
@@ -188,17 +116,14 @@ $Total=$grandTotal+9;
 
             <div class='row'>
                 <div>Total Payment</div>
-                <div class='row4'><?php echo "RM $Total"?></div>
+                    <?php $order_price= $grandTotal + 9 ?>
+                <div class='row4'><?php echo "RM $order_price"?></div>
             </div>
             
             <button id="checkOutbtn" class="button"><?php echo 'Place Order' ?></button>
         </form>  
-
-</div>
-</div>
-</div>
+    </div>
 </body>
-<script src="checkOut.js"></script>
-
 </html>
+<script src="checkOut.js"></script>
 

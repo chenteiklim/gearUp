@@ -1,22 +1,38 @@
 <?php
 session_start();
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-$platformName='Trust Toradora';
 $username = $_SESSION['adminUsername'];
 
-// Check if wallet exists
-$sql = "SELECT COUNT(*) AS count FROM wallet WHERE usernames = ?";
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';
+
+
+$sql = "SELECT user_id FROM users WHERE usernames = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $platformName);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+    $user_id = $row['user_id'];
+    // Now you can use $user_id for further processing
+} else {
+    // User not found (handle accordingly)
+    echo "User not found.";
+}
+
+// Check if wallet exists
+$sql = "SELECT COUNT(*) AS count FROM wallet WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 if ($row['count'] == 0) {
     // Wallet doesn't exist, create it
-    $sql = "INSERT INTO wallet (usernames, wallet_balance) VALUES (?, 0)";
+    $sql = "INSERT INTO wallet (user_id, wallet_balance) VALUES (?, 0)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $platformName);
+    $stmt->bind_param("s", $user_id);
     $stmt->execute();
 }
 
@@ -25,22 +41,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deposit'])) {
     include 'deposit.php';
 }
 // Fetch updated wallet balance
-$sql = "SELECT wallet_balance FROM wallet WHERE usernames = ?";
+$sql = "SELECT wallet_balance FROM wallet WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $platformName);
+$stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $wallet_balance = $row ? $row['wallet_balance'] : 0.00;
 
-// Get complete transaction history (both sent & received)
-$sql = "SELECT * FROM transactions WHERE sender_name = ? OR receiver_name = ? ORDER BY timestamp DESC";
+$sql = "SELECT t.*, sender_user.usernames AS sender_name, receiver_user.usernames AS receiver_name
+    FROM transactions t
+    LEFT JOIN users sender_user ON t.sender_id = sender_user.user_id
+    LEFT JOIN users receiver_user ON t.receiver_id = receiver_user.user_id
+    WHERE t.sender_id = ? OR t.receiver_id = ?
+    ORDER BY t.timestamp DESC
+";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $platformName, $platformName);
+$stmt->bind_param("ss", $user_id, $user_id);
 $stmt->execute();
 $transactions = $stmt->get_result();
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/adminNavbar.php';
 
 ?>
 

@@ -18,32 +18,22 @@ if ($row = $result->fetch_assoc()) {
     echo "User not found.";
 }
 
-$stmt = $conn->prepare("SELECT storeName FROM seller WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT * FROM seller WHERE user_id = ?");
 $stmt->bind_param("s", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($row = $result->fetch_assoc()) {
-  $storeName= $row['storeName'];
+  $seller_id= $row['seller_id'];
 } 
 
 if (isset($_POST['submit'])) {
   $productName = $_POST['productName'];
   $productImage = $_FILES['productImage']['name'];
+  $description = $_POST['description'];
   $price = $_POST['price'];
   $stock = $_POST['stock'];
-  $sql = "SELECT user_id FROM users WHERE usernames = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $username); // Use "s" for string
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $row = $result->fetch_assoc();
-  
-  if ($row) {
-      $seller_id = $row['user_id']; // Get the seller_id (which is actually user_id)
-  } else {
-      $seller_id = null; // No seller found
-  }
+ 
 
   $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
   if (!is_dir($targetDir)) {
@@ -74,7 +64,7 @@ $maxProductID = $row['max_id'];
 $nextProductID = $maxProductID + 1;
 
 // Insert the product with the custom incrementing value
-$insertProduct = "INSERT INTO products (product_id, product_name, image, price, stock, sellerName, storeName, user_id, status) VALUES ('$nextProductID', '$productName', '$productImage', '$price', '$stock', '$username', '$storeName', '$seller_id', 0)";
+$insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, description, price, stock, status) VALUES ('$nextProductID', '$seller_id', '$productName', '$productImage', '$description', '$price', '$stock', 0)";
     
         // Execute the SQL statement
         if ($conn->query($insertProduct) === TRUE) {
@@ -195,6 +185,16 @@ input[type="number"] {
   margin-top: 30px;
   width: 250px; /* Ensure uniform width like other fields */
 }   
+
+.descriptionContainer
+{
+  display: flex;
+  flex-direction: column; /* Ensure label and input are stacked */
+  gap: 5px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  width: 250px; /* Ensure uniform width like other fields */
+}   
     </style>
 </head>
 
@@ -224,6 +224,11 @@ input[type="number"] {
       <label for="productImage">Product Image </label>
       <input type="file" name="productImage" required>
     </div>
+     <div class="descriptionContainer">   
+      <label for="description">Description</label>
+      <input type="text" placeholder="Enter description" name="description" required>
+    </div>
+
     <div class="priceContainer">   
       <label for="price">Price (RM)</label>
       <input type="number" placeholder="Enter price" name="price" required>

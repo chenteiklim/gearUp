@@ -4,21 +4,25 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
 
 session_start();
 $product_id = $_SESSION['product_id'];
-$username=$_SESSION['username'];
 
-
-$sql = "SELECT * FROM products WHERE product_id = '$product_id'";
+$sql = "SELECT products.*, seller.storeName, seller.sellerName 
+        FROM products 
+        JOIN seller ON products.seller_id = seller.seller_id 
+        WHERE products.product_id = '$product_id'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // Fetch the user ID from the result
     $row = $result->fetch_assoc();
+    $seller_id=$row['seller_id'];
     $product_name = $row['product_name'];
     $price = $row['price'];
-
+    $description =$row['description'];
     $image= $row['image'];
     $stock=$row['stock'];
-    $status = $row['status'];
+}
+else{
+
 }
 $imageUrl = "/inti/gadgetShop/assets/" . $image;
 /* Fetch Ratings for Each Product Inside the Loop  */
@@ -83,9 +87,7 @@ $ratingStmt->close();
 
         <div id="rightSideText">
             <div class="names"><?php echo $product_name; ?> </div>
-            <?php if ($status > 0): ?>  
-                <div id="status" class="status"><?php echo $status . ' sold'; ?></div>
-            <?php endif; ?>            
+                   
             <div class="stock"><?php echo $stock . 'stock available'; ?></div>
            <div id="seller">
                 <div id="storeName">
@@ -94,9 +96,12 @@ $ratingStmt->close();
                 <div id="sellerName">
                     Seller Name: <?= htmlspecialchars($row['sellerName']) ?>
                 </div>
+                  <div id="description">
+                     <?= htmlspecialchars($row['description']) ?>
+                </div>
             </div>
             <div id="price" class="prices"><?php echo'RM'.$price; ?></div>
-            <form action="order.php?product_id=1" method="post">
+            <form action="addCart.php?product_id=1" method="post">
                 <div class="quantity">
                     <label for="quantity" class="quantity_label">Quantity:</label>
                     <div id="messageContainer"></div>

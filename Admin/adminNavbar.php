@@ -67,15 +67,15 @@
 </style>
 
 <div id="navContainer"> 
-<img id="logoImg" src="/inti/gadgetShop/assets/logo.jpg" alt="" srcset="">
+<img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
 <button class="navButton" id="home">GearUp</button>
 <button class="navButton" id="name"><?php echo $username ?></button>
-<form action="/inti/gadgetShop/Admin/login/logout.php" method="POST">
+<form action="/inti/gearUp/Admin/login/logout.php" method="POST">
 <button class="navButton" type="submit" id="logout" class="button">Log Out</button>
 </form> 
 </div>
 
-<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';?>
+<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';?>
 
 <script>     
   
@@ -83,6 +83,6 @@
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here
     event.preventDefault()
-    window.location.href = "/inti/gadgetShop/Admin/mainpage/adminMainpage.php";
+    window.location.href = "/inti/gearUp/Admin/mainpage/adminMainpage.php";
   });
 </script>

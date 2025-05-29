@@ -12,7 +12,34 @@
   letter-spacing: 1px; /* Adjust spacing between characters */
 }
 
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+}
 
+select {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    transition: border 0.3s, box-shadow 0.3s;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%23999'%20/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+}
+
+select:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+    outline: none;
+}
 #privacyContainer{
   display: flex;
   margin-top: 10px;
@@ -38,6 +65,19 @@ margin: 8px 0;
 display: inline-block;
 border: 1px solid #ccc;
 box-sizing: border-box;
+}
+
+
+.password {
+  position: relative;
+}
+
+.password i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 

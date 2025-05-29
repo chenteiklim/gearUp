@@ -1,20 +1,4 @@
 
-var homeButton = document.getElementById("home");
-
-homeButton.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "../homepage/mainpage.php";
-});
-
-var checkOutBtn = document.getElementById("checkOutBtn");
-
-checkOutBtn.addEventListener("click", function(event) {
-  // Perform the navigation action here
-  event.preventDefault()
-  window.location.href = "../order/checkOut.php";
-});
-
 window.onload = function() {
   var urlParams = new URLSearchParams(window.location.search);
   const message2 = urlParams.get('message2');

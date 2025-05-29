@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
     $contactEncrypted = openssl_encrypt($contact, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 // Insert into seller table
-$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, description, businessID, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt1->bind_param("ssssss", $storeName, $user_id, $description, $businessID, $contactEncrypted, $param1);
+$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, sellerName, description, businessID, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt1->bind_param("ssssss", $storeName, $user_id, $username, $description, $businessID, $contactEncrypted, $param1);
 
 if ($stmt1->execute()) {
     // Get the inserted seller_id

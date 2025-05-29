@@ -1,22 +1,20 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = $_POST['passwords'];
-
-    // Prepare SQL to fetch user data
-    $sql = "SELECT passwords FROM superuser WHERE usernames = ?";
+    $sql = "SELECT passwords FROM users WHERE usernames = ? AND role IN ('admin', 'superuser')";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($row = $result->fetch_assoc()) {
         $hashed_password = $row['passwords']; // Fetch hashed password
-        
+
         if (password_verify($password, $hashed_password)) {
             // Correct password, set session and redirect
             $_SESSION['adminUsername'] = $username;
@@ -24,14 +22,14 @@ if (isset($_POST['submit'])) {
             exit();
         } else {
             // Incorrect password
-            header("Location: login.html?success=1");
+            header("Location: login.html?success=1"); // wrong password
             exit();
         }
     } else {
-        // No user found
-        header("Location: login.html?success=2");
+        // No user found or not admin/superuser
+        header("Location: login.html?success=2"); // user not found or not allowed
         exit();
-    }
+    }   
 
     // Close statement and connection
     $stmt->close();
