@@ -2,7 +2,7 @@
 
 session_start();
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
     $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     // Encrypt email
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
     
     $_SESSION['email'] = $email;
 
@@ -166,7 +166,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
             $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
             $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
-            $mail->setFrom('testing@computerShop.com', 'testing');
+            $mail->setFrom('testing@gearUp.com', 'testing');
             $mail->isHTML(true);
             $mail->Subject = 'Email Verification';
         
@@ -207,7 +207,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 <body>
   
 <div id="navContainer"> 
-  <img id="logoImg" src="/inti/gadgetShop/assets/logo.jpg" alt="" srcset="">
+  <img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
   <button class="navButton" id="home">GearUp</button>
   <button class="navButton" id="login">Login</button>
 </div>

@@ -5,7 +5,7 @@ $encryption_iv = '1234567890abcdef'; // A fixed IV (16 bytes, matching AES-256-C
 
 
 // to include encryption
-//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
 
 ?>

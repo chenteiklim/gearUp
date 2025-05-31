@@ -1,6 +1,6 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $username=$_SESSION['adminUsername'];
@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
   $price = $_POST['price'];
   $stock = $_POST['stock'];
 
-  $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
+  $targetDir = "C:/xampp/htdocs/gearUp/assets/";
   if (!is_dir($targetDir)) {
       mkdir($targetDir, 0777, true);
   }
@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
   if (in_array($fileExtension, $allowedTypes)) {
     if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
         // Display the uploaded image
-        $imageUrl = "/inti//gadgetShop/assets/" . basename($productImage);
+        $imageUrl = "/inti//gearUp/assets/" . basename($productImage);
         // Insert the product info into the database here
     } else {
         echo "Sorry, there was an error uploading your file.";
@@ -192,7 +192,7 @@ input[type="number"] {
     </style>
 </head>
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';?>
 
 <div class="container">
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>

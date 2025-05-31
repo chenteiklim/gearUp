@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 if (!isset($_SESSION['username'])) {
@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 $username = $_SESSION['username'];
 
@@ -44,7 +44,6 @@ $selectRowsResult = $conn->query($selectRowsQuery);
 <head>
     <meta charset="UTF-8">
     <title>Product</title>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="customerMainpage.css">
 </head>
@@ -56,7 +55,7 @@ $selectRowsResult = $conn->query($selectRowsQuery);
 <?php while ($row = $selectRowsResult->fetch_assoc()): ?>
     <div class="product">
         <div class="imageContainer">
-            <img class="item" src="/inti/gadgetShop/assets/<?= $row['image'] ?>" alt="">
+            <img class="item" src="/inti/gearUp/assets/<?= $row['image'] ?>" alt="">
         </div>
         <div class="productDetails">
             <div class="product_name"><?= htmlspecialchars($row['product_name']) ?></div>

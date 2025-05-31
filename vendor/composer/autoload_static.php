@@ -16,7 +16,7 @@ class ComposerStaticInit85551009feabd4121c6446a9af1951ae
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
-            'Teik\\Gadgetshop\\' => 16,
+            'Teik\\GearUp\\' => 12,
         ),
         'P' => 
         array (
@@ -35,7 +35,7 @@ class ComposerStaticInit85551009feabd4121c6446a9af1951ae
     );
 
     public static $prefixDirsPsr4 = array (
-        'Teik\\Gadgetshop\\' => 
+        'Teik\\GearUp\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -49,8 +49,8 @@ class ComposerStaticInit85551009feabd4121c6446a9af1951ae
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (

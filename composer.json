@@ -1,9 +1,9 @@
 {
-    "name": "teik/gadgetshop",
+    "name": "teik/gearup",
     "description": "sell",
     "autoload": {
         "psr-4": {
-            "Teik\\Gadgetshop\\": "src/"
+            "Teik\\GearUp\\": "src/"
         }
     },
     "require": {

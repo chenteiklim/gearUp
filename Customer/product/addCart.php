@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 $username = $_SESSION['username'];
@@ -49,7 +49,7 @@ if (isset($_POST['addCart'])) {
             $order_id = $orderRow['order_id'];
         } else {
             // Create new order with status 'cart'
-            $createOrderSql = "INSERT INTO orders (user_id, total_price, order_status, order_date) VALUES (?, 0, 'cart', NOW())";
+            $createOrderSql = "INSERT INTO orders (user_id, subtotal, order_status, order_date) VALUES (?, 0, 'cart', NOW())";
             $createOrderStmt = $conn->prepare($createOrderSql);
             $createOrderStmt->bind_param("i", $user_id);
             $createOrderStmt->execute();
@@ -90,7 +90,7 @@ if (isset($_POST['addCart'])) {
         $totalPriceRow = $totalPriceResult->fetch_assoc();
         $newTotalPrice = $totalPriceRow['total'];
 
-        $updateOrderPriceSql = "UPDATE orders SET total_price = ? WHERE order_id = ?";
+        $updateOrderPriceSql = "UPDATE orders SET subtotal = ? WHERE order_id = ?";
         $updateOrderPriceStmt = $conn->prepare($updateOrderPriceSql);
         $updateOrderPriceStmt->bind_param("di", $newTotalPrice, $order_id);
         $updateOrderPriceStmt->execute();

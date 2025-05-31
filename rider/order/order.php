@@ -4,9 +4,9 @@ session_start();
 
 $username = $_SESSION['riderUsername'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Rider/riderNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Rider/riderNavbar.php';
 
 function decrypt_address($encrypted_address) {
     global $encryption_key, $encryption_iv;
@@ -55,7 +55,7 @@ $resultOrder = $conn->query($sql);
             <td><?= htmlspecialchars(decrypt_address($row['address'])) ?></td>
             <td>
                 <?php if (!empty($row['image'])): ?>
-                    <img id="img" src="/inti/gadgetShop/assets/<?= htmlspecialchars($row['image']) ?>" alt="Product Image" width="50" height="50">
+                    <img id="img" src="/inti/gearUp/assets/<?= htmlspecialchars($row['image']) ?>" alt="Product Image" width="50" height="50">
                 <?php else: ?>
                     No Image Available
                 <?php endif; ?>

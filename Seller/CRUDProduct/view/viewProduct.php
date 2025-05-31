@@ -3,8 +3,8 @@ session_start();
 $username=$_SESSION['username'];
 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
 
 
@@ -106,7 +106,7 @@ if ($result->num_rows > 0) {
         </div> 
 
         <div id="imageContainer" class='row'>
-            <img id='img' src="<?php echo htmlspecialchars('/inti/gadgetShop/assets/' . $product['image']); ?>" alt="Product Image" />
+            <img id='img' src="<?php echo htmlspecialchars('/inti/gearUp/assets/' . $product['image']); ?>" alt="Product Image" />
         </div>
 
         <div id="priceContainer" class='row'>   

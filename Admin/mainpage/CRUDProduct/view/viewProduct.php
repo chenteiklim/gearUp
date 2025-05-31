@@ -1,7 +1,7 @@
 <?php
 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $username=$_SESSION['adminUsername'];
@@ -132,7 +132,7 @@ if ($result->num_rows > 0) {
 </head>
 
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';?>
 
 <div id="container">
   <div id='productContainer'>
@@ -147,7 +147,7 @@ if ($result->num_rows > 0) {
         </div> 
 
         <div id="imageContainer" class='row'>
-            <img id='img' src="<?php echo htmlspecialchars('/inti/gadgetShop/assets/' . $product['image']); ?>" alt="Product Image" />
+            <img id='img' src="<?php echo htmlspecialchars('/inti/gearUp/assets/' . $product['image']); ?>" alt="Product Image" />
         </div>
 
         <div id="priceContainer" class='row'>   

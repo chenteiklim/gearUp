@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 // Check if admin is logged in
@@ -11,7 +11,7 @@ if (!isset($_SESSION['adminUsername'])) {
 
 $username = $_SESSION['adminUsername'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
 function decrypt_address($encrypted_address) {
     global $encryption_key, $encryption_iv;
@@ -33,7 +33,7 @@ $resultSeller = $conn->query($sql);
     <link rel="stylesheet" href="approveSeller.css">
 </head>
 <body>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php'; ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php'; ?>
 
 <h2>Pending Sellers</h2>
 

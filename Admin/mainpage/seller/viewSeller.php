@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "gadgetShop";
+$dbname = "gearUp";
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -154,7 +154,7 @@ $result = $conn->query($sql);
         </thead>
         <tbody>
             <?php
-              include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+              include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
               function decrypt_email($encrypted_email) {
                   global $encryption_key, $encryption_iv;
               

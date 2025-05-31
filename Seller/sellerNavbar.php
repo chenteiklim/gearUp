@@ -68,27 +68,27 @@
 </style>
 
 <div id="navContainer"> 
-<img id="logoImg" src="/inti/gadgetShop/assets/logo.jpg" alt="" srcset="">
+<img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
 <button class="navButton" id="home">GearUp</button>
 <button class="navButton" id="customer">Customer Center</button>
 <button class="navButton" id="name"><?php echo $username ?></button>
-<form action="/inti/gadgetShop/Customer/login/logout.php" method="POST">
+<form action="/inti/gearUp/Customer/login/logout.php" method="POST">
 <button class="navButton" type="submit" id="logout" class="button">Log Out</button>
 </form> 
 </div>
 
-<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';?>
+<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';?>
 
 <script>     
     document.getElementById("customer").addEventListener("click", function() {
         // Replace 'login.html' with the URL of your login page
-        window.location.href = "/inti/gadgetShop/Customer/mainpage/customerMainpage.php";
+        window.location.href = "/inti/gearUp/Customer/mainpage/customerMainpage.php";
     });
     
   var homeButton = document.getElementById("home");
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here
     event.preventDefault()
-    window.location.href = "/inti/gadgetShop/Seller/mainpage/sellerMainpage.php";
+    window.location.href = "/inti/gearUp/Seller/mainpage/sellerMainpage.php";
   });
 </script>

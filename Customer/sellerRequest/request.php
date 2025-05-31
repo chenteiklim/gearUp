@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $username=$_SESSION['username'];
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $businessID = $_POST['businessID'];
     $contact = $_POST['contactInfo'];
     $status = 'pending';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
     $contactEncrypted = openssl_encrypt($contact, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 // Insert into seller table
 $stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, sellerName, description, businessID, contact, status) VALUES (?, ?, ?, ?, ?, ?)");

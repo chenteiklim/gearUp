@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const sellerDiv = document.createElement("div");
                 sellerDiv.classList.add("seller-item");
                 sellerDiv.innerHTML = seller.usernames;
-                sellerDiv.dataset.sellerId = seller.seller_id;
 
                 sellerDiv.addEventListener("click", function () {
                     const selectedSellerName = seller.usernames;

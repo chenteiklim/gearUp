@@ -3,9 +3,9 @@
 session_start();
 $usernames=$_SESSION['username'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $usernames);
@@ -25,17 +25,30 @@ if ($result->num_rows > 0) {
     echo "No user found with that username.";
 }
 $stmt->close();
-$orderQuery = $conn->prepare("SELECT order_id, total_price FROM orders WHERE user_id = ? AND order_status = 'cart'");
+
+// Step 1: retrieve order
+$orderQuery = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND order_status = 'cart'");
 $orderQuery->bind_param("i", $user_id);
 $orderQuery->execute();
 $orderResult = $orderQuery->get_result();
 $rows = [];
+
 if ($orderRow = $orderResult->fetch_assoc()) {
     $order_id = $orderRow['order_id'];
-    $grandTotal = $orderRow['total_price'];
+    $shipping_price = 9.00;
+    $subtotal = $orderRow['subtotal'];
 
-    // Get items
-    $itemQuery = $conn->prepare("SELECT *, (quantity * price) AS total_price FROM order_items WHERE order_id = ?");
+    
+
+    $total_price = $subtotal + $shipping_price;
+
+    // Step 3: Update total_price
+    $updateQuery = $conn->prepare("UPDATE orders SET total_price = ? WHERE order_id = ?");
+    $updateQuery->bind_param("di", $total_price, $order_id);
+    $updateQuery->execute();
+
+    // Step 4: Retrieve all order items (for displaying)
+    $itemQuery = $conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
     $itemQuery->bind_param("i", $order_id);
     $itemQuery->execute();
     $itemsResult = $itemQuery->get_result();
@@ -43,7 +56,6 @@ if ($orderRow = $orderResult->fetch_assoc()) {
         $rows[] = $row;
     }
 }
-
 
 ?>
 
@@ -78,17 +90,18 @@ if ($orderRow = $orderResult->fetch_assoc()) {
         <?php foreach ($rows as $row): 
             $product_id = $row['product_id']; 
             $product_name = $row['product_name'];
-            $imageUrl = "/inti/gadgetShop/assets/" . $row['image'];
+            $imageUrl = "/inti/gearUp/assets/" . $row['image'];
             $price = $row['price'];
             $quantity = $row['quantity'];
-            $total_price = $row['total_price'];
+            $item_price = $price * $quantity; // <-- this line calculates the item price
+
         ?>
         <div class="content" id="row_<?php echo $product_id; ?>">
             <img class="item" src="<?php echo $imageUrl; ?>" alt="">
             <div class="product_name"><?php echo $product_name; ?></div>
-            <div id="price">RM<?php echo $price; ?></div>
+            <div id="price"><?php echo "RM " . number_format($price, 2); ?></div>
             <div id="quantity">x<?php echo $quantity; ?></div>
-            <div id="total_price">RM<?php echo $total_price; ?></div>
+            <div id="item_price"><?php echo "RM " . number_format($item_price, 2); ?></div>
 
          
         </div>
@@ -106,18 +119,17 @@ if ($orderRow = $orderResult->fetch_assoc()) {
             <input type="hidden" name="payment_method" id="selectedPayment" value="COD"> <!-- Default: COD -->
             <div id='merchandise' class="row">
                 <div>Merchandise Subtotal</div>
-                <div class='row2'> <?php echo "RM $grandTotal"?></div>
+                <div class='row2'> <?php echo "RM $subtotal"?></div>
             </div>
 
             <div class="row">
                 <div>Shipping total</div>
-                <div class='row3'><?php echo "RM 9.00"?></div>
+                <div class='row3'><?php echo "RM " . number_format($shipping_price, 2); ?></div>
             </div>
 
             <div class='row'>
                 <div>Total Payment</div>
-                    <?php $order_price= $grandTotal + 9 ?>
-                <div class='row4'><?php echo "RM $order_price"?></div>
+                <div class='row4'><?php echo "RM " . number_format($total_price, 2); ?></div>
             </div>
             
             <button id="checkOutbtn" class="button"><?php echo 'Place Order' ?></button>

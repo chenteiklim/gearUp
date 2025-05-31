@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatInput = document.getElementById("chatInput");
     const sendMessageButton = document.getElementById("sendMessage");
 
-    // Previously customerName, now it's sellerName because this is the seller's page
+ // Previously customerName, now it's sellerName because this is the seller's page
     const senderName = localStorage.getItem("sellerName"); 
     console.log("Sender (Seller):", senderName);
 
@@ -14,9 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Global function to load messages
     window.loadMessages = function () {
-        console.log('Loading messages...');
-        console.log("Sender (Seller):", senderName);
-        console.log("Receiver (Customer):", receiverName);
 
         if (!senderName || !receiverName) return;
 
@@ -26,9 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(requestURL)
             .then(response => response.json())
             .then(messages => {
-                chatMessagesContainer.innerHTML = messages.length
-                    ? messages.map(msg => `<div><strong>${msg.senderName}:</strong> ${msg.message}</div>`).join("")
-                    : "<p>No messages found.</p>";
+               chatMessagesContainer.innerHTML = messages.length
+                ? messages.map(msg => {
+                  
+                    return `<div> ${msg.senderName}:</strong> ${msg.message}</div>`;
+
+                }).join("")
+                : "<p>No messages found.</p>";
             })
             .catch(error => console.error("Error fetching messages:", error));
     };

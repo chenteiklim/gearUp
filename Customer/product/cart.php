@@ -2,8 +2,8 @@
 session_start();
 $username = $_SESSION['username'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 // Get user_id
 $userQuery = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
@@ -13,7 +13,7 @@ $userResult = $userQuery->get_result();
 $user_id = $userResult->fetch_assoc()['user_id'];
 
 // Get active cart order
-$orderQuery = $conn->prepare("SELECT order_id, total_price FROM orders WHERE user_id = ? AND order_status = 'cart'");
+$orderQuery = $conn->prepare("SELECT order_id, subtotal FROM orders WHERE user_id = ? AND order_status = 'cart'");
 $orderQuery->bind_param("i", $user_id);
 $orderQuery->execute();
 $orderResult = $orderQuery->get_result();
@@ -22,7 +22,7 @@ $grand_total = 0;
 
 if ($orderRow = $orderResult->fetch_assoc()) {
     $order_id = $orderRow['order_id'];
-    $grand_total = $orderRow['total_price'];
+    $grand_total = $orderRow['subtotal'];
 }
 
 // Handle delete request before rendering HTML
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && $ord
     $newTotal = $recalcResult->fetch_assoc()['new_total'] ?? 0;
 
     // Update new total in orders
-    $updateOrder = $conn->prepare("UPDATE orders SET total_price = ? WHERE order_id = ?");
+    $updateOrder = $conn->prepare("UPDATE orders SET subtotal = ? WHERE order_id = ?");
     $updateOrder->bind_param("di", $newTotal, $order_id);
     $updateOrder->execute();
 
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && $ord
 // Get order items
 $rows = [];
 if ($order_id) {
-    $itemQuery = $conn->prepare("SELECT *, (quantity * price) AS total_price FROM order_items WHERE order_id = ?");
+    $itemQuery = $conn->prepare("SELECT *, (quantity * price) AS subtotal FROM order_items WHERE order_id = ?");
     $itemQuery->bind_param("i", $order_id);
     $itemQuery->execute();
     $itemsResult = $itemQuery->get_result();
@@ -88,10 +88,10 @@ if ($order_id) {
         <?php foreach ($rows as $row): 
             $product_id = $row['product_id']; 
             $product_name = $row['product_name'];
-            $imageUrl = "/inti/gadgetShop/assets/" . $row['image'];
+            $imageUrl = "/inti/gearUp/assets/" . $row['image'];
             $price = $row['price'];
             $quantity = $row['quantity'];
-            $total_price = $row['total_price'];
+            $total_price = $row['subtotal'];
         ?>
         <div class="content" id="row_<?php echo $product_id; ?>">
             <img class="item" src="<?php echo $imageUrl; ?>" alt="">

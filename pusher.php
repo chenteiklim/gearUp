@@ -12,6 +12,6 @@ $pusher = new Pusher\Pusher(
     '1962376',
     $options
 );
-//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/pusher.php';
+//include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/pusher.php';
 
 ?>

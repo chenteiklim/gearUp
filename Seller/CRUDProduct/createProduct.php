@@ -1,9 +1,9 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 $username=$_SESSION['username'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
 
 
@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
   $stock = $_POST['stock'];
  
 
-  $targetDir = "C:/xampp/htdocs/gadgetShop/assets/";
+  $targetDir = "C:/xampp/htdocs/gearUp/assets/";
   if (!is_dir($targetDir)) {
       mkdir($targetDir, 0777, true);
   }
@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
   if (in_array($fileExtension, $allowedTypes)) {
     if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
         // Display the uploaded image
-        $imageUrl = "/inti//gadgetShop/assets/" . basename($productImage);
+        $imageUrl = "/inti//gearUp/assets/" . basename($productImage);
         // Insert the product info into the database here
     } else {
         echo "Sorry, there was an error uploading your file.";

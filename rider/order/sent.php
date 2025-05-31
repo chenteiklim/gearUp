@@ -6,7 +6,7 @@
     }
     $username = $_SESSION['riderUsername'];
 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
     echo "Username: $username <br>";
 

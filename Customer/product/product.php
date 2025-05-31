@@ -1,6 +1,6 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $product_id = $_SESSION['product_id'];
@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
 else{
 
 }
-$imageUrl = "/inti/gadgetShop/assets/" . $image;
+$imageUrl = "/inti/gearUp/assets/" . $image;
 /* Fetch Ratings for Each Product Inside the Loop  */
 
 $selectRatingsQuery = "SELECT rating FROM ratings WHERE product_id = ?";
@@ -56,7 +56,7 @@ $ratingStmt->close();
 
 <link rel="stylesheet" href="product.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';?>
 
 </head>
 <body>

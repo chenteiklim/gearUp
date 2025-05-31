@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 if (!isset($_POST['orders_id']) || !isset($_FILES['proof'])) {
     die("Invalid request.");
@@ -12,7 +12,7 @@ $username = $_SESSION['username'];
 $reason = $_POST['reason'] ?? ''; // Get reason if available
 
 // File upload handling
-$targetDir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gadgetShop/assets/"; // Store in assets folder
+$targetDir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gearUp/assets/"; // Store in assets folder
 
 if (!is_dir($targetDir)) {
     mkdir($targetDir, 0777, true);
@@ -29,7 +29,7 @@ if (!in_array($fileType, $allowedTypes)) {
 }
 
 if (move_uploaded_file($_FILES["proof"]["tmp_name"], $targetFile)) {
-    $fileUrl = "/inti/gadgetShop/assets/" . $fileName; // Relative path for database
+    $fileUrl = "/inti/gearUp/assets/" . $fileName; // Relative path for database
 
     // Insert refund request into the database
     $stmt = $conn->prepare("INSERT INTO refundRequest (orders_id, usernames, productName, reason, proof, status, date) 

@@ -1,9 +1,9 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $usernames = $_SESSION['username'];
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 // Fetch user email
 $stmt = $conn->prepare("SELECT email FROM users WHERE usernames = ?");
@@ -33,7 +33,7 @@ while ($row = $selectOrdersResult->fetch_assoc()) {
     $store_name = $row['store_name']; // Make sure this column exists in your DB
     $product_name = $row['product_name'];
     $image = $row['image'];
-    $imageUrl = "/inti/gadgetShop/assets/" . $image;
+    $imageUrl = "/inti/gearUp/assets/" . $image;
     $quantity = $row['quantity'];
     $total_price = $row['total_price'];
     $order_status = $row['order_status'];

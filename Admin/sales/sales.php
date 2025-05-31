@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 
@@ -13,7 +13,7 @@ if (!isset($_SESSION['adminUsername'])) {
 $username = $_SESSION['adminUsername'];
 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
 // Fetch orders
 $sql = "SELECT * FROM orders";
@@ -27,7 +27,7 @@ $resultOrder = $conn->query($sql);
 </head>
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';
 
 // Display orders in a table
 if ($resultOrder->num_rows > 0) {
@@ -54,7 +54,7 @@ if ($resultOrder->num_rows > 0) {
         
         // Check if image exists before displaying
         if (!empty($row['image'])) {
-            echo "<img id='img' src='/inti/gadgetShop/assets/" . htmlspecialchars($row['image']) . "' alt='Product Image' width='50' height='50'>";
+            echo "<img id='img' src='/inti/gearUp/assets/" . htmlspecialchars($row['image']) . "' alt='Product Image' width='50' height='50'>";
         } else {
             echo "No Image Available";
         }

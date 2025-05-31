@@ -9,8 +9,8 @@ if (!isset($_SESSION['adminUsername'])) {
 }
 $username = $_SESSION['adminUsername'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php'; 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php'; 
 
 // Fetch pending refund requests
 $stmt = $conn->prepare("SELECT * FROM refundRequest WHERE status = 'pending'");

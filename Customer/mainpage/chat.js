@@ -4,13 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatInput = document.getElementById("chatInput");
     const sendMessageButton = document.getElementById("sendMessage");
     const receiverName = localStorage.getItem("customerName");
-    console.log(receiverName);
+      const senderName = localStorage.getItem("selectedSellerName");
+   console.log (senderName);
+        console.log(receiverName);
     // Global function to load messages
     window.loadMessages = function () {
         console.log('hello world')
-        const senderName = localStorage.getItem("selectedSellerName");
-        console.log (senderName);
-        console.log(receiverName);
+      
+             console.log(receiverName);
+
         if (!senderName || !receiverName) return;
         const requestURL = `fetchMessage.php?senderName=${encodeURIComponent(senderName)}&receiverName=${encodeURIComponent(receiverName)}`;
         console.log("Request URL:", requestURL);

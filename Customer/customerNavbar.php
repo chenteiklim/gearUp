@@ -78,7 +78,7 @@ background-color:#e8e8e8;
 
     <!-- Home button becomes unclickable if on homepage or main page -->
     <button class="navButton" id="home"
-        onclick="window.location.href = '<?php echo $isHomePage ? '/inti/gadgetShop/Customer/homepage/customerHomepage.php' : '/inti/gadgetShop/Customer/mainpage/customerMainpage.php'; ?>'">
+        onclick="window.location.href = '<?php echo $isHomePage ? '/inti/gearUp/Customer/homepage/customerHomepage.php' : '/inti/gearUp/Customer/mainpage/customerMainpage.php'; ?>'">
         GearUp
     </button>
 
@@ -127,4 +127,4 @@ background-color:#e8e8e8;
  
 </script>
 
-<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';?>
+<?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';?>

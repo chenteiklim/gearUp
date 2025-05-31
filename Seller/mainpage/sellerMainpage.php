@@ -1,12 +1,12 @@
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 if (isset($_SESSION['username'])) {
 $username=$_SESSION['username'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
     // Use prepared statements to prevent SQL injection
     $checkLogin = $conn->prepare("SELECT * FROM users WHERE usernames = ?");
@@ -32,6 +32,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Seller/sellerNavbar.p
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Product</title>
+                <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                 <link rel="stylesheet" href="sellerMainpage.css">
                 <script>

@@ -1,9 +1,9 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["proof_image"])) {
     $order_id = $_POST['order_id'];
-    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gadgetShop/assets/";
+    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gearUp/assets/";
     $file_name = basename($_FILES["proof_image"]["name"]);
     $target_file = $target_dir . $file_name;
     $upload_ok = 1;

@@ -9,7 +9,7 @@ $order_id = $_GET['order_id'] ?? '';
 $product_name = $_GET['product_name'] ?? '';
 
 // Establish a database connection
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 // Fetch product_id from the database using product_name
 $product_id = '';

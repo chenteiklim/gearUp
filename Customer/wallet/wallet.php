@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 $username = $_SESSION['username'];
 
@@ -43,7 +43,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$wallet_balance = $row ? $row['wallet_balance'] : 0.00;
+$wallet_balance = $row ? $row['wallet_balance'] : 9.00;
 $stmt->close();
 
 // Get complete transaction history (both sent & received) with sender and receiver usernames
@@ -69,7 +69,7 @@ $stmt->bind_param("ii", $user_id, $user_id);
 $stmt->execute();
 $transactions = $stmt->get_result();
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Customer/customerNavbar.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 ?>
 

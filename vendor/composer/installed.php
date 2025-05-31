@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'teik/gadgetshop',
+        'name' => 'teik/gearup',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => 'e8738368e48d49bd75e527330a1b56506cd0fb26',
@@ -136,7 +136,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'teik/gadgetshop' => array(
+        'teik/gearup' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
             'reference' => 'e8738368e48d49bd75e527330a1b56506cd0fb26',

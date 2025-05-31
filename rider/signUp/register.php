@@ -1,7 +1,7 @@
 
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $haveNotEncryptEmail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
 
     // Include encryption helper
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
     // Encrypt email
     $email = openssl_encrypt($haveNotEncryptEmail, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);

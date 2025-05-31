@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 if (!isset($_SESSION['username'])) {
@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 $username = $_SESSION['username'];
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/encryption_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
 
 $selectSellerId = "SELECT seller_id FROM users WHERE usernames = ?";
 $stmt = $conn->prepare($selectSellerId);
@@ -40,7 +40,7 @@ $resultOrder = $conn->query();
 </head>
 <body>
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gadgetShop/Admin/adminNavbar.php'; ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php'; ?>
 
 <?php if ($resultOrder->num_rows > 0): ?>
     <table>
@@ -63,7 +63,7 @@ $resultOrder = $conn->query();
                 <td><?= htmlspecialchars($row['store_name']) ?></td>
                 <td>
                     <?php if (!empty($row['image'])): ?>
-                        <img id="img" src="/inti/gadgetShop/assets/<?= htmlspecialchars($row['image']) ?>" alt="Product Image" width="50" height="50">
+                        <img id="img" src="/inti/gearUp/assets/<?= htmlspecialchars($row['image']) ?>" alt="Product Image" width="50" height="50">
                     <?php else: ?>
                         No Image Available
                     <?php endif; ?>

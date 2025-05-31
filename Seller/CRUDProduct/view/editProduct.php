@@ -4,7 +4,7 @@
 $servername = "localhost";
 $Username = "root";
 $Password = "";
-$dbname = "gadgetShop";
+$dbname = "gearUp";
 
 $conn = new mysqli($servername, $Username, $Password);
 
@@ -63,7 +63,7 @@ if (isset($_POST['confirmEdit'])) {
     }
 
     if (!empty($productImage)) {
-        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gadgetShop/assets/";
+        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/inti/gearUp/assets/";
         $targetFile = $targetDir . basename($productImage);
         
         if (move_uploaded_file($_FILES['productImage']['tmp_name'], $targetFile)) {
