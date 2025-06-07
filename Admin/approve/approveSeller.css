@@ -1,3 +1,7 @@
+#container{
+    margin-top: 20px;
+    margin-left: 300px;
+}
 
 .img{
     width:50px;
@@ -17,7 +21,7 @@
 
   table {
     text-align: center;
-    width: 80%;
+    width: 90%;
     border-collapse: collapse;
     background-color: white;
 }
@@ -28,4 +32,30 @@ th, td {
 }
 th {
     background-color: #f2f2f2;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.button.reject {
+  background-color: #dc3545; /* Red for Reject */
+}
+
+.button.reject:hover:not(:disabled) {
+  background-color: #a71d2a; /* Darker red on hover */
+}
+
+.button.approved,
+.button.rejected {
+  background-color: grey;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Disabled button style */
+button:disabled {
+  background-color: grey !important;
+  cursor: not-allowed;
+  opacity: 0.7;
 }

@@ -3,8 +3,8 @@ session_start();
 $username = $_SESSION['adminUsername'];
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
 $sql = "SELECT user_id FROM users WHERE usernames = ?";
 $stmt = $conn->prepare($sql);

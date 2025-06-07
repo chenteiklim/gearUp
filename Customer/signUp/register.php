@@ -80,7 +80,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         // Redirect with an error message
-        header("Location: register.html?success=1");
+        header("Location: register.php?success=1");
         exit();
     }
     
@@ -90,53 +90,53 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     
     // Check if password matches confirm password
     else if ($passwords != $confirm_password) {
-        header("Location: register.html?success=4");
+        header("Location: register.php?success=4");
         exit();
     } 
 
     // Validate email format
     else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: register.html?success=5");
+        header("Location: register.php?success=5");
         exit();
     }
   
 
     // Check minimum length
     else if (strlen($passwords) < 10) {
-        header("Location: register.html?success=7");
+        header("Location: register.php?success=7");
         exit();
     }
 
     // Check for at least 1 special characters
     else if (preg_match_all('/[\W_]/', $passwords) < 4) {
-        header("Location: register.html?success=8");
+        header("Location: register.php?success=8");
         exit();
 
     }
 
     // Check for at least one uppercase letter
     else if (!preg_match('/[A-Z]/', $passwords)) {
-        header("Location: register.html?success=9");
+        header("Location: register.php?success=9");
         exit();
 
     }
 
     // Check for at least one lowercase letter
     else if (!preg_match('/[a-z]/', $passwords)) {
-        header("Location: register.html?success=10");
+        header("Location: register.php?success=10");
         exit();
 
     }
 
     // Check for at least one number
     else if (!preg_match('/[0-9]/', $passwords)) {
-        header("Location: register.html?success=11");
+        header("Location: register.php?success=11");
         exit();
 
     }
 
     else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
-        header("Location: register.html?success=12");
+        header("Location: register.php?success=12");
         exit(); // Ensure no further script execution
 
     }

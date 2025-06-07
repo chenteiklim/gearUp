@@ -1,34 +1,13 @@
 
 <?php
-
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gearUp";
-
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
-mysqli_select_db($conn, $dbname);
+$username=$_SESSION['adminUsername'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
-// Get admin email from session
-$email = $_SESSION['emailAdmin'] ?? null;
 
-if (!$email) {
-    die("Unauthorized access. Please log in.");
-}
 
-// Get admin username
-$selectNameQuery = "SELECT username FROM superuser WHERE email = ?";
-$stmt = $conn->prepare($selectNameQuery);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-$name = $result->fetch_assoc()['username'] ?? '';
 
 if (isset($_POST['editSingle'])) {
   $product_id = $_POST['product_id'] ?? null; // Retrieve again from form
@@ -123,7 +102,8 @@ if (isset($_POST['confirmEdit'])) {
 }
   
 .container {
-  margin-top:20px;
+  margin-top:100px;
+  margin-left:300px;
   width: 400px;
   height:550px;
   background-color:white;
@@ -178,59 +158,8 @@ input[type="number"] {
   width: 480px;
 }
  
-html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%; /* Ensure full width */
-        height: 100%; /* Ensure full height */
-        background-color: #add8e6;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-    }
     
-    #navContainer {
-      display: flex;
-      background-color: #BFB9FA;
-      width: 100%; /* Adjust width as needed */
-      height: 80px; /* Adjust height as needed */   
-    }
-    
-    .button {
-     background-color: #BFB9FA;
-     width: 150px;
-     color: black;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 14px;
-     border: none;
-     }
-        #home{
-            margin-left: 10px;
-            width:160px;
-        }
-    #name{
-        margin-left: 800px;
-    }
-    #logout{
-      height: 80px;    
-    }
-    #logoImg{
-        margin-top: 25px;
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-        margin-left: 100px;
-    }
-    
-        button:hover{
-            transform: scale(0.9);
-            background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-          }
-    
+
     /* Hide the up/down arrows in number input */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -253,14 +182,6 @@ input[type="number"] {
     </style>
 </head>
 
-
-
-
-<div id="navContainer"> 
-    <img id="logoImg" src="../../../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
-    <button class="button" id="name"><?php echo $name ?></button>
-</div>
 <div class="container">
   <div class="content">
  

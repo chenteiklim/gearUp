@@ -1,34 +1,48 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 if (!isset($_SESSION['username'])) {
-  echo "<h1>This Website is Not Accessible</h1>";
-  echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
-  exit;
-}    
-
-$username = $_SESSION['username'];
-if (isset($_GET['orders_id'])) {
-    $orders_id = $_GET['orders_id'];
-} else {
-    // Provide a default or error message if not found
-    $orders_id = 'Not Available';
+    echo "<h1>This Website is Not Accessible</h1>";
+    echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
+    exit;
 }
 
-// Prepare the SQL query to fetch the product name from the products table
-$stmt = $conn->prepare("SELECT product_name FROM orders WHERE orders_id = ?");
-$stmt->bind_param("s", $orders_id); // Binding the orders_id as a string (assuming orders_id is a string)
+$username = $_SESSION['username'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
+
+if (!isset($_GET['order_item_id'])) {
+    echo "<h1>Order Item ID not provided</h1>";
+    exit;
+}
+
+$order_item_id = $_GET['order_item_id'];
+
+$stmt = $conn->prepare("
+    SELECT 
+        oi.order_item_id, oi.order_id, oi.product_id, p.product_name
+    FROM 
+        order_items oi
+    JOIN 
+        products p ON oi.product_id = p.product_id
+    WHERE 
+        oi.order_item_id = ?
+");
+$stmt->bind_param("i", $order_item_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    // Fetch the product name from the result
-    $row = $result->fetch_assoc();
-    $productName = $row['product_name'];
-} else {
-    $productName = 'Product not found';
+if ($result->num_rows === 0) {
+    echo "<h1>Invalid order item ID</h1>";
+    exit;
 }
+
+$row = $result->fetch_assoc();
+
+$order_id = $row['order_id'];
+$productName = $row['product_name'];
+
+$stmt->close();
 ?>
 
 <head>
@@ -39,20 +53,14 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="refundRequestForm.css">
 </head>
 
-<div id="navContainer"> 
-    <img id="logoImg" src="../../assets/logo.jpg" alt="">
-    <button class="button" id="home">Trust Toradora</button>
-    <button class="button" id="name"><?php echo htmlspecialchars($username); ?></button>
-    <form action="../login/logout.php" method="POST">
-        <button type="submit" id="logout" class="button">Log Out</button>
-    </form> 
-</div>
+
 
 <form id="formContainer" action="refund.php" method="POST" enctype="multipart/form-data">
     <div id="container">
         <div id="orders">
-            <label for="orders_id">Orders ID:</label>
-            <input type="number" name="orders_id" value="<?php echo isset($orders_id) ? htmlspecialchars($orders_id) : ''; ?>" readonly required>        </div>
+            <label for="order_item_id">Order Item ID:</label>
+            <input type="number" name="order_item_id" value="<?php echo ($order_item_id); ?>" readonly required>
+         </div>
 
         <div id="productName">
             <label for="productName">Product Name:</label>

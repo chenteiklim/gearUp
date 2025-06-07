@@ -1,97 +1,91 @@
-
 <?php
-
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-
 session_start();
-
-// Check if the session variables are set
-// If email or backupEmail is not set, display an error message and exit
 if (!isset($_SESSION['adminUsername'])) {
-    echo "<h1>This Website is Not Accessible</h1>";
-    echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
-    exit;  // Stop further execution of the script
+    echo "<h1>Access Denied</h1>";
+    echo "<p>Please login to access this page.</p>";
+    exit;
 }
 $username=$_SESSION['adminUsername'];
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';
-
 ?>
-<head>
-    <title>Product</title>
-    <link rel="stylesheet" href="adminMainpage.css">
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Dashboard</title>
+
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Main content */
+  .main {
+    margin-left: 250px; /* beside sidebar */
+    padding: 20px;
+  }
+  
+    
+</style>
 
 </head>
-<div>
+<body>
 
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';?>
+<div class="main">
+  <div id="messageContainer"></div>
+
+  <h1>Welcome to Admin Dashboard</h1>
+  <p>Select an option from the sidebar to get started.</p>
 </div>
-  <div>
-  <p id='title'>Admin Mainpage </p>
-  </div>
-  <div id="container">
-    <div id="messageContainer"></div>
 
-   
-    <div class='product'>
-        <button id="product" class="button"><?php echo 'Manage Product' ?></button>
-        <div class="dropdowns">
-            <button onclick="location.href='CRUDProduct/createProduct.php'">Create Product</button>
-            <button onclick="location.href='CRUDProduct/view/viewProduct.php'">View Product</button>
-        </div>
-    </div>
-
-    <div class="order">
-        <button id="order" class="button"><?php echo 'Sales' ?></button>
-    </div>
-    <div>
-    <button id="assignRiders" class="button">Assign Riders</button>
-    </div>
-    <div>
-    <button id="approveSeller" class="button">Approve Seller</button>
-    </div>
-    <div>
-    <button id="approveRider" class="button">Approve Rider</button>
-    </div>
-    <div class="refund">
-        <button id="refund" class="button"><?php echo 'Refund' ?></button>
-    </div>
-     <div class="wallet">
-        <button id="wallet" class="button"><?php echo 'Wallet' ?></button>
-    </div>
-
- 
-</div>
+</body>
+</html>
+<script>
   
-</div>
+window.onload = function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get('message');
+  const message2 = urlParams.get('message2');
 
-</div>
+   if (message) {
+    var messageContainer = document.getElementById("messageContainer");
+    messageContainer.textContent = decodeURIComponent(message); // Decode the URL-encoded message
+    messageContainer.style.display = "block";
+    messageContainer.classList.add("message-container");
+    
+    setTimeout(function() {
+      messageContainer.style.display = "none";
+      messageContainer.classList.remove("message-container");
+      
+      // Clear the message from the URL
+      const url = new URL(window.location);
+      url.searchParams.delete('message');
+      window.history.replaceState({}, document.title, url);
+    }, 3000);
+  }
 
-<script >
-   
-    document.getElementById("order").addEventListener("click", function() 
-    {
-        window.location.href = "../sales/sales.php";
-    });
-    document.getElementById("assignRiders").addEventListener("click", function() {
-        fetch("assign_riders.php")
-            .then(response => response.text())
-            .then(data => alert("Riders assigned: " + data))
-            .catch(error => alert("Error: " + error));
-    });  
-     document.getElementById("refund").addEventListener("click", function() 
-    {
-        window.location.href = "../sales/refund.php";
-    });
-
-    document.getElementById("approveSeller").addEventListener("click", function() 
-    {
-        window.location.href = "../approve/approveSeller.php";
-    });
-
-      document.getElementById("wallet").addEventListener("click", function() 
-    {
-        window.location.href = "../wallet/superuserWallet.php";
-    });
+  if (message2) {
+    var messageContainer = document.getElementById("messageContainer");
+    messageContainer.textContent = decodeURIComponent(message2); // Decode the URL-encoded message
+    messageContainer.style.display = "block";
+    messageContainer.classList.add("message-container");
+    
+    setTimeout(function() {
+      messageContainer.style.display = "none";
+      messageContainer.classList.remove("message-container");
+      
+      // Clear the message from the URL
+      const url = new URL(window.location);
+      url.searchParams.delete('message2');
+      window.history.replaceState({}, document.title, url);
+    }, 3000);
+  }
+}
 </script>
-
-   

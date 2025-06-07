@@ -29,25 +29,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // ✅ Generate consistent chat room
-    $names = [$senderName, $receiverName];
-    sort($names); // Ensure consistent order
-    $chat_room = implode("_", $names);
+        $chat_room = ($senderName < $receiverName) ? "{$senderName}_{$receiverName}" : "{$receiverName}_{$senderName}";
 
     // Save message
     $stmt = $conn->prepare("INSERT INTO messages (chat_room, senderName, receiverName, senderRole, message) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $chat_room, $senderName, $receiverName, $sender_role, $message);
-
     if ($stmt->execute()) {
-        // Send real-time notification
-        $pusher->trigger($chat_room, 'new-message', [
-            'sender_name' => $senderName,
-            'message' => $message,
-            'sender_role' => $sender_role
-        ]);
-        echo "Message sent!";
-    } else {
-        echo "Error saving message: " . $stmt->error;
-    }
+            echo "Message sent!";
+        } else {
+            echo "Error saving message: " . $stmt->error;
+        }
 }
 ?>

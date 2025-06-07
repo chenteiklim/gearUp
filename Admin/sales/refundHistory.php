@@ -9,8 +9,14 @@ if (!isset($_SESSION['adminUsername'])) {
 }
 $username = $_SESSION['adminUsername'];
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 // Fetch approved or rejected refund requests
-$stmt = $conn->prepare("SELECT * FROM refundRequest WHERE status != 'pending'");
+$stmt = $conn->prepare("
+    SELECT rr.*, u.usernames
+    FROM refundrequest rr 
+    JOIN users u ON rr.user_id = u.user_id 
+    WHERE rr.status != 'pending'
+");
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -23,14 +29,13 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="refund.css"> <!-- Link to your existing CSS -->
 </head>
 <body>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php'; ?>
 
 <div id="content">
     <h1>Refund Request History</h1>
 
     <table border="1">
         <tr>
-            <th>Order ID</th>
+            <th>Order Item ID</th>
             <th>Username</th>
             <th>Product Name</th>
             <th>Reason</th>
@@ -41,7 +46,7 @@ $result = $stmt->get_result();
         </tr>
         <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?php echo $row['orders_id']; ?></td>
+            <td><?php echo $row['order_item_id']; ?></td>
             <td><?php echo $row['usernames']; ?></td>
             <td><?php echo $row['productName']; ?></td>
             <td><?php echo $row['reason']; ?></td>

@@ -5,17 +5,26 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $username=$_SESSION['adminUsername'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
-$selectProductQuery = "SELECT * FROM products";
+$selectProductQuery = "
+    SELECT 
+        products.product_id,
+        products.product_name,
+        seller.sellerName,
+        products.price,
+        products.stock,
+        products.image
+    FROM products
+    JOIN seller ON products.seller_id = seller.seller_id
+";
 $stmt = $conn->prepare($selectProductQuery);
 $stmt->execute();
-// Execute the query
 $result = $stmt->get_result();
 
-$products = array(); // Initialize an empty array to store the products
+$products = array();
 
 if ($result->num_rows > 0) {
-    // Loop through the result and retrieve each product as an array
     while ($row = $result->fetch_assoc()) {
         $product = array(
             'product_id' => $row['product_id'],
@@ -23,16 +32,11 @@ if ($result->num_rows > 0) {
             'sellerName' => $row['sellerName'],
             'price' => $row['price'],
             'stock' => $row['stock'],
-            'status' => $row['status'],
-            'image'=> $row['image'],
-            'sellerName'=> $row['sellerName'],
+            'image' => $row['image']
         );
-
-        // Add the product array to the products array
         $products[] = $product;
     }
-  }
-
+}
  
   
   ?>
@@ -44,20 +48,12 @@ if ($result->num_rows > 0) {
     <style>
    
           
-    #logoImg{
-        margin-top: 25px;
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-        margin-left: 100px;
-    }
+      #container{
+        margin-left:300px;
+        margin-top:50px;
 
-    button:hover{
-        transform: scale(0.9);
-        background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-    }
-
-      .container{
+      }
+      .item-container{
         background-color:white;
         display:flex;
         flex-direction:column;
@@ -65,47 +61,16 @@ if ($result->num_rows > 0) {
         padding-bottom:30px;
 
       }
-      
-      #productContainer{
-        margin-left: 30px;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 60px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-        width: 1490px;
-        height:auto;
-      }
-            
-      #navContainer {
-        display: flex;
-        background-color: #BFB9FA;
-        align-items: center;
-        width: 100%; /* Adjust width as needed */
-        height: 80px; /* Adjust height as needed */   
-      }
-
-      html, body {
-        background-color: #add8e6;
-        margin: 0;
-        padding: 0;
-        width: 100%; /* Ensure full width */
-        height: 100%; /* Ensure full height */
-        display:flex;
-        flex-direction:column;
-      }
-      .button {
-      background-color: #BFB9FA;
-      width: 150px;
-      color: black;
-      cursor: pointer;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 14px;
-      border: none;
-      }
+    #productContainer {
+  margin-left: 30px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);  /* 3 items per row */
+  gap: 20px;
+  max-height: 600px;                      /* scroll after this height */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+    
     
     #img{
       width: 160px;
@@ -130,14 +95,10 @@ if ($result->num_rows > 0) {
 
     </style>
 </head>
-
-
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php';?>
-
-<div id="container">
+  <div id="container"> 
   <div id='productContainer'>
     <?php foreach ($products as $product): ?>
-      <div class="container">
+      <div class="item-container">
         <div id='title' class='row'>
             <?php echo htmlspecialchars($product['product_name']); ?>
         </div>
@@ -156,10 +117,6 @@ if ($result->num_rows > 0) {
 
         <div id='stockContainer' class='row'>
             <?php echo 'Stock: ' . htmlspecialchars($product['stock']); ?>
-        </div>
-
-        <div id='status' class='row'>
-            <?php echo 'Sold: ' . htmlspecialchars($product['status']); ?>
         </div>
 
         <div id='seller' class='row'>

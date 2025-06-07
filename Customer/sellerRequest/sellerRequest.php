@@ -92,9 +92,7 @@ margin-left: 100px;
         <label for="description">Store Description:</label>
         <textarea id="description" name="description" rows="4" required></textarea>
 
-        <label for="businessID">Business ID (optional):</label>
-        <input type="text" id="businessID" name="businessID">
-
+      
     
         <label for="contactInfo">Contact Information (0xx-1234567):</label>
         <input type="text" id="contactInfo" name="contactInfo" required>

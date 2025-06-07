@@ -1,5 +1,5 @@
 <?php
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 // Check if admin is logged in
@@ -7,151 +7,117 @@ if (!isset($_SESSION['adminUsername'])) {
     echo "<h1>Access Denied</h1>";
     exit;
 }
+
 $username = $_SESSION['adminUsername'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminNavbar.php'; 
+// Get superuser ID
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    $superuser_user_id = $result->fetch_assoc()['user_id'];
+} else {
+    die("Admin not found.");
+}
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
 // Fetch pending refund requests
 $stmt = $conn->prepare("SELECT * FROM refundRequest WHERE status = 'pending'");
 $stmt->execute();
-$result = $stmt->get_result();
+$refunds_result = $stmt->get_result();
 
-// Get wallet balance (wallet table uses username)
+// Handle Approve Refund
+if (isset($_POST['approveRefund']) && isset($_POST['refund_id'])) {
+    $refund_id = $_POST['refund_id'];
 
-    if (isset($_POST['approveRefund'])) {
-        $refund_id = $_POST['refund_id'];
+    // Start transaction
+    $conn->begin_transaction();
 
-        // Fetch the usernames (customer) for the refund request
-        $stmt = $conn->prepare("SELECT usernames FROM refundRequest WHERE request_id = ?");
+    try {
+        // Get customer info from refundRequest
+        $stmt = $conn->prepare("
+            SELECT r.user_id, u.usernames, r.order_item_id 
+            FROM refundRequest r
+            JOIN users u ON r.user_id = u.user_id
+            WHERE r.request_id = ?
+        ");
         $stmt->bind_param("i", $refund_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $customerUsername = $row['usernames']; // The customer who requested the refund
-        } else {
-            die("Refund request not found.");
-        }
-        
-        $stmtCustomer = $conn->prepare("SELECT * FROM wallet WHERE usernames = ?");
-        $stmtCustomer->bind_param("s", $customerUsername);
-        $stmtCustomer->execute();
-        $customerWallet_result = $stmtCustomer->get_result();
+        if ($result->num_rows === 0) throw new Exception("Refund request not found.");
+        $row = $result->fetch_assoc();
+        $customer_user_id = $row['user_id'];
+        $customer_username = $row['usernames'];
+        $order_item_id = $row['order_item_id'];
 
-        $customerWallet = $customerWallet_result->fetch_assoc();
-        $customerWallet_balance = (float) $customerWallet['wallet_balance'];
+        // Get price from order_items
+        $stmt = $conn->prepare("SELECT price FROM order_items WHERE order_item_id = ?");
+        $stmt->bind_param("i", $order_item_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) throw new Exception("Order not found.");
+        $price = (float)$result->fetch_assoc()['price'];
 
-
-        // Get wallet balance (wallet table uses username)
-        $stmtplatform = $conn->prepare("SELECT * FROM wallet WHERE usernames = ?");
-        $stmtplatform->bind_param("s", $platformName);
-        $stmtplatform->execute();
-        $platformWallet_result = $stmtplatform->get_result();
-
-        $platformWallet = $platformWallet_result->fetch_assoc();
-        $platformWallet_balance = isset($platformWallet['wallet_balance']) ? (float)$platformWallet['wallet_balance'] : 99.00;
-
-        if (isset($_POST['refund_id'])) {
-            $refund_id = $_POST['refund_id'];
-            echo $refund_id;
-            // Fetch the order_id corresponding to the refund request
-            $stmtOrder = $conn->prepare("SELECT orders_id FROM refundRequest WHERE request_id = ?");
-            $stmtOrder->bind_param("i", $refund_id);
-            $stmtOrder->execute();
-            $orderResult = $stmtOrder->get_result();
-        
-            if ($orderResult->num_rows > 0) {
-                $orderRow = $orderResult->fetch_assoc();
-                $orders_id = $orderRow['orders_id']; // Assign the orders_id from the refundRequest table
-            } else {
-                die("Order not found.");
-            }
-        }
-        else{
-            echo 'refund_id not submitted';
-        }
-        // Fetch the total price from the orders table for the refund request
-        $stmtOrder = $conn->prepare("SELECT total_price FROM orders WHERE orders_id = ?");
-        $stmtOrder->bind_param("i", $orders_id); // Make sure $orders_id is passed correctly
-        $stmtOrder->execute();
-        $orderResult = $stmtOrder->get_result();
-
-        if ($orderResult->num_rows > 0) {
-            $orderRow = $orderResult->fetch_assoc();
-            $total_price = $orderRow['total_price']; // Store the total price
-        } else {
-            echo $orders_id;
-
-            die("Order not found.");
-        }
-
-        // Approve the refund request
+        // Update refund request to approved
         $stmt = $conn->prepare("UPDATE refundRequest SET status = 'approved' WHERE request_id = ?");
         $stmt->bind_param("i", $refund_id);
         $stmt->execute();
 
-        // Fetch the current customer wallet balance using the customer's username
-        $stmt = $conn->prepare("SELECT wallet_balance FROM wallet WHERE usernames = ?");
-        $stmt->bind_param("s", $customerUsername); // Use the customerUsername here
+        // Update customer's wallet balance
+        $stmt = $conn->prepare("SELECT wallet_balance FROM wallet WHERE user_id = ?");
+        $stmt->bind_param("s", $customer_user_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $customer = $result->fetch_assoc();
-        $customerWallet_balance = $customer['wallet_balance'];
+        $customer_balance = (float)$result->fetch_assoc()['wallet_balance'];
 
-        // Refund logic: Add the refunded amount back to customer's wallet
-        $customerNew_balance = $customerWallet_balance + $total_price;
-        $stmtRefund = $conn->prepare("UPDATE wallet SET wallet_balance = ? WHERE usernames = ?");
-        $stmtRefund->bind_param("ds", $customerNew_balance, $customerUsername);
-        if (!$stmtRefund->execute()) {
-            $conn->rollback();
-            die("Error refunding wallet balance.");
-        }
-
-        $platformName= 'Trust Toradora';
-
-        // Record refund transaction in history
-        $param2 = 'refund'; // Type of transaction
-        $transactionRefund = "INSERT INTO transactions (sender_name, receiver_name, amount, type, timestamp) 
-                              VALUES (?, ?, ?, ?, NOW())";
-        $stmtTransaction = $conn->prepare($transactionRefund);
-        $stmtTransaction->bind_param("ssds", $platformName, $customerUsername, $total_price, $param2);
-        if (!$stmtTransaction->execute()) {
-            $conn->rollback();
-            die("Error inserting refund transaction record.");
-        }
-
-        // Update platform's wallet (deduct the refunded amount from the platform's wallet)
-        $stmtPlatform = $conn->prepare("SELECT wallet_balance FROM wallet WHERE usernames = ?");
-        $stmtPlatform->bind_param("s", $platformName);
-        $stmtPlatform->execute();
-        $result = $stmtPlatform->get_result();
-        $platform = $result->fetch_assoc();
-        $platformWallet_balance = $platform['wallet_balance'];
-
-        // Subtract refund amount from platform's wallet balance
-        $platformNew_balance = $platformWallet_balance - $total_price;
-        $stmtPlatformRefund = $conn->prepare("UPDATE wallet SET wallet_balance = ? WHERE usernames = ?");
-        $stmtPlatformRefund->bind_param("ds", $platformNew_balance, $platformName);
-        if (!$stmtPlatformRefund->execute()) {
-            $conn->rollback();
-            die("Error updating platform wallet balance.");
-        }
-
-        echo "Refund processed successfully.";
-    }
-
-    if (isset($_POST['rejectRefund'])) {
-        $refund_id = $_POST['refund_id'];
-        $reason = $_POST['rejectionReason']; // Get the rejection reason from the form
-        // Save the rejection reason in the database
-        $stmt = $conn->prepare("UPDATE refundRequest SET status = 'rejected', rejectReason = ? WHERE request_id = ?");
-        $stmt->bind_param("si", $reason, $refund_id);
+        $new_customer_balance = $customer_balance + $price;
+        $stmt = $conn->prepare("UPDATE wallet SET wallet_balance = ? WHERE user_id = ?");
+        $stmt->bind_param("ds", $new_customer_balance, $customer_user_id);
         $stmt->execute();
-        echo "<p>Refund request rejected. Reason: " . htmlspecialchars($reason) . "</p>";
-    }
 
+        // Update platform wallet balance
+        $stmt = $conn->prepare("SELECT wallet_balance FROM wallet WHERE user_id = ?");
+        $stmt->bind_param("s", $superuser_user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $platform_balance = (float)$result->fetch_assoc()['wallet_balance'];
+
+        $new_platform_balance = $platform_balance - $price;
+        $stmt = $conn->prepare("UPDATE wallet SET wallet_balance = ? WHERE user_id = ?");
+        $stmt->bind_param("ds", $new_platform_balance, $superuser_user_id);
+        $stmt->execute();
+
+        // Insert transaction record
+        $param = 'refund';
+        $stmt = $conn->prepare("
+            INSERT INTO transactions (sender_id, receiver_id, amount, type, timestamp)
+            VALUES (?, ?, ?, ?, NOW())
+        ");
+        $stmt->bind_param("ssds", $superuser_user_id, $customer_user_id, $price, $param);
+        $stmt->execute();
+
+        $conn->commit();
+        echo "<p>Refund processed successfully.</p>";
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo "<p style='color:red;'>Error: " . $e->getMessage() . "</p>";
+    }
+}
+
+// Handle Reject Refund
+if (isset($_POST['rejectRefund']) && isset($_POST['refund_id']) && isset($_POST['rejectionReason'])) {
+    $refund_id = $_POST['refund_id'];
+    $reason = $_POST['rejectionReason'];
+
+    $stmt = $conn->prepare("UPDATE refundRequest SET status = 'rejected', rejectReason = ? WHERE request_id = ?");
+    $stmt->bind_param("si", $reason, $refund_id);
+    $stmt->execute();
+
+    echo "<p>Refund request rejected. Reason: " . htmlspecialchars($reason) . "</p>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -164,8 +130,6 @@ $result = $stmt->get_result();
 <body>
 <div id="content">
     <h1>Manage Refund Requests</h1>
-
-    <!-- Pending Refund Requests Section -->
     <h2>Pending Refund Requests</h2>
     <table border="1">
         <tr>
@@ -178,31 +142,44 @@ $result = $stmt->get_result();
             <th>Date</th>
             <th>Action</th>
         </tr>
-        <?php while ($row = $result->fetch_assoc()): ?>
+
+        <?php while ($row = $refunds_result->fetch_assoc()): ?>
+            <?php
+                // Get username for this row
+                $stmtUser = $conn->prepare("SELECT usernames FROM users WHERE user_id = ?");
+                $stmtUser->bind_param("i", $row['user_id']);
+                $stmtUser->execute();
+                $userResult = $stmtUser->get_result();
+                $customer_username_row = $userResult->fetch_assoc()['usernames'];
+            ?>
             <tr>
-                <td><?php echo $row['orders_id']; ?></td>
-                <td><?php echo $row['usernames']; ?></td>
-                <td><?php echo $row['productName']; ?></td>
-                <td><?php echo $row['reason']; ?></td>
-                <td><a href="<?php echo $row['proof']; ?>" target="_blank">View Proof</a></td>
-                <td><?php echo $row['status']; ?></td>
-                <td><?php echo $row['date']; ?></td>
+                <td><?php echo $row['order_item_id']; ?></td>
+                <td><?php echo htmlspecialchars($customer_username_row); ?></td>
+                <td><?php echo htmlspecialchars($row['productName']); ?></td>
+                <td><?php echo htmlspecialchars($row['reason']); ?></td>
                 <td>
-                    <!-- Approve Button Form -->
-                    <form action="refund.php" method="POST">
+                    <?php if (!empty($row['proof'])): ?>
+                        <a href="<?php echo htmlspecialchars($row['proof']); ?>" target="_blank">View Proof</a>
+                    <?php else: ?>
+                        N/A
+                    <?php endif; ?>
+                </td>
+                <td><?php echo htmlspecialchars($row['status']); ?></td>
+                <td><?php echo htmlspecialchars($row['date']); ?></td>
+                <td>
+                    <!-- Approve Form -->
+                    <form method="POST" action="">
                         <input type="hidden" name="refund_id" value="<?php echo $row['request_id']; ?>">
                         <button type="submit" name="approveRefund">Approve</button>
                     </form>
 
-                    <!-- Reject Button Form -->
-                    <form action="refund.php" method="POST">
+                    <!-- Reject Form -->
+                    <form method="POST" action="">
                         <input type="hidden" name="refund_id" value="<?php echo $row['request_id']; ?>">
                         <button type="button" onclick="showRejectionForm(<?php echo $row['request_id']; ?>)">Reject</button>
-
-                        <!-- Rejection reason form (hidden by default) -->
                         <div id="rejectionForm-<?php echo $row['request_id']; ?>" style="display:none;">
-                            <textarea name="rejectionReason" placeholder="Enter rejection reason here..." required></textarea>
-                            <button type="submit" name="rejectRefund">Submit Rejection</button>
+                            <textarea name="rejectionReason" required placeholder="Enter rejection reason"></textarea>
+                            <button type="submit" name="rejectRefund">Submit</button>
                         </div>
                     </form>
                 </td>
@@ -210,17 +187,14 @@ $result = $stmt->get_result();
         <?php endwhile; ?>
     </table>
 
-    <!-- Link to Refund History Page -->
     <a href="refundHistory.php">
-        <button style="margin-top: 20px; margin-left:800px;">View Refund History</button>
+        <button style="margin-top: 20px; margin-left: 800px;">View Refund History</button>
     </a>
 </div>
 
 <script>
-// Show the rejection form when "Reject" button is clicked
 function showRejectionForm(refundId) {
-    const form = document.getElementById('rejectionForm-' + refundId);
-    form.style.display = 'block';  // Display the form
+    document.getElementById('rejectionForm-' + refundId).style.display = 'block';
 }
 </script>
 </body>

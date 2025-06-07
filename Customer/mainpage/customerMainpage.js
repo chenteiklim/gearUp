@@ -5,7 +5,9 @@ window.onload = function() {
     const message2 = urlParams.get('message2');
     const message3 = urlParams.get('message3');
     const message4 = urlParams.get('message4');
-  
+    const message5 = urlParams.get('message5');
+    const message6 = urlParams.get('message6');
+
   
     if (message) {
       var messageContainer = document.getElementById("messageContainer");
@@ -73,6 +75,38 @@ window.onload = function() {
         // Clear the message from the URL
         const url = new URL(window.location);
         url.searchParams.delete('message4');
+        window.history.replaceState({}, document.title, url);
+      }, 10000);
+    }
+    if (message5) {
+      var messageContainer = document.getElementById("messageContainer");
+      messageContainer.textContent = decodeURIComponent(message5); // Decode the URL-encoded message
+      messageContainer.style.display = "block";
+      messageContainer.classList.add("message-container");
+      
+      setTimeout(function() {
+        messageContainer.style.display = "none";
+        messageContainer.classList.remove("message-container");
+        
+        // Clear the message from the URL
+        const url = new URL(window.location);
+        url.searchParams.delete('message5');
+        window.history.replaceState({}, document.title, url);
+      }, 10000);
+    }
+    if (message6) {
+      var messageContainer = document.getElementById("messageContainer");
+      messageContainer.textContent = decodeURIComponent(message6); // Decode the URL-encoded message
+      messageContainer.style.display = "block";
+      messageContainer.classList.add("message-container");
+      
+      setTimeout(function() {
+        messageContainer.style.display = "none";
+        messageContainer.classList.remove("message-container");
+        
+        // Clear the message from the URL
+        const url = new URL(window.location);
+        url.searchParams.delete('message6');
         window.history.replaceState({}, document.title, url);
       }, 10000);
     }

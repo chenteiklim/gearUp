@@ -64,7 +64,7 @@ $maxProductID = $row['max_id'];
 $nextProductID = $maxProductID + 1;
 
 // Insert the product with the custom incrementing value
-$insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, description, price, stock, status) VALUES ('$nextProductID', '$seller_id', '$productName', '$productImage', '$description', '$price', '$stock', 0)";
+$insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, description, price, stock) VALUES ('$nextProductID', '$seller_id', '$productName', '$productImage', '$description', '$price', '$stock')";
     
         // Execute the SQL statement
         if ($conn->query($insertProduct) === TRUE) {
