@@ -64,6 +64,7 @@ if ($status === 'pending') {
 } 
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +73,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
     <meta charset="UTF-8">
     <title>Seller Mainpage</title>
     <link rel="stylesheet" href="sellerMainpage.css">
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -81,12 +81,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
     </script>
 </head>
 <body>
-    <div>
-        <p id='title'>Seller Mainpage</p>
-    </div>
+   
     <div id="container">
         <div id="messageContainer"></div>
     </div>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sales.php'; ?>
 
     <div id="chatIcon">
         <i class="fa fa-comment"></i>

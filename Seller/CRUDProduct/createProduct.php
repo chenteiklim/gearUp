@@ -30,7 +30,6 @@ if ($row = $result->fetch_assoc()) {
 if (isset($_POST['submit'])) {
   $productName = $_POST['productName'];
   $productImage = $_FILES['productImage']['name'];
-  $description = $_POST['description'];
   $price = $_POST['price'];
   $stock = $_POST['stock'];
  
@@ -42,7 +41,7 @@ if (isset($_POST['submit'])) {
   $targetFile = $targetDir . basename($productImage);
 
   // Allowed file types
-  $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
+$allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'];
   $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
   if (in_array($fileExtension, $allowedTypes)) {
@@ -64,7 +63,7 @@ $maxProductID = $row['max_id'];
 $nextProductID = $maxProductID + 1;
 
 // Insert the product with the custom incrementing value
-$insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, description, price, stock) VALUES ('$nextProductID', '$seller_id', '$productName', '$productImage', '$description', '$price', '$stock')";
+$insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, price, stock) VALUES ('$nextProductID', '$seller_id', '$productName', '$productImage', '$price', '$stock')";
     
         // Execute the SQL statement
         if ($conn->query($insertProduct) === TRUE) {
@@ -224,10 +223,7 @@ input[type="number"] {
       <label for="productImage">Product Image </label>
       <input type="file" name="productImage" required>
     </div>
-     <div class="descriptionContainer">   
-      <label for="description">Description</label>
-      <input type="text" placeholder="Enter description" name="description" required>
-    </div>
+  
 
     <div class="priceContainer">   
       <label for="price">Price (RM)</label>

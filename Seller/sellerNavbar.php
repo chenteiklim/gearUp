@@ -7,11 +7,11 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items:center;
     }
 
     .button, .navButton {
-        background-color: #e8e8e8;
+        background-color: #E6E6FA;
         width: 150px;
         color: black;
         cursor: pointer;
@@ -25,7 +25,7 @@
     #navContainer {
         display: flex;
         align-items: center;
-        background-color: #e8e8e8;
+        background-color: #E6E6FA;
         width: 100%;
         height: 80px;
         position: relative;
@@ -86,17 +86,19 @@
     <img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="">
 
     <button class="navButton" id="home">GearUp</button>
-    <button id="sales" class="navButton">Sales</button>
 
+    <button class="navButton" id="orderDetail" onclick ="location.href='/inti/gearUp/Seller/orderDetail.php'">Order Detail</button>
 
     <!-- Dropdown wrapper -->
     <div class="dropdown-container">
         <button id="product" class="navButton" onclick="toggleDropdown()">Manage Product</button>
         <div class="dropdowns" id="dropdownMenu">
-            <button onclick="location.href='../CRUDProduct/createProduct.php'">Create Product</button>
-            <button onclick="location.href='../CRUDProduct/view/viewProduct.php'">View Product</button>
+            <button onclick="location.href='/inti/gearUp/Seller/CRUDProduct/createProduct.php'">Create Product</button>
+            <button onclick="location.href='/inti/gearUp/Seller/CRUDProduct/view/viewProduct.php'">View Product</button>
         </div>
     </div>
+    <button class="navButton" id="wallet" onclick ="location.href='/inti/gearUp/Seller/wallet/wallet.php'">Wallet</button>
+
     <button class="navButton" id="customer">Customer Center</button>
 
     <button class="navButton" id="name"><?php echo $username ?></button>

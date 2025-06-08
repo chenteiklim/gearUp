@@ -1,17 +1,38 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+
 session_start();
 $username=$_SESSION['username'];
 
+$sql = "
+    SELECT s.seller_id 
+    FROM users u
+    JOIN seller s ON u.user_id = s.user_id
+    WHERE u.usernames = ?
+";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+if ($row = $result->fetch_assoc()) {
+    $seller_id = $row['seller_id'];
+}
+
+
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
 
+$selectProductQuery = "
+    SELECT p.*, s.sellerName
+    FROM products p
+    JOIN seller s ON p.seller_id = s.seller_id
+    WHERE p.seller_id = ?
+";
 
-$selectProductQuery = "SELECT * FROM products WHERE sellerName = '$username'";
 $stmt = $conn->prepare($selectProductQuery);
+$stmt->bind_param("i", $seller_id);
 $stmt->execute();
-// Execute the query
 $result = $stmt->get_result();
 
 $products = array(); // Initialize an empty array to store the products
@@ -25,7 +46,6 @@ if ($result->num_rows > 0) {
             'sellerName' => $row['sellerName'],
             'price' => $row['price'],
             'stock' => $row['stock'],
-            'status' => $row['status'],
             'image'=> $row['image'],
         );
 
@@ -115,10 +135,6 @@ if ($result->num_rows > 0) {
 
         <div id='stockContainer' class='row'>
             <?php echo 'Stock: ' . htmlspecialchars($product['stock']); ?>
-        </div>
-
-        <div id='status' class='row'>
-            <?php echo 'Sold: ' . htmlspecialchars($product['status']); ?>
         </div>
 
         <div id='seller' class='row'>

@@ -19,7 +19,7 @@ $user_id = $row['user_id'];
 $state=$row['state'];
 
 // Get Platform's user_id
-$stmt = $conn->prepare("SELECT user_id FROM users WHERE role = 'Superuser'");
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE role = 'admin'");
 $stmt->execute(); // No bind_param needed since there's no placeholder
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -104,29 +104,6 @@ echo $order_id;
 $stmt = $conn->prepare("UPDATE orders SET order_status = 'purchased', order_date = NOW() WHERE order_id = ?");
 $stmt->bind_param("i", $order_id);
 $stmt->execute();
-
-// Find an available rider in the same state
-$stmt = $conn->prepare("SELECT rider_id FROM rider WHERE available = 1 AND state = ? LIMIT 1");
-$stmt->bind_param("s", $state);
-$stmt->execute();
-$riders = $stmt->get_result();
-
-if ($riders->num_rows > 0) {
-    $rider = $riders->fetch_assoc();
-    $rider_id = $rider['rider_id'];
-
-    // Assign the rider to the order and mark them as unavailable
-    $stmt = $conn->prepare("UPDATE orders SET rider_id= ?, order_status = 'assigned' WHERE order_id = ?");
-    $stmt->bind_param("ii", $rider_id, $order_id);
-    $stmt->execute();
-
-    // Update rider table: Set currentOrder and mark as unavailable
-    $stmt = $conn->prepare("UPDATE rider SET currentOrder = ?, available = 0 WHERE rider_id = ?");
-    $stmt->bind_param("ii", $order_id, $rider_id);
-    $stmt->execute();
-
-    echo "Order ID: $order_id assigned to Rider ID: $rider_id.";
-} 
 
 
 //Get All Products and Quantities for the Order

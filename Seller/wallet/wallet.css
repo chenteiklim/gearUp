@@ -1,0 +1,27 @@
+
+.container { 
+    width: 50%; 
+    margin-top:100px; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background: white; 
+}
+.btn { 
+    padding: 10px 20px; 
+    margin: 10px; 
+    cursor: pointer; 
+    background: blue; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}

@@ -17,7 +17,6 @@ if ($result->num_rows > 0) {
     $seller_id=$row['seller_id'];
     $product_name = $row['product_name'];
     $price = $row['price'];
-    $description =$row['description'];
     $image= $row['image'];
     $stock=$row['stock'];
 }
@@ -96,9 +95,7 @@ $ratingStmt->close();
                 <div id="sellerName">
                     Seller Name: <?= htmlspecialchars($row['sellerName']) ?>
                 </div>
-                  <div id="description">
-                     <?= htmlspecialchars($row['description']) ?>
-                </div>
+                  
             </div>
             <div id="price" class="prices"><?php echo'RM'.$price; ?></div>
             <form action="addCart.php?product_id=1" method="post">
