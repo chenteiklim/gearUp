@@ -142,19 +142,28 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     }
     
 
+$role='customer';
+$status='pending';
+$hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
+ // Step 1: Insert new user
+$stmt = $conn->prepare("INSERT INTO users (email, usernames, address, state, passwords, role, status) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $email, $usernames, $address, $state, $hashed_password, $role, $status);
+$stmt->execute();
 
-     $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
-    $emailCode = rand(100000, 999999); // 6-digit code for primary email
-    $hashedEmailCode = password_hash($emailCode, PASSWORD_BCRYPT);
-    $param1 = 0;
-    $role = 'customer';
-    $sql = "INSERT INTO users (email, usernames, address, state, passwords, emailCode, ChangePwdEmailCode, role) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";    
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssss", $email, $usernames, $address, $state, $hashed_password, $hashedEmailCode, $param1, $role);
+// Step 2: Get the user_id just created
+$userId = $stmt->insert_id;
+
+// Step 3: Insert the verification code for that user
+$emailCode = rand(100000, 999999);
+$action = 'registration'; // or 'change_password'
+$status='pending';
+$stmt2 = $conn->prepare("INSERT INTO email_verification_code (user_id, code, action, registration_status) 
+                         VALUES (?, ?, ?, ?)");
+$stmt2->bind_param("iiss", $userId, $emailCode, $action, $status);
        
 
-     if ($stmt->execute()) {
+     if ($stmt2->execute()) {
         // Send verification email
          $mail = new PHPMailer(true);
         try {

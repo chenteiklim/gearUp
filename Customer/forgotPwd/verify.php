@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fanime</title>
-    <link rel="icon" href="../assets/icon.png" sizes="32x32" type="image/jpg">
+    <title>gearUp</title>
     <link rel="stylesheet" href="verify.css">
 </head>
 <body>
-<div id="navContainer"> 
-    <img id="logoImg" src="../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
-    <button id="login" class="button">Log in</button>
-    <button class="button" id="register">Sign Up</button>
 
+
+<div id="navContainer"> 
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <button id="logoName">GearUp</button>
 </div>
     
-        <div id="purple_container">
+        <div class='container'>
             <div id="title">Reset Password</div>
             
             <?php
@@ -32,7 +30,7 @@
               <form action="verifyCode.php" method="POST">
                 <!-- Primary Email Verification Code -->
                 <div>
-                    <label for="primaryCode" id="primaryCode"> <?php echo $email; ?> Verification Code:</label>
+                    <label for="primaryCode" id="primaryCode"> Verification Code:</label>
                     <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode3" name="primaryCode[]" maxlength="1" required>

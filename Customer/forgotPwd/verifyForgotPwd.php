@@ -1,21 +1,9 @@
 <?php
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gearUp";
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -27,47 +15,55 @@ if (isset($_POST['submit'])) {
   $email = $_POST['email'];
   $_SESSION['email']=$email;  
 
-  
-    mysqli_select_db($conn, $dbname); 
-
-    $sql2 = "SELECT * FROM users WHERE email = ?";
+    $sql2 = "SELECT user_id FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql2);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
     
+    $stmt = $conn->prepare($sql2);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if ($result->num_rows <= 0) {
-        // Redirect with an error message
-        header("Location: verifyForgotPwd.html?success=1");
+        header("Location: verifyForgotPwd.php?success=1");
         exit();
     }
 
-    $ChangePwdEmailCode = rand(100000, 999999); // 6-digit code for primary email
-    $hashedChangePwdEmailCode = password_hash($ChangePwdEmailCode, PASSWORD_BCRYPT);
+    $row = $result->fetch_assoc();
+    $user_id = $row['user_id'];  // store user ID
+    $status = 'pending';
+    $changePasswordCode = rand(100000, 999999); // 6-digit code
 
-    $sql = "UPDATE users SET ChangePwdEmailCode = ? WHERE email = ?";
+    $sql = "UPDATE email_verification_code SET changePasswordCode = ?, reset_password_status = ? WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $hashedChangePwdEmailCode, $email);
+    $stmt->bind_param("ssi", $changePasswordCode, $status, $user_id);  // Note: 'i' for integer user_id
+
     if ($stmt->execute()) {
         // Send verification email
          $mail = new PHPMailer(true);
-        try {
-             // Common settings
-             $mail->isSMTP();
-             $mail->Host = 'sandbox.smtp.mailtrap.io';
-             $mail->SMTPAuth = true;
-             $mail->Port = 2525;  // You can also use port 25, 465, or 587   
-             $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
-             $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
-             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
-             $mail->setFrom('Example@computerShop.com', 'Testing');
-             $mail->isHTML(true);
-             $mail->Subject = 'Email Verification';
-             $mail->addAddress($email);
-             $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
-             <p>Ref: $ChangePwdEmailCode </p>";
-             $mail->send();
+         try {
+            // Common settings
+            $mail->isSMTP();
+            $mail->Host = 'sandbox.smtp.mailtrap.io';
+            $mail->SMTPAuth = true;
+            $mail->Port = 2525;  // You can also use port 25, 465, or 587   
+            $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
+            $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
+            $mail->setFrom('testing@gearUp.com', 'testing');
+            $mail->isHTML(true);
+            $mail->Subject = 'Email Verification';
+        
+            // Send to primary email
+            $mail->addAddress($email);
+            $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
+            <p>Ref: $changePasswordCode  </p>";
+            $mail->send();
              header("Location: verify.php");
+             exit();
+
          
         } catch (Exception $e) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -81,3 +77,42 @@ if (isset($_POST['submit'])) {
     $stmt->close();
     $conn->close();
     }
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gearUp</title>
+    <link rel="stylesheet" href="verifyForgotPwd.css">
+   
+</head>
+<body>
+
+<div id="navContainer"> 
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <button id="logoName">GearUp</button>
+</div>
+
+<form action="verifyForgotPwd.php" method="post">
+    <div class="container">
+        <div id="title">Email Verification</div>
+
+        <div id="emailContainer">
+            <input type="email" placeholder="email address" name="email" required autocomplete="off">
+        </div>
+
+        <div id="messageContainer"></div>
+
+        <div id="signUpContainer">
+            <input id="signUpBtn" class="button" type="submit" name="submit" value="Next">
+        </div>
+    </div>
+</form>
+
+<script src="verifyForgotPwd.js"></script>
+</body>
+</html>
+   

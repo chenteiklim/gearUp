@@ -13,7 +13,7 @@ window.onload = function() {
     
     if (Param === '1') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'Invalid username or password';
+      messageContainer.textContent = 'Invalid email or password';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       
@@ -28,7 +28,7 @@ window.onload = function() {
     }
     if (Param === '2') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'No user found with these username';
+      messageContainer.textContent = 'No user found with these email or password';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       

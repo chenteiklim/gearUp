@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
     $targetFile = $targetDir . basename($productImage);
 
     // Allowed file types
-    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'avif', 'webp'];
     $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
     if (in_array($fileExtension, $allowedTypes)) {

@@ -148,12 +148,3 @@ window.onload = function() {
           togglePasswordBtn2.textContent = 'Show';
       }
   });
-
-  document.getElementById("register").addEventListener("click", function() {
-    // Replace 'login.html' with the URL of your login page
-    window.location.href = "../signUp/register.html";
-  });
-  document.getElementById("home").addEventListener("click", function() {
-  // Replace 'login.html' with the URL of your login page
-  window.location.href = "../homepage/homepage.php";
-  });

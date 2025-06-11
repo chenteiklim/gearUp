@@ -4,13 +4,16 @@
   <a href="/inti/gearUp/Admin/mainpage/adminMainpage.php">GearUp</a>
   </div>
  
-  <button class="navButton" id="name"><?php echo htmlspecialchars($username); ?></button>
+ <a href="/inti/gearUp/Admin/profile.php"><?php echo htmlspecialchars($username); ?></a>
 
   <button class="dropdown-btn">Manage Product &#x25BC;</button>
   <div class="dropdown-container">
     <a href="/inti/gearUp/Admin/mainpage/CRUDProduct/createProduct.php">Create Product</a>
     <a href="/inti/gearUp/Admin/mainpage/CRUDProduct/view/viewProduct.php">View Product</a>
   </div>
+  
+ 
+    <a href="/inti/gearUp/Admin/CRUDUser/view/viewUser.php">View User</a>
   <a href="/inti/gearUp/Admin/sales/sales.php">Sales</a>
     <a href="/inti/gearUp/Admin/mainpage/orderDetail.php">Order Detail</a>
   <a href="/inti/gearUp/Admin/approve/approveSeller.php">Approve Seller</a>

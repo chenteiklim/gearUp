@@ -40,6 +40,7 @@ $username=$_SESSION['adminUsername'];
     
       
 #customerList {
+  display: none; /* add this line */
   position: fixed;
   bottom: 100px;
   right: 20px;
@@ -208,10 +209,14 @@ $username=$_SESSION['adminUsername'];
 </head>
 <body>
 
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
+
+$senderName = $_SESSION['adminUsername'] ?? '';
+$receiverName = $_GET['customer'] ?? '';
+?>
+
 <div class="main">
   <div id="messageContainer"></div>
-
   <h1>Welcome to Admin Dashboard</h1>
   <p>Select an option from the sidebar to get started.</p>
   <div id="chatIcon">
@@ -243,10 +248,97 @@ $username=$_SESSION['adminUsername'];
 </body>
 </html>
 
-<script src="getCustomer.js"></script>
-<script src="chat.js"></script>
 <script>
-  
+const senderName = <?php echo json_encode($senderName); ?>;
+const receiverName = <?php echo json_encode($receiverName); ?>;
+
+document.getElementById("chatIcon").addEventListener("click", function () {
+    document.getElementById("customerList").style.display = "block";
+    document.getElementById("chatPopup").style.display = "none";
+});
+
+document.getElementById("closeCustomerList").addEventListener("click", function () {
+    document.getElementById("customerList").style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const customersContainer = document.getElementById("customersContainer");
+    const chatPopup = document.getElementById("chatPopup");
+    const chatCustomerName = document.getElementById("chatCustomerName");
+    const chatMessagesContainer = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const sendMessageButton = document.getElementById("sendMessage");
+
+    // Load customers
+    fetch("getCustomer.php")
+        .then(response => response.json())
+        .then(customers => {
+            customers.forEach(customer => {
+                const customerDiv = document.createElement("div");
+                customerDiv.classList.add("customer-item");
+                customerDiv.innerText = customer.usernames;
+                customerDiv.dataset.customerId = customer.customer_id;
+
+                customerDiv.addEventListener("click", function () {
+                    const selectedCustomerName = customer.usernames;
+                    window.location.href = `adminMainpage.php?customer=${encodeURIComponent(selectedCustomerName)}`;
+                });
+
+                customersContainer.appendChild(customerDiv);
+            });
+        })
+        .catch(error => console.error("Error fetching customers:", error));
+
+    // Load and display chat messages
+    window.loadMessages = function () {
+        if (!senderName || !receiverName) return;
+
+        const requestURL = `fetchMessage.php?senderName=${encodeURIComponent(senderName)}&receiverName=${encodeURIComponent(receiverName)}`;
+        fetch(requestURL)
+            .then(response => response.json())
+            .then(messages => {
+                chatMessagesContainer.innerHTML = messages.length
+                    ? messages.map(msg => `<div><strong>${msg.senderName}:</strong> ${msg.message}</div>`).join("")
+                    : "<p>No messages found.</p>";
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            })
+            .catch(error => console.error("Error fetching messages:", error));
+    };
+
+    sendMessageButton.addEventListener("click", function () {
+        const message = chatInput.value.trim();
+        if (!message || !senderName || !receiverName) return;
+
+        fetch("send_message.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `message=${encodeURIComponent(message)}&senderName=${encodeURIComponent(senderName)}&receiverName=${encodeURIComponent(receiverName)}`
+        })
+        .then(response => response.text())
+        .then(result => {
+            chatInput.value = "";
+            loadMessages();
+        })
+        .catch(error => console.error("Error sending message:", error));
+    });
+
+    // Auto-load if customer is selected
+    if (receiverName) {
+        chatPopup.style.display = "block";
+        chatCustomerName.innerText = receiverName;
+        loadMessages();
+        setInterval(loadMessages, 5000); // auto-refresh
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const chatPopup = document.getElementById("chatPopup");
+    const closeChat = document.getElementById("closeChat");
+    
+    closeChat.addEventListener("click", function () {
+        chatPopup.style.display = "none"; // Hide chat window
+    });
+});
+
 window.onload = function() {
   var urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');

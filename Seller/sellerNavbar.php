@@ -1,57 +1,63 @@
 <style>
-    html, body {
+ html, body {
         background-color: white;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-    }
+         margin: 0;
+         padding: 0;
+         height: 100%; /* Ensure full height */
+       }
+          
+  
+      
+    .button {
+    background-color:black;
+    color: white;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    border: none;
+}   
 
-    .button, .navButton {
-        background-color: #E6E6FA;
+#navContainer {
+  display: flex;
+background-color:#e8e8e8;
+  align-items: center;
+  width: 100%; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */   
+}
+
+#logoImg{
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 50px;
+}
+
+#name{
+  margin-left: 250px
+}
+
+.navButton {
+      
+        background-color:#e8e8e8;
         width: 150px;
         color: black;
         cursor: pointer;
-        padding: 10px 30px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         font-size: 14px;
         border: none;
-    }
+}
 
-   
 
-    #navContainer {
-        display: flex;
-        align-items: center;
-        background-color: #E6E6FA;
-        width: 100%;
-        height: 80px;
-        position: relative;
-    }
-
-    #home {
-        margin-left: 10px;
-    }
-
-    #name {
-        margin-left: auto;
-        margin-right: 10px;
-    }
-
-    #logout {
-        height: 80px;
-    }
-
-    #logoImg {
-        margin-top: 10px;
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-        margin-left: 100px;
-    }
-
+  .button:hover{
+      transform: scale(0.9);
+      background: #222; 
+  }
     /* Dropdown styles */
     .dropdown-container {
         position: relative;
@@ -101,7 +107,7 @@
 
     <button class="navButton" id="customer">Customer Center</button>
 
-    <button class="navButton" id="name"><?php echo $username ?></button>
+    <button class="navButton" id="name" onclick ="location.href='/inti/gearUp/Seller/profile.php'"><?php echo $username ?></button>
     
     <form action="/inti/gearUp/Customer/login/logout.php" method="POST">
         <button class="navButton" type="submit" id="logout">Log Out</button>

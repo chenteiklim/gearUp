@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gearUp";
-
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $email = $_SESSION['email'] ?? null;
@@ -25,9 +14,6 @@ else{
 
 if (isset($_POST['submit'])) {
     function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
-        // Convert the password to lowercase for checking against lower sequences
-        
-        
         // Check against lowercase common sequences
         foreach ($lowerSequences as $sequence) {
             if (strpos($passwords, $sequence) !== false) {
@@ -134,35 +120,51 @@ if (isset($_POST['submit'])) {
     }
         
     else{
-            $sql = "SELECT * FROM users WHERE email = ? AND ChangePwdEmailCode = 'Pending'";            
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+       // Step 1: Get user_id
+        $sql = "SELECT user_id FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            echo "User not found.";
+            exit;
+        }
+
+        $row = $result->fetch_assoc();
+        $user_id = $row['user_id'];
+
+        // Step 2: Check if reset_password_status is pending
+        $sql = "SELECT * FROM email_verification_code WHERE user_id = ? AND reset_password_status = 'pending'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // Hash the new password
+            // Step 3: Update password
             $hashedPassword = password_hash($passwords, PASSWORD_BCRYPT);
 
-            // Update the password in the database and clear the token
-            $sql = "UPDATE users SET passwords = ?, ChangePwdEmailCode = 0 WHERE email = ? AND ChangePwdEmailCode = 'Pending'";
+            $sql = "UPDATE users SET passwords = ? WHERE email = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $hashedPassword, $email );
+            $stmt->bind_param("ss", $hashedPassword, $email);
             $stmt->execute();
 
-            // Redirect to a success page
-            header("Location: ../login.html?success=4");
-            exit();
-        } 
-        else {
+            // Step 4: Clear reset status
+            $sql = "UPDATE email_verification_code 
+            SET reset_password_status = NULL, changePasswordCode = NULL 
+            WHERE user_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            header("Location: /inti/gearUp/Customer/login/login.php?success=4");
+            exit;
+        } else {
             header("Location: resetPwdForm.html");
-            exit();
+            exit;
         }
     }
-
-
-    
-
 } 
 
 $conn->close();

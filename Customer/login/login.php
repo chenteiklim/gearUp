@@ -7,31 +7,27 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
 if (isset($_POST['submit'])) {
-  $username = $_POST['username'];
+  $email = $_POST['email'];
   $password = $_POST['passwords'];
 
 
   // Retrieve the user's data from the database based on the provided email
-  $sql = "SELECT * FROM users WHERE usernames = ?";
+  $sql = "SELECT * FROM users WHERE email = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $username);
+  $stmt->bind_param("s", $email);
   $stmt->execute();
   $result = $stmt->get_result();
   
- 
-  if ($result === false) {
-    // Display SQL error message
-    echo "SQL Error: " . $conn->error;
-  }
-
   if ($result->num_rows > 0) {
     // Fetch the user's data
     $row = $result->fetch_assoc();
     $hashed_password = $row['passwords'];
     $emailCode = $row['emailCode']; 
     $role = $row['role'];
+    $status=$row['status'];
+    $_SESSION['username'] = $row['usernames'];
 
-    if ($emailCode != 1) {
+    if ($status != 'registered') {
       // If the primary email token is not equal to 1, redirect to a specific page
       header("Location: login.php?success=1");
       exit(); // Stop further script execution
@@ -44,7 +40,7 @@ if (isset($_POST['submit'])) {
     } 
    
     else {
-      $_SESSION['username'] = $username;
+      $_SESSION['email'] = $email;
       header("Location: ../mainpage/customerMainpage.php");
       exit(); 
     }
@@ -88,7 +84,7 @@ $conn->close();
         <form action="login.php" method="post">
          
           <div id="emailContainer">
-            <input type="text" placeholder="Enter Username" name="username" required autocomplete="off">
+            <input type="text" placeholder="Enter email" name="email" required autocomplete="off">
           </div>
         
           <div id="passwordContainer">
@@ -100,7 +96,7 @@ $conn->close();
        
         <div id="signUpContainer">
           <input id="signUpBtn" class="button" type="submit" name="submit" value="Login">
-          <p> <a id="forgotBtn" href="../forgotPwd/verifyForgotPwd.html">Forget password</a></p>
+          <p> <a id="forgotBtn" href="../forgotPwd/verifyForgotPwd.php">Forget password</a></p>
                  
         </div>
       </form>

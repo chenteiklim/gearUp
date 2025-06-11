@@ -1,95 +1,101 @@
 <?php
-
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-
 session_start();
 
-// Check if the session variables are set
+// Validate session
 $email = $_SESSION['email'] ?? null;
-$username =$_SESSION['username'];
+$username = $_SESSION['username'] ?? null;
 
-if (!$email) {
+if (!$email || !$username) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
-    exit;  // Stop further execution of the script
+    exit;
 }
 
-// Concatenate primary email verification code input
+// Get 6-digit code from input fields
 $primaryCode = implode('', $_POST['primaryCode']);
 
-// Retrieve the hashed codes from the database
-$stmt = $conn->prepare("SELECT emailCode FROM users WHERE email = ? AND usernames = ?");
-echo($email);
+// Step 1: Get the user_id
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND usernames = ?");
 $stmt->bind_param("ss", $email, $username);
 $stmt->execute();
-$stmt->store_result();
-$stmt->bind_result($hashedEmailCode);
-$stmt->fetch();
-if ($stmt->num_rows > 0) {
-    // Verify the primary email code
-    if (password_verify($primaryCode, $hashedEmailCode)) {
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
 
-        // Close the first statement before preparing a new one
-        $stmt->close();
+if (!$user) {
+    echo "User not found.";
+    exit;
+}
+$user_id = $user['user_id'];
 
-        // Check if another user exists with the same email but a different username
-        $stmt = $conn->prepare("SELECT 1 FROM users WHERE email = ? AND usernames <> ?");
-        $stmt->bind_param("ss", $email, $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+// Step 2: Get the latest pending email verification code
+$stmt2 = $conn->prepare("SELECT code, created_at FROM email_verification_code WHERE user_id = ? AND registration_status = 'pending' ORDER BY created_at DESC LIMIT 1");
+$stmt2->bind_param("i", $user_id);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
+$row = $result2->fetch_assoc();
+$stmt2->close();
 
-        if ($result->num_rows > 0) {
-            // Another user exists with the same email but different username
-            $stmt->close();
+if ($row) {
+    $codeCreatedAt = strtotime($row['created_at']);
+    $now = time();
+    $expirySeconds = 600; // 10 minutes
 
-            // Prepare DELETE statement
-            $delete_stmt = $conn->prepare("DELETE FROM users WHERE email = ? AND usernames = ?");
-            $delete_stmt->bind_param("ss", $email, $username);
+    if (($now - $codeCreatedAt) > $expirySeconds) {
+        // Code expired
+        // Optional: update status to 'expired'
+        $expireStmt = $conn->prepare("UPDATE email_verification_code SET registration_status = 'expired' WHERE user_id = ? AND code = ?");
+        $expireStmt->bind_param("is", $user_id, $row['code']);
+        $expireStmt->execute();
+        $expireStmt->close();
 
-            if ($delete_stmt->execute()) {
-                $delete_stmt->close();
-                header("Location: ../login/login.php?success=2");
-                exit();
-            } else {
-                echo "Error deleting user.";
-            }
-        }
-        else {   
-            // Prepare the update query
-            $updateSql = "UPDATE users SET emailCode = '1' WHERE email = ?";
-            $updateStmt = $conn->prepare($updateSql);
-        
-            if ($updateStmt === false) {
-                die("Error in preparing statement: " . $conn->error);
-            }
-        
-            // Bind the email parameter
-            $updateStmt->bind_param("s", $email);
-        
-            // Execute the update
-            if ($updateStmt->execute()) {
-                if ($updateStmt->affected_rows > 0) {
-                    header("Location: ../mainpage/customerMainpage.php");
-                } else {
-                    echo "No rows updated. Email might not exist.<br>";
-                }
-            } else {
-                echo "Error executing update: " . $updateStmt->error . "<br>";
-            }
-        
-            // Close the statement
-            $updateStmt->close();
-        
-            // Redirect or exit
-            exit();
-        }
-    } 
-    else {
-         header("Location: checkRegister.php?success=1");
+        header("Location: checkRegister.php?success=3"); // Code expired
+        exit();
     }
-} 
-else {
-    // User not found
-    header("Location: checkRegister.php?success=2");
+}
+
+if ($row && $row['code'] === $primaryCode) {
+    // Code verified
+
+    // Step 3: Mark the code as used
+    $stmt3 = $conn->prepare("UPDATE email_verification_code SET registration_status = 'used', code = NULL  WHERE user_id = ? AND code = ?");
+    $stmt3->bind_param("is", $user_id, $primaryCode);
+    $stmt3->execute();
+    $stmt3->close();
+
+    // Step 4: Check if another user has same email but different username
+    $stmt4 = $conn->prepare("SELECT 1 FROM users WHERE email = ? AND usernames <> ?");
+    $stmt4->bind_param("ss", $email, $username);
+    $stmt4->execute();
+    $result4 = $stmt4->get_result();
+
+    if ($result4->num_rows > 0) {
+        $stmt4->close();
+
+        // Another user with same email exists – delete this unverified user
+        $delete_stmt = $conn->prepare("DELETE FROM users WHERE email = ? AND usernames = ?");
+        $delete_stmt->bind_param("ss", $email, $username);
+        $delete_stmt->execute();
+        $delete_stmt->close();
+
+        header("Location: ../login/login.php?success=2"); // Go to login with duplicate email msg
+        exit();
+    } else {
+        $stmt4->close();
+
+        // No conflict – mark user as registered
+        $updateStmt = $conn->prepare("UPDATE users SET status = 'registered' WHERE user_id = ?");
+        $updateStmt->bind_param("i", $user_id);
+        $updateStmt->execute();
+        $updateStmt->close();
+        header("Location: ../mainpage/customerMainpage.php");
+        exit();
+    }
+
+} else {
+    //Invalid code
+    header("Location: checkRegister.php?success=1");
+    exit();
 }
 ?>

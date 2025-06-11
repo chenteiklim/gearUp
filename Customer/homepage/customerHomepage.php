@@ -1,6 +1,5 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 // Get product list
 $selectRowsQuery = "SELECT * FROM products ORDER BY product_id ASC";
@@ -15,6 +14,13 @@ if ($selectRowsResult && $selectRowsResult->num_rows > 0) {
 ?>
 
 <link rel="stylesheet" href="customerHomepage.css">
+<div id="navContainer"> 
+  <img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
+  <button class="navButton" id="home">GearUp</button>
+  <button class="navButton" id="login">Login</button>
+  <button class="navButton" id="register">Register</button>
+
+</div>
 
 <div id="container">
     <?php foreach ($products as $product): ?>

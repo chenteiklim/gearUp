@@ -50,20 +50,24 @@ $result = $stmt->get_result();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Orders - Admin</title>
+    <title>All Orders - Seller</title>
     <style>
-            body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f9fc;
-        }
+           body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
         #container{
-            margin-right:600px;
+            margin-left:250px;
         }
 
         h1 {
             color: #2c3e50;
-            border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
+            margin-top:50px;
             margin-bottom: 30px;
         }
 
@@ -74,13 +78,13 @@ $result = $stmt->get_result();
 
         .order-header {
             background-color: #ecf0f1;
+            width:60%;
             padding: 10px;
-            border-left: 5px solid #3498db;
             margin-bottom: 5px;
         }
 
         table {
-            width: 100%;
+            width: 62%;
             border-collapse: collapse;
             margin-bottom: 50px;
             box-shadow: 0 0 8px rgba(0,0,0,0.05);

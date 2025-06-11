@@ -73,7 +73,7 @@ window.onload = function() {
     }
     if (Param === '5') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'Username do not exist';
+      messageContainer.textContent = 'Invalid email or password';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       

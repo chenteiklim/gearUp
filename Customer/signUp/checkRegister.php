@@ -11,11 +11,11 @@
 <body>
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">GearUp</button>
+    <button id="logoName">GearUp</button>
 
 </div>
     
-        <div id="purple_container">
+        <div id="container">
             <div id="title">Email Verification</div>
             
             <?php
@@ -24,15 +24,14 @@
             session_start();
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
-                $havenotencryptemail = $_SESSION['haveNotEncrypt'] ?? null;
 
-                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$havenotencryptemail</span> below to verify your account.</p>";
+                echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>
               <form action="verifyCode.php" method="POST">
                 <!-- Primary Email Verification Code -->
                 <div>
-                    <label for="primaryCode" id="primaryCode"> <?php echo $havenotencryptemail; ?> Verification Code:</label>
+                    <label for="primaryCode" id="primaryCode">  Verification Code:</label>
                     <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode3" name="primaryCode[]" maxlength="1" required>

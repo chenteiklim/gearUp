@@ -3,11 +3,16 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/pusher.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $message = $_POST['message'];
-    $senderName = $_POST['senderName'];    // Seller
-    $receiverName = $_POST['receiverName']; // Customer
+    $message = trim($_POST['message']);
+    $senderName = trim($_POST['senderName']);    // Seller
+    $receiverName = trim($_POST['receiverName']); // Customer
 
-    // Validate users
+    if (empty($message) || empty($senderName) || empty($receiverName)) {
+        echo "Invalid input.";
+        exit();
+    }
+
+    // Validate sender
     $stmt = $conn->prepare("SELECT role FROM users WHERE usernames = ?");
     $stmt->bind_param("s", $senderName);
     $stmt->execute();
@@ -19,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     $sender_role = $sender['role'];
 
+    // Validate receiver
     $stmt = $conn->prepare("SELECT role FROM users WHERE usernames = ?");
     $stmt->bind_param("s", $receiverName);
     $stmt->execute();
@@ -29,15 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-        $chat_room = ($senderName < $receiverName) ? "{$senderName}_{$receiverName}" : "{$receiverName}_{$senderName}";
+    // Generate consistent chat room ID
+    $chat_room = ($senderName < $receiverName)
+        ? "{$senderName}_{$receiverName}"
+        : "{$receiverName}_{$senderName}";
 
-    // Save message
+    // Insert message into database
     $stmt = $conn->prepare("INSERT INTO messages (chat_room, senderName, receiverName, senderRole, message) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $chat_room, $senderName, $receiverName, $sender_role, $message);
     if ($stmt->execute()) {
-            echo "Message sent!";
-        } else {
-            echo "Error saving message: " . $stmt->error;
-        }
+        echo "Message sent!";
+
+        // Optional: Trigger Pusher event (if you implement real-time updates)
+        // $data = ['sender' => $senderName, 'message' => $message];
+        // $pusher->trigger('chat_channel', 'new_message', $data);
+
+    } else {
+        echo "Error saving message: " . $stmt->error;
+    }
 }
 ?>

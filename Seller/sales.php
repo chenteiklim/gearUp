@@ -7,46 +7,68 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
 <html>
 <head>
     <title>Sales Summary</title>
-    <style>
-        #container { margin-right: 900px }
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
 
-        h1, h2 {
-            color: #2c3e50;
-        }
+    #container {
+        margin-left:200px;
+        max-width: 900px;
+        padding: 20px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(70, 90, 120, 0.1);
+    }
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+    h1, h2 {
+        color: #3a3a7e;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
 
-        ul li {
-            padding: 8px 0;
-            font-size: 16px;
-        }
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 40px;
+    }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 40px;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
+    ul li {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+    }
 
-        th {
-            background-color: #3498db;
-            color: white;
-        }
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-    </style>
+    th {
+        background-color: #e6e6fa;
+        color: #333;
+        font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f6f6ff;
+    }
+
+    tr:hover {
+        background-color: #dcdcff;
+    }
+
+</style>
+
 </head>
 <body>
 <div id="container">

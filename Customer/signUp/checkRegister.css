@@ -2,7 +2,8 @@
 
 
    .message-container{
-    margin-left: 20px;
+    margin-left: 140px;
+    margin-top: 20px;;
     color: red;
    }
    
@@ -41,7 +42,7 @@ color: black;
 cursor: pointer;
 }
 
-#purple_container{
+#container{
 margin-top: 70px;
 margin-left: 450px;
 background-color:white;
@@ -61,9 +62,12 @@ padding-top: 20px;
 color: black;
 }
 
+#primaryCode{
+  margin-left: 100px;
+}
 
 #verifyBtn{
-    margin-left: 140px;
+    margin-left: 150px;
     margin-top: 20px;
 }
 
@@ -98,5 +102,15 @@ html, body {
   border: none;
   }
 
+
+ #logoName {
+  background-color: #e8e8e8;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
 
 

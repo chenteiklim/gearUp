@@ -1,152 +1,141 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-body {
-    background-color: bisque;
-   }
-   html, body {
-     margin: 0;
-     padding: 0;
-     width: 100%; /* Ensure full width */
-     height: 100%; /* Ensure full height */
-   }
-   
-   #navContainer {
-     display: flex;
-     background-color: black;
-     width: 100%; /* Adjust width as needed */
-     height: 80px; /* Adjust height as needed */
-     
-     /* Ensure it remains visible within the container */
-   
-   }
-   
-   .button {
-     background-color: black;
-     color: white;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 12px;
-     }
-     #home{
-         margin-left: 10px;
-     }
-   #register{
-     margin-left: 900px;
-   }
-   #logoImg{
-     margin-top: 25px;
-     width: 35px;
-     height: 35px;
-     border-radius: 5px;
-     margin-left: 100px;
-   }
-   
-     button:hover{
-         transform: scale(0.9);
-         background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-       }
-   
-   
-
-
-    #forgotBtn{
-        text-decoration: none;
-        color: red;
-        cursor: pointer;
-        font-size: 14px;
-        margin-left: 8vw;
-    }
-    #loginTag{
-        text-decoration: none;
-        color: darkblue;
-        cursor: pointer;
-        font-size: 16px;
-        margin-left: 6vw;
-
-    }
-   
-    
-    #purple_container{
-        margin-top: 70px;
-        margin-left: 500px;
-       background-color:white;
-        border-radius: 5px;
-        width: 320px;
-        height: 320px;
-    }
-    #title{
-        font-size: 24px;
-        margin-left: 120px;
-        padding-top: 30px;
-        color: black;
-    }
-   
-    #emailContainer{
-        padding-top: 20px;
-        padding-left: 20px;
-    }
-    
+#logoImg{
+  margin-left: 100px;
+  width: 50px;
+  height: 50px;
+}
+html, body {
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 100%; /* Ensure full height */
+ }
+ 
+ #navContainer {
+   display: flex;
+   align-items: center;
+   background-color: #e8e8e8;
+   width: 100%; /* Adjust width as needed */
+   height: 80px; /* Adjust height as needed */   
+ }
+ 
+ .button {
+  background-color: #e8e8e8;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
   
-    #passwordContainer{
-        padding-top: 20px;
-        padding-left: 20px;
-    }
-  
+#logoName {
+  background-color: #e8e8e8;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
+/* Container styling */
+#container {
+  background-color: #fff;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-    input[type="text"]{
-        width: 200px; /* Set the width */
-        height:10px; /* Set the height */
-        padding: 8px; /* Add padding for better appearance */
-        font-size: 16px; /* Adjust the font size */
-    }
-    input[type="email"] {
-        width: 200px; /* Set the width */
-        height:10px; /* Set the height */
-        padding: 8px; /* Add padding for better appearance */
-        font-size: 16px; /* Adjust the font size */
-    }
-    input[type="password"]{
-        width: 200px; /* Set the width */
-        height:10px; /* Set the height */
-        padding: 8px; /* Add padding for better appearance */
-        font-size: 16px; /* Adjust the font size */
-    }
-    #show{
-        height: 27px;
-    }
-    input[type="password"]{
-        width: 200px; /* Set the width */
-        height:10px; /* Set the height */
-        padding: 8px; /* Add padding for better appearance */
-        font-size: 16px; /* Adjust the font size */
-    }
-    #show2{
-        height: 27px;
-    }
+/* Title */
+#title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
 
-    .errorMessage{
-    font-size: 14px;
-    margin-top: 15px;
-    padding-left: 20px;
-    color:black;
-    }
+/* Input containers */
+#emailContainer,
+#passwordContainer {
+  position: relative;
+  margin-bottom: 20px;
+}
 
-    #signUpBtn{
-        height: 35px;
-        width: 280px;
-        margin-top: 30px;
-        margin-left: 20px;
-        background-color: rgb(15, 124, 15);
-        border:none;
-        border-radius: 5px;
-        cursor: pointer;
-        color: white;
-        letter-spacing: 1px; /* Adjust spacing between characters */
+/* Input fields */
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  padding-right: 60px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
 
-    }
+input[type="password"]:focus,
+input[type="text"]:focus {
+  border-color: black;
+}
 
+/* Show buttons */
+#show,
+#show2 {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #0066cc;
+}
 
+#show:hover,
+#show2:hover {
+  text-decoration: underline;
+}
 
+/* Error message */
+#errorContainer {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
 
+/* Submit button */
+#signUpBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#signUpBtn:hover {
+  background-color: #2a2f34;
+}
+
+hr {
+  margin-top: 20px;
+  border: none;
+  border-top: 1px solid #ddd;
+}

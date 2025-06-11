@@ -97,6 +97,7 @@ if ($result->num_rows > 0) {
     }
 
     #edit{
+    background-color:#3498db;
       margin-top:30px;
     }
     #delete{

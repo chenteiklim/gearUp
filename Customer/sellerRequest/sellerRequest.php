@@ -1,19 +1,10 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
 
 session_start();
-$selectNameQuery = "SELECT * FROM users";
-// Execute the query
-$result = $conn->query($selectNameQuery);
-
-if ($result->num_rows > 0) {
-    // Fetch the row from the result
-    $row = $result->fetch_assoc();
-}
-    // Get the address value from the fetched row
-    $name = $row['usernames'];
+$username = $_SESSION['username'];
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';
 
   ?>
 
@@ -29,14 +20,7 @@ if ($result->num_rows > 0) {
             margin-left:550px;
             color: #333;
         }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
-            margin: auto;
-        }
+     
         label {
             display: block;
             margin-bottom: 5px;
@@ -52,29 +36,16 @@ if ($result->num_rows > 0) {
         input[type="file"] {
             padding: 3px;
         }
-
-#sellerRequestForm{
-    margin-top:20px;
-    margin-left:550px;
+#sellerRequestForm {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    max-width: 400px;
+    margin: 40px auto;
 }
-        
-#home{
-    margin-left: 10px;
-}
-#name{
-margin-left: 400px;
-}
-#logOut{
-height: 80px;    
-}
-#logoImg{
-margin-top: 25px;
-width: 35px;
-height: 35px;
-border-radius: 5px;
-margin-left: 100px;
-}
-
+      
 
     </style>
 </head>

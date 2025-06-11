@@ -1,15 +1,90 @@
 
-#logoImg{
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    margin-left: 100px;
-}  
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
 #login{
-  margin-left:800px;
+    margin-left: 800px;
+}
+.logo {
+  display: flex;
+  align-items: center;
 }
 
 
+
+#logoImg{
+  margin-left: 100px;
+  width: 50px;
+  height: 50px;
+}
+html, body {
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 100%; /* Ensure full height */
+ }
+ 
+ #navContainer {
+   display: flex;
+   align-items: center;
+   background-color: #e8e8e8;
+   width: 100%; /* Adjust width as needed */
+   height: 80px; /* Adjust height as needed */   
+ }
+ 
+ .button {
+  background-color: #e8e8e8;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
+  
+#logoName {
+  background-color: #e8e8e8;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
+
+   .navButton {
+      
+        background-color:#e8e8e8;
+        width: 150px;
+        color: black;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        border: none;
+}
+
+.button {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 14px;
+    border: none;
+}
+.button:hover {
+    transform: scale(0.9);
+    background: #222;
+}
 
 #container{
 display: grid;
