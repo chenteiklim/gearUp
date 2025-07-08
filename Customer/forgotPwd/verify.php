@@ -12,7 +12,7 @@
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button id="logoName">GearUp</button>
+    <button id="logoName" class='navButton' onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
 </div>
     
         <div class='container'>
@@ -24,6 +24,7 @@
             session_start();
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
+                
                 echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>

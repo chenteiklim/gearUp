@@ -25,7 +25,6 @@ else{
 }
 $imageUrl = "/inti/gearUp/assets/" . $image;
 /* Fetch Ratings for Each Product Inside the Loop  */
-
 $selectRatingsQuery = "SELECT rating FROM ratings WHERE product_id = ?";
 $ratingStmt = $conn->prepare($selectRatingsQuery);
 $ratingStmt->bind_param("i", $row['product_id']);
@@ -73,14 +72,26 @@ $ratingStmt->close();
                 if ($ratingCount > 0) {
                     // Display average rating in stars
                     for ($i = 1; $i <= 5; $i++) {
-                        // Add 'selected' class if the rating is greater than or equal to the current star number
-                        echo '<span class="star ' . ($i <= $averageRating ? 'selected' : '') . '">&#9733;</span>';
+                        // Add 'selected' class if 
+                        // the rating is greater than 
+                        // or equal to the current star number
+                        echo '<span class="star ' . ($i <= 
+                        $averageRating ? 'selected' : '') . 
+                        '">&#9733;</span>';
                     }
                     echo " ($ratingCount ratings)";
                 } else {
                     echo "No ratings yet.";
                 }
                 ?>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <form action="comment.php" method="POST">
+                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
+                    <button type="submit" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left:200px;">
+                        💬 View All Comments
+                    </button>
+                </form>
             </div>
         </div>        
 

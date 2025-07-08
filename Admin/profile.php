@@ -5,9 +5,10 @@ session_start();
 if (!isset($_SESSION['adminUsername'])) {
     exit('Access Denied');
 }
-$username=$_SESSION['adminUsername'];
+$username = $_SESSION['adminUsername'];
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
+// Get admin's user_id
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -20,9 +21,7 @@ if ($result->num_rows === 1) {
     exit('Admin user not found');
 }
 
-
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
-
 
 // Fetch current user data
 $stmt = $conn->prepare("SELECT usernames, email, role FROM users WHERE user_id = ?");
@@ -36,29 +35,27 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
-// Handle form submission (update own profile info)
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
-    $username = trim($_POST['username']);
     $email = trim($_POST['email']);
+    $username = $_SESSION['adminUsername']; // Prevent username tampering
 
     // Validation
-    if (empty($username) || empty($email)) {
-        $error = 'Username and email cannot be empty.';
+    if (empty($email)) {
+        $error = 'Email cannot be empty.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Invalid email format.';
     } else {
-
-        $updateQuery = "UPDATE users SET usernames=?, email=?, WHERE user_id=?";
+        // Only update email
+        $updateQuery = "UPDATE users SET email=? WHERE user_id=?";
         $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("sssi", $username, $email, $currentUserId);
+        $stmt->bind_param("si", $email, $adminUserId);
 
         if ($stmt->execute()) {
-            $success = "Profile updated successfully.";
-            // Refresh user info after update
-            $user['usernames'] = $username;
+            echo "Profile updated successfully.";
             $user['email'] = $email;
         } else {
-            $error = "Failed to update profile.";
+            echo "Failed to update profile.";
         }
     }
 }
@@ -84,14 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
 
 <h1>My Profile</h1>
 
-
 <form method="POST" action="profile.php">
     <label for="username">Username</label>
-    <input type="text" id="username" name="username" value="<?= htmlspecialchars($user['usernames']) ?>" required>
+    <input type="text" id="username" name="username" value="<?= htmlspecialchars($user['usernames']) ?>" readonly>
 
     <label for="email">Email</label>
     <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
-
 
     <label for="role">Role</label>
     <input type="text" id="role" value="<?= htmlspecialchars($user['role']) ?>" disabled>

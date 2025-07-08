@@ -49,7 +49,7 @@ if ($result->num_rows > 0) {
    
           
       #container{
-        margin-left:300px;
+        margin-left:280px;
         margin-top:50px;
 
       }
@@ -82,7 +82,7 @@ if ($result->num_rows > 0) {
     }
 
     #edit{
-      margin-top:30px;
+      margin-top:10px;
     }
     #delete{
       margin-top:10px;
@@ -92,7 +92,11 @@ if ($result->num_rows > 0) {
       font-size:20px;
       font-weight:600;
     }
-
+    #rating{
+      margin-top:20px;
+      color:black;
+     background-color:#ff9800;
+    }
     </style>
 </head>
   <div id="container"> 
@@ -122,7 +126,23 @@ if ($result->num_rows > 0) {
         <div id='seller' class='row'>
             <?php echo 'Seller Name: ' . htmlspecialchars($product['sellerName']); ?>
         </div>
+        <div class='row'>
+    <?php
+        // Get average rating
+        $ratingStmt = $conn->prepare("SELECT ROUND(AVG(rating),1) AS avg_rating FROM ratings WHERE product_id = ?");
+        $ratingStmt->bind_param("i", $product['product_id']);
+        $ratingStmt->execute();
+        $ratingResult = $ratingStmt->get_result();
+        $ratingRow = $ratingResult->fetch_assoc();
+        $avgRating = $ratingRow['avg_rating'] ?? 'No rating';
+        ?>
+        Rating: <?= htmlspecialchars($avgRating) ?>
+    </div>
 
+    <form method="POST" action="viewProductReview.php">
+        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
+        <button id='rating' type="submit" class="button">View Reviews</button>
+    </form>
         <!-- Hidden field inside the form -->
         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
 

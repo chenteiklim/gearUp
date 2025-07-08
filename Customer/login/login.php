@@ -27,12 +27,14 @@ if (isset($_POST['submit'])) {
     $status=$row['status'];
     $_SESSION['username'] = $row['usernames'];
 
-    if ($status != 'registered') {
-      // If the primary email token is not equal to 1, redirect to a specific page
+    if ($status == 'pending') {
       header("Location: login.php?success=1");
       exit(); // Stop further script execution
     } 
-    
+    elseif ($status == 'inactive') {
+      header("Location: login.php?success=6");
+      exit(); // Stop further script execution
+    } 
     
     elseif (!password_verify($password, $hashed_password)) {
       header("Location: login.php?success=3");

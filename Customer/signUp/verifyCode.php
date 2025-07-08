@@ -13,10 +13,11 @@ if (!$email || !$username) {
 }
 
 // Get 6-digit code from input fields
+
 $primaryCode = implode('', $_POST['primaryCode']);
 
 // Step 1: Get the user_id
-$stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND usernames = ?");
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND usernames = ? AND status != 'pending'");
 $stmt->bind_param("ss", $email, $username);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -59,7 +60,8 @@ if ($row && $row['code'] === $primaryCode) {
     // Code verified
 
     // Step 3: Mark the code as used
-    $stmt3 = $conn->prepare("UPDATE email_verification_code SET registration_status = 'used', code = NULL  WHERE user_id = ? AND code = ?");
+    $stmt3 = $conn->prepare("UPDATE email_verification_code SET registration_status = 'used', 
+    code = NULL  WHERE user_id = ? AND code = ?");
     $stmt3->bind_param("is", $user_id, $primaryCode);
     $stmt3->execute();
     $stmt3->close();
@@ -81,7 +83,8 @@ if ($row && $row['code'] === $primaryCode) {
 
         header("Location: ../login/login.php?success=2"); // Go to login with duplicate email msg
         exit();
-    } else {
+    } 
+    else {
         $stmt4->close();
 
         // No conflict – mark user as registered
@@ -93,7 +96,8 @@ if ($row && $row['code'] === $primaryCode) {
         exit();
     }
 
-} else {
+} 
+else {
     //Invalid code
     header("Location: checkRegister.php?success=1");
     exit();

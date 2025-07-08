@@ -1,21 +1,27 @@
 
 <?php
 
-$servername = "localhost";
-$Username = "root";
-$Password = "";
-$dbname = "gearUp";
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
-$conn = new mysqli($servername, $Username, $Password);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 session_start();
-mysqli_select_db($conn, $dbname);
 $username=$_SESSION['username'];
+$product_name = ''; // Initialize early to avoid undefined warning
+$product_id = $_POST['product_id'] ?? null;
 
+if ($product_id) {
+    $selectProductQuery = "SELECT product_name FROM products WHERE product_id = ?";
+    $stmt = $conn->prepare($selectProductQuery);
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        $product_name = $row['product_name'];
+    } else {
+        $product_name = "Unknown Product";
+    }
+}
 if (isset($_POST['editSingle'])) {
   $product_id = $_POST['product_id'] ?? null; // Retrieve again from form
   $selectProductQuery = "SELECT product_name FROM products WHERE product_id = ?";
@@ -95,6 +101,8 @@ if (isset($_POST['confirmEdit'])) {
     }
 }
 ?>
+
+
 <head>
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -109,7 +117,8 @@ if (isset($_POST['confirmEdit'])) {
 }
   
 .container {
-  margin-top:20px;
+  margin-left: 500px;
+  margin-top:40px;
   width: 400px;
   height:550px;
   background-color:white;
@@ -117,7 +126,9 @@ if (isset($_POST['confirmEdit'])) {
   flex-direction: column;
   gap:5px;
 }
-    
+  #editForm{
+    margin-left:100px
+  }
  
 /* Apply to all field containers */
 #nameContainer,
@@ -141,22 +152,27 @@ input[type="number"] {
   height:40px;
 }
 
-#createProduct{
-  background-color: #BFB9FA;
-  color: black;
-  padding: 14px 20px;
+#createProduct {
+  background-color: #3498db;
+  color: white;
+  margin-left: 20px;
+  padding: 12px 24px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  width: 120px;
-  margin-top:10px;
-  margin-left:40px;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
+#createProduct:hover {
+    background-color: #2980b9;
+}
 
 #title{
   font-size:20px;
   margin-top:30px;
-  margin-left:40px;
+  margin-left:150px;
 }
 
 .content{
@@ -164,59 +180,7 @@ input[type="number"] {
   width: 480px;
 }
  
-html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%; /* Ensure full width */
-        height: 100%; /* Ensure full height */
-        background-color: #add8e6;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-    }
-    
-    #navContainer {
-      display: flex;
-      background-color: #BFB9FA;
-      width: 100%; /* Adjust width as needed */
-      height: 80px; /* Adjust height as needed */   
-    }
-    
-    .button {
-     background-color: #BFB9FA;
-     width: 150px;
-     color: black;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 14px;
-     border: none;
-     }
-        #home{
-            margin-left: 10px;
-            width:160px;
-        }
-    #name{
-        margin-left: 800px;
-    }
-    #logout{
-      height: 80px;    
-    }
-    #logoImg{
-        margin-top: 25px;
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-        margin-left: 100px;
-    }
-    
-        button:hover{
-            transform: scale(0.9);
-            background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-          }
-    
+
     /* Hide the up/down arrows in number input */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -239,22 +203,15 @@ input[type="number"] {
     </style>
 </head>
 
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';?>
 
+ <div class='container'>
 
-
-<div id="navContainer"> 
-    <img id="logoImg" src="../../../assets/logo.jpg" alt="" srcset="">
-    <button class="button" id="home">Computer Shop</button>
-    <button class="button" id="name"><?php echo $username ?></button>
-</div>
-<div class="container">
-  <div class="content">
- 
 <div id='title'>
   Edit <?php echo $product_name ?>
 </div>
 
-  <form action="editProduct.php" method="post" enctype="multipart/form-data">
+  <form id='editForm' action="editProduct.php" method="post" enctype="multipart/form-data">
   <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($_POST['product_id'] ?? ''); ?>">
   <div id="nameContainer">
         <label for="productName">Product Name</label>
@@ -277,17 +234,8 @@ input[type="number"] {
     <input id="createProduct" type="submit" name="confirmEdit" value="Edit Product">
       
   </form>
-  </div>
-</div>
  
-<script>
-   var homeButton = document.getElementById("home");
-  homeButton.addEventListener("click", function(event) {
-    // Perform the navigation action here
-    event.preventDefault()
-    window.location.href = "../mainpage/mainpage.php";
-  });
-</script>
+ </div>
 
   
    

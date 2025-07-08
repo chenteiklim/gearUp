@@ -73,9 +73,19 @@ $stmt->close();
         </div>
 
         <div id="upload">
-            <label id="uploadImage" for="proof">Upload Image/Video of Product:</label>
-            <input type="file" name="proof" accept="image/*,video/*" required>          
-        </div>
+  <label id="uploadImage">Upload Image/Video of Product:</label>
+
+  <!-- Clickable styled label -->
+  <label for="proof" class="custom-upload">
+    📁 Choose File
+  </label>
+
+  <!-- Hidden actual file input -->
+  <input type="file" id="proof" name="proof" accept="image/*,video/*" required>
+
+  <!-- Optional: Show selected file name -->
+  <span id="file-name">No file chosen</span>
+</div>
 
         <button class="button" id="refundBtn" type="submit">Request Refund</button>
     </div>

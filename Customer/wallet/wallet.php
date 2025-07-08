@@ -14,9 +14,10 @@ $user_id = $row['user_id'] ?? 0;
 $stmt->close();
 
 // Check if wallet exists
-$sql = "SELECT COUNT(*) AS count FROM wallet WHERE user_id = ?";
+$sql = "SELECT COUNT(*) AS count FROM wallet 
+WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);  // user_id is integer
+$stmt->bind_param("i", $user_id);  
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();

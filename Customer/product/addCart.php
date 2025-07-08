@@ -75,14 +75,16 @@ if (isset($_POST['addCart'])) {
 
         } else {
             // Insert new item to order_items
-            $insertItemSql = "INSERT INTO order_items (order_id, product_id, product_name, quantity, price, image) VALUES (?, ?, ?, ?, ?, ?)";
+            $insertItemSql = "INSERT INTO order_items (order_id, product_id, product_name, 
+            quantity, price, image) VALUES (?, ?, ?, ?, ?, ?)";
             $insertItemStmt = $conn->prepare($insertItemSql);
             $insertItemStmt->bind_param("iisids", $order_id, $product_id, $product_name, $quantity, $price, $image);
             $insertItemStmt->execute();
         }
 
-        // Update total price in orders table (sum of all order_items)
-        $totalPriceSql = "SELECT SUM(quantity * price) as total FROM order_items WHERE order_id = ?";
+        // Update total price in orders table 
+        $totalPriceSql = "SELECT SUM(quantity * price) as total 
+        FROM order_items WHERE order_id = ?";
         $totalPriceStmt = $conn->prepare($totalPriceSql);
         $totalPriceStmt->bind_param("i", $order_id);
         $totalPriceStmt->execute();

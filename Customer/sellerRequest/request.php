@@ -26,8 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contact = $_POST['contactInfo'];
     $status = 'pending';
 // Insert into seller table
-$stmt1 = $conn->prepare("INSERT INTO seller (storeName, user_id, sellerName, description, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt1->bind_param("ssssss", $storeName, $user_id, $username, $description, $contact, $param1);
+$stmt1 = $conn->prepare("INSERT INTO seller (storeName, 
+user_id, sellerName, description, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt1->bind_param("ssssss", $storeName, $user_id, $username,
+ $description, $contact, $param1);
 
 if ($stmt1->execute()) {
     // Get the inserted seller_id

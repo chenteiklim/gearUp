@@ -56,7 +56,7 @@ $user = $result->fetch_assoc();
         #profileForm { margin-left:500px; background: white; padding: 20px; border-radius: 6px; max-width: 500px; }
         label { display: block; margin: 10px 0 5px; font-weight: bold; }
         input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        #update { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -76,7 +76,7 @@ $user = $result->fetch_assoc();
     <label for="contact">Contact</label>
     <input type="text" id="contact" value="<?= htmlspecialchars($user['contact']) ?>" disabled>
 
-    <button type="submit" name="updateProfile">Update Profile</button>
+    <button id ='update' type="submit" name="updateProfile">Update Profile</button>
 </form>
 
 </body>

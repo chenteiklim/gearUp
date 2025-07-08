@@ -3,7 +3,7 @@ $username = $_SESSION['username']
 ?>
 <style>
 html, body {
-    background-color: white;
+    background-color:  #f0f0f0;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -11,14 +11,6 @@ html, body {
 }
 
 
-
-#navContainer {
-    display: flex;
-    background-color: #e8e8e8;
-    align-items: center;
-    width: 100%;
-    height: 80px;
-}
 
 #logoImg {
     width: 35px;
@@ -31,14 +23,26 @@ html, body {
     margin-left: 250px;
 }
 
-.navButton {
-    background-color: #e8e8e8;
-    width: 150px;
-    color: black;
-    cursor: pointer;
-    padding: 10px 30px;
-    font-size: 14px;
-    border: none;
+    #navContainer {
+
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
+    }
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
 }
 .button {
     background-color: black;

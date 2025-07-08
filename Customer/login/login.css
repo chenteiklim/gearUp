@@ -36,8 +36,8 @@ body {
   
     #purple_container{
         margin-top: 70px;
-        margin-left: 500px;
-       background-color:#e8e8e8;
+        margin-left: 550px;
+       background-color:white;
         border-radius: 5px;
         width: 320px;
         height: 320px;
@@ -104,7 +104,7 @@ body {
     }
 
     #signUpBtn{
-        background-color: black;
+        background-color: #1e1e2f;
         height: 35px;
         width: 280px;
         margin-top: 30px;
@@ -126,12 +126,26 @@ body {
 
      
     #navContainer {
+
         display: flex;
         align-items: center;
-        background-color:#e8e8e8;
+        background-color:#E6E6FA;
         width: 100%; /* Adjust width as needed */
         height: 80px; /* Adjust height as needed */   
     }
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
+}
      #logoImg{
         margin-top: 10px;
         width: 35px;
@@ -144,19 +158,6 @@ body {
         margin-left: 800px;
     }
  
-   .navButton {
-      
-        background-color:#e8e8e8;
-        width: 150px;
-        color: black;
-        cursor: pointer;
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        font-size: 14px;
-        border: none;
-}
 
     #home{
         margin-left: 10px;

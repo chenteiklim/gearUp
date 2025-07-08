@@ -78,63 +78,73 @@ if (isset($_POST['submit'])) {
     <title>Sell Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .container {
-            margin-left: 400px;
-            margin-top: 50px;
-            width: 400px;
-            height: 550px;
-            background-color: white;
+       
+        #container {
+            margin-left: 450px;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 480px;
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+
+        .form-title {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
 
-        .content {
-            margin-left: 80px;
-            width: 480px;
+        .form-group label {
+            font-weight: bold;
         }
 
-        #title {
-            font-size: 20px;
-            margin-top: 30px;
-            margin-left: 40px;
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="file"] {
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
         }
 
-        form {
-            height: 320px;
+        .form-group input[type="file"] {
+            padding: 4px;
         }
 
-        #nameContainer,
-        .stockContainer,
-        .imageContainer,
-        .priceContainer {
-            flex-direction: column;
-            gap: 5px;
-            margin-bottom: 10px;
-            margin-top: 30px;
-            width: 250px;
-        }
-
-        input[type="file"],
-        input[type="text"],
-        input[type="number"] {
-            margin-top: 10px;
-            width: 200px;
-            height: 40px;
-        }
-
-        #createProduct {
-            background-color: #BFB9FA;
-            color: black;
-            padding: 14px 20px;
+        .submit-button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
-            width: 120px;
+            font-weight: bold;
+            font-size: 14px;
             margin-top: 10px;
-            margin-left: 40px;
         }
 
-        /* Remove number input arrows */
+        .submit-button:hover {
+            background-color: #2980b9;
+        }
+
+        #successMessage {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -147,40 +157,39 @@ if (isset($_POST['submit'])) {
     </style>
 </head>
 <body>
-<div class="container">
+<div id="container">
     <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
-        <div id="successMessage" style="color: black; font-weight: bold; margin-top: 10px; margin-left: 100px;">
-            Product created successfully!
-        </div>
+        <div id="successMessage">Product created successfully!</div>
     <?php endif; ?>
 
-    <div class='content'>
-        <div id='title'>Sell Product</div>
+    <div class="form-container">
+        <div class="form-title">Sell Product</div>
         <form action="createProduct.php" method="post" enctype="multipart/form-data">
-            <div id="nameContainer">
+            <div class="form-group">
                 <label for="productName">Product Name</label>
                 <input type="text" placeholder="Enter Product Name" name="productName" required>
             </div>
 
-            <div class="stockContainer">
+            <div class="form-group">
                 <label for="stock">Stock</label>
                 <input type="number" placeholder="Enter Stock" name="stock" required>
             </div>
 
-            <div class="imageContainer">
+            <div class="form-group">
                 <label for="productImage">Product Image</label>
                 <input type="file" name="productImage" required>
             </div>
 
-            <div class="priceContainer">
+            <div class="form-group">
                 <label for="price">Price (RM)</label>
-                <input type="number" placeholder="Enter price" name="price" required>
+                <input type="number" step="0.01" placeholder="Enter Price" name="price" required>
             </div>
 
-            <input id="createProduct" type="submit" name="submit" value="Sell">
+            <input class="submit-button" type="submit" name="submit" value="Sell">
         </form>
     </div>
 </div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

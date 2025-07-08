@@ -9,7 +9,8 @@ session_destroy();
 
 // Clear the session cookie if it exists
 if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 3600, '/');  // Expire the session cookie (set an expiration date in the past)
+// Expire the session cookie (set an expiration date in the past)
+    setcookie(session_name(), '', time() - 3600, '/'); 
 }
 
 // Check if the session is empty and redirect to login page

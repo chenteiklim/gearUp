@@ -19,11 +19,16 @@
   <a href="/inti/gearUp/Admin/approve/approveSeller.php">Approve Seller</a>
   <a href="/inti/gearUp/Admin/sales/refund.php">Refund</a>
   <a href="/inti/gearUp/Admin/wallet/superuserWallet.php">Wallet</a>
-
+  <a href="/inti/gearUp/Admin/chat.php">View Chat</a>
+  <a href="/inti/gearUp/Admin/transaction.php">View Transaction</a>
   <a href="/inti/gearUp/Admin/login/logout.php" style="margin-top: 20px; color:#e74c3c;">Logout</a>
 </div>
 
 <style>
+   html, body {
+        background-color: #f0f0f0;
+     
+       }
 .sidebar {
   position: fixed;
   top: 0px; /* height of navbar */

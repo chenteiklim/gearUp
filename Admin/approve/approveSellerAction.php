@@ -32,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['seller_id'])) {
             $stmtUser->execute();
 
             // Update seller status
-            $sqlUpdateSeller = "UPDATE seller SET status = 'approved' WHERE seller_id = ?";
+            $sqlUpdateSeller = "UPDATE seller SET status = 'approved' 
+            WHERE seller_id = ?";
             $stmtSeller = $conn->prepare($sqlUpdateSeller);
             $stmtSeller->bind_param("i", $seller_id);
             $stmtSeller->execute();

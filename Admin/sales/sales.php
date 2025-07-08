@@ -15,15 +15,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 <html>
 <head>
     <title>Sales Summary</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9fbff;
-            margin: 30px;
-        }
+       
 
         #container {
-            margin-left: 250px;
+            margin-top:50px;
+            margin-left:350px;
         }
 
         h1, h2 {
@@ -88,13 +86,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
     
     // Total Sales Amount
     $salesQuery = "
-        SELECT 
-           o.total_price,
-            COUNT(DISTINCT o.order_id) AS completed_orders,
-            SUM(oi.quantity) AS total_items
-        FROM orders o
-        JOIN order_items oi ON o.order_id = oi.order_id
-        WHERE o.order_status = 'purchased'
+      SELECT 
+   SUM(o.total_price) AS total_price,
+   COUNT(DISTINCT o.order_id) AS completed_orders,
+   SUM(oi.quantity) AS total_items
+FROM orders o
+JOIN order_items oi ON o.order_id = oi.order_id
+WHERE o.order_status = 'purchased'
     ";
     $salesResult = $conn->query($salesQuery);
     $salesData = $salesResult->fetch_assoc();
@@ -132,8 +130,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 ";
     $storeSalesResult = $conn->query($storeSalesQuery);
     ?>
-
+     <a href="advanced_analytic.php">
+        <button style="padding: 10px 15px; background-color: #3a3a7e; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            View Advanced Analytics 📈
+        </button>
+    </a>
     <h2>Overall Metrics</h2>
+
     <div id="messageContainer"></div>
 
     <ul>

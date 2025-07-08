@@ -41,9 +41,10 @@ if ($product_name) {
             font-family: Arial;
             padding: 20px;
         }
-        form {
+        #rateForm {
+            margin-top:80px;
+            margin-left:600px;
             max-width: 400px;
-            margin: auto;
             background: #f7f7f7;
             padding: 20px;
             border-radius: 8px;
@@ -69,7 +70,8 @@ if ($product_name) {
         .submit-btn {
             margin-top: 20px;
             padding: 8px 16px;
-            background: #4CAF50;
+            background: black;
+            font-size:16px;
             color: white;
             border: none;
             border-radius: 4px;
@@ -77,11 +79,13 @@ if ($product_name) {
     </style>
 </head>
 <body>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Customer/customerNavbar.php';?>
 
-<h2>Rate Product</h2>
+
+<form id="rateForm" method="POST" action="submitRating.php">
+    <h2>Rate Product</h2>
 <p>You're rating: <strong><?= htmlspecialchars($product_name) ?></strong></p>
 
-<form method="POST" action="submitRating.php">
     <input type="hidden" name="order_id" value="<?= htmlspecialchars($order_id) ?>">
     <input type="hidden" name="product_name" value="<?= htmlspecialchars($product_name) ?>">
     <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>"> <!-- Pass product_id -->

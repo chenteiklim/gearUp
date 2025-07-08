@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\Exception;
 if (isset($_POST['submit'])) {
   $email = $_POST['email'];
   $_SESSION['email']=$email;  
-
+    
     $sql2 = "SELECT user_id FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql2);
     $stmt->bind_param("s", $email);
@@ -34,11 +34,12 @@ if (isset($_POST['submit'])) {
     $row = $result->fetch_assoc();
     $user_id = $row['user_id'];  // store user ID
     $status = 'pending';
-    $changePasswordCode = rand(100000, 999999); // 6-digit code
+    $change_password_code = rand(100000, 999999); // 6-digit code
 
-    $sql = "UPDATE email_verification_code SET changePasswordCode = ?, reset_password_status = ? WHERE user_id = ?";
+    $sql = "UPDATE email_verification_code SET change_password_code = ?, 
+    reset_password_status = ? WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $changePasswordCode, $status, $user_id);  // Note: 'i' for integer user_id
+    $stmt->bind_param("ssi", $change_password_code, $status, $user_id);  
 
     if ($stmt->execute()) {
         // Send verification email
@@ -59,7 +60,7 @@ if (isset($_POST['submit'])) {
             // Send to primary email
             $mail->addAddress($email);
             $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
-            <p>Ref: $changePasswordCode  </p>";
+            <p>Ref: $change_password_code  </p>";
             $mail->send();
              header("Location: verify.php");
              exit();
@@ -93,7 +94,7 @@ if (isset($_POST['submit'])) {
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button id="logoName">GearUp</button>
+    <button id="logoName" class='navButton' onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
 </div>
 
 <form action="verifyForgotPwd.php" method="post">

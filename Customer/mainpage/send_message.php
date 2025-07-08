@@ -28,9 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "Receiver not found!";
         exit();
     }
-
-        $chat_room = ($senderName < $receiverName) ? "{$senderName}_{$receiverName}" : "{$receiverName}_{$senderName}";
-
+    $chat_room = ($senderName < $receiverName) ? "{$senderName}_{$receiverName}" : "{$receiverName}_{$senderName}";
+   
     // Save message
     $stmt = $conn->prepare("INSERT INTO messages (chat_room, senderName, receiverName, senderRole, message) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $chat_room, $senderName, $receiverName, $sender_role, $message);

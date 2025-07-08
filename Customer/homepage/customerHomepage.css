@@ -23,6 +23,40 @@
   width: 50px;
   height: 50px;
 }
+.search-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 50px 10px auto;
+    gap: 10px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    width: 250px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #2980b9;
+}
+
+.search-bar .fa-search {
+    font-size: 16px;
+}
 html, body {
    margin: 0;
    padding: 0;
@@ -33,13 +67,14 @@ html, body {
  #navContainer {
    display: flex;
    align-items: center;
-   background-color: #e8e8e8;
+   background-color: #E6E6FA;
+
    width: 100%; /* Adjust width as needed */
    height: 80px; /* Adjust height as needed */   
  }
  
  .button {
-  background-color: #e8e8e8;
+  background-color: #E6E6FA;
   cursor: pointer;
   padding-left: 30px;
   padding-right: 30px;
@@ -60,8 +95,8 @@ html, body {
   }
 
    .navButton {
-      
-        background-color:#e8e8e8;
+          letter-spacing: 1.0px;
+        background-color:#E6E6FA;
         width: 150px;
         color: black;
         cursor: pointer;
@@ -69,7 +104,7 @@ html, body {
         padding-right: 30px;
         padding-top: 10px;
         padding-bottom: 10px;
-        font-size: 14px;
+        font-size: 16px;
         border: none;
 }
 
@@ -80,10 +115,6 @@ html, body {
     padding: 10px 30px;
     font-size: 14px;
     border: none;
-}
-.button:hover {
-    transform: scale(0.9);
-    background: #222;
 }
 
 #container{
@@ -106,6 +137,7 @@ height:auto;
   }
 
 #view{
+
     margin-left: 40px;
     margin-top: 20px;
     

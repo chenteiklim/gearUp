@@ -43,7 +43,7 @@ window.onload = function() {
 
     if (Param === '3') {
       var messageContainer = document.getElementById("messageContainer");
-      messageContainer.textContent = 'Invalid username or password';
+      messageContainer.textContent = 'Invalid email or password';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       
@@ -74,6 +74,21 @@ window.onload = function() {
     if (Param === '5') {
       var messageContainer = document.getElementById("messageContainer");
       messageContainer.textContent = 'Invalid email or password';
+      messageContainer.style.display = "block";
+      messageContainer.classList.add("message-container");
+      
+      setTimeout(function() {
+        
+        messageContainer.style.display = "none";
+        messageContainer.classList.remove("message-container");
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    
+      }, 5000);
+    }
+     if (Param === '6') {
+      var messageContainer = document.getElementById("messageContainer");
+      messageContainer.textContent = 'Account is inactive';
       messageContainer.style.display = "block";
       messageContainer.classList.add("message-container");
       

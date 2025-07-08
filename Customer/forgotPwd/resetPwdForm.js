@@ -118,6 +118,20 @@ window.onload = function() {
         url.searchParams.delete('success');
         window.history.replaceState({}, document.title, url);    }, 10000);
   }
+    if (Param === '8') {
+    const emailDiv = document.createElement('div');
+    emailDiv.classList.add('errorMessage'); 
+    emailDiv.innerText = 'Verification code is used or expired';
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.appendChild(emailDiv);
+  
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        emailDiv.remove();
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, document.title, url);    }, 10000);
+  }
 
 }
  

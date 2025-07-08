@@ -12,7 +12,7 @@ use PHPMailer\PHPMailer\Exception;
 
 
 if (isset($_POST['submit'])) {
-    $usernames = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8'); // Sanitize address
+    $username = trim($_POST['username']);    
     $state = htmlspecialchars($_POST['state'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
     $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
@@ -53,8 +53,6 @@ $commonUpperSequences = [
 
 // Function to check if password contains any common sequence
 function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
-    // Convert the password to lowercase for checking against lower sequences
-    
     
     // Check against lowercase common sequences
     foreach ($lowerSequences as $sequence) {
@@ -72,8 +70,9 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 
     return false; // No matches found in either array
 }
-    
-    $sql = "SELECT * FROM users WHERE usernames = ?";
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+    $sql = "SELECT * FROM users WHERE usernames = ? AND status != 'pending'";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usernames);
     $stmt->execute();
@@ -84,71 +83,65 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
         exit();
     }
     
-
-   
-   
-    
     // Check if password matches confirm password
     else if ($passwords != $confirm_password) {
-        header("Location: register.php?success=4");
+        header("Location: register.php?success=2");
         exit();
     } 
 
     // Validate email format
-    else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: register.php?success=5");
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: register.php?success=3");
         exit();
     }
-  
 
+    
     // Check minimum length
     else if (strlen($passwords) < 10) {
-        header("Location: register.php?success=7");
+        header("Location: register.php?success=4");
         exit();
     }
 
     // Check for at least 1 special characters
-    else if (preg_match_all('/[\W_]/', $passwords) < 4) {
+    else if (preg_match_all('/[\W_]/', $passwords) < 1) {
+        header("Location: register.php?success=5");
+        exit();
+    }
+
+    // Check for at least one uppercase letter
+    else if (!preg_match('/[A-Z]/', $passwords)) {
+        header("Location: register.php?success=6");
+        exit();
+    }
+
+    // Check for at least one lowercase letter
+    else if (!preg_match('/[a-z]/', $passwords)) {
+        header("Location: register.php?success=7");
+        exit();
+    }
+
+    // Check for at least one number
+    else if (!preg_match('/[0-9]/', $passwords)) {
         header("Location: register.php?success=8");
         exit();
 
     }
 
-    // Check for at least one uppercase letter
-    else if (!preg_match('/[A-Z]/', $passwords)) {
-        header("Location: register.php?success=9");
-        exit();
-
-    }
-
-    // Check for at least one lowercase letter
-    else if (!preg_match('/[a-z]/', $passwords)) {
-        header("Location: register.php?success=10");
-        exit();
-
-    }
-
-    // Check for at least one number
-    else if (!preg_match('/[0-9]/', $passwords)) {
-        header("Location: register.php?success=11");
-        exit();
-
-    }
-
     else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
-        header("Location: register.php?success=12");
+        header("Location: register.php?success=9");
         exit(); // Ensure no further script execution
-
     }
     
-
+ 
 $role='customer';
 $status='pending';
+
 $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
- // Step 1: Insert new user
-$stmt = $conn->prepare("INSERT INTO users (email, usernames, address, state, passwords, role, status) 
+$stmt = $conn->prepare("INSERT INTO users (email,
+ usernames, address, state, passwords, role, status) 
                         VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssss", $email, $usernames, $address, $state, $hashed_password, $role, $status);
+$stmt->bind_param("sssssss", $email, $usernames, $address,
+ $state, $hashed_password, $role, $status);
 $stmt->execute();
 
 // Step 2: Get the user_id just created
@@ -156,16 +149,16 @@ $userId = $stmt->insert_id;
 
 // Step 3: Insert the verification code for that user
 $emailCode = rand(100000, 999999);
-$action = 'registration'; // or 'change_password'
-$status='pending';
-$stmt2 = $conn->prepare("INSERT INTO email_verification_code (user_id, code, action, registration_status) 
-                         VALUES (?, ?, ?, ?)");
-$stmt2->bind_param("iiss", $userId, $emailCode, $action, $status);
-       
+$stmt2 = $conn->prepare("INSERT INTO email_verification_code (user_id, code,
+ change_password_code, reset_password_status, registration_status ) 
+                         VALUES (?, ?, ?, ?, ?)");
+$stmt2->bind_param("iiiss", $userId, $emailCode, $change_passwword_code, 
+$reset_password_status, $status);
 
-     if ($stmt2->execute()) {
+// Execute 
+if ($stmt2->execute()) {
         // Send verification email
-         $mail = new PHPMailer(true);
+        $mail = new PHPMailer(true);
         try {
             // Common settings
             $mail->isSMTP();
@@ -174,19 +167,19 @@ $stmt2->bind_param("iiss", $userId, $emailCode, $action, $status);
             $mail->Port = 2525;  // You can also use port 25, 465, or 587   
             $mail->Username = 'beb2839877c67c';  // Replace with your Mailtrap username
             $mail->Password = '42343f9bc18416';  // Replace with your Mailtrap password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  
             $mail->setFrom('testing@gearUp.com', 'testing');
             $mail->isHTML(true);
             $mail->Subject = 'Email Verification';
         
             // Send to primary email
             $mail->addAddress($email);
-            $mail->Body = "<p>Below is used for course assignment only, please ignore this email if you are wrongly received it</p>
+            $mail->Body = "<p>Below is used for course assignment only, 
+            please ignore this email if you are wrongly received it</p>
             <p>Ref: $emailCode</p>";
             $mail->send();
              header("Location: checkRegister.php");
              exit();
-
          
         } catch (Exception $e) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -199,7 +192,7 @@ $stmt2->bind_param("iiss", $userId, $emailCode, $action, $status);
  
     $stmt->close();
     $conn->close(); 
- 
+  
     } 
 ?>
     <!DOCTYPE html>
@@ -225,7 +218,7 @@ $stmt2->bind_param("iiss", $userId, $emailCode, $action, $status);
         <div id="title">
        Register
         </div>
-        <input type="text" placeholder="Enter Nickname" name="username" required>
+        <input type="text" placeholder="Enter Username" name="username" required>
 
         <input type="text" placeholder="Enter Full Address." name="address" required>
 

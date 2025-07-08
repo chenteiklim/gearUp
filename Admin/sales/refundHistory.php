@@ -49,7 +49,7 @@ $result = $stmt->get_result();
             <td><?php echo $row['order_item_id']; ?></td>
             <td><?php echo $row['usernames']; ?></td>
             <td><?php echo $row['productName']; ?></td>
-            <td><?php echo $row['reason']; ?></td>
+            <td><?php echo $row['rejectReason']; ?></td>
             <td>
                 <?php if ($row['proof']): ?>
                     <a href="<?php echo $row['proof']; ?>" target="_blank">View Proof</a>

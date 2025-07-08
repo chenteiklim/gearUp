@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['seller_id'])) {
 
         try {
             // Set seller status to rejected
-            $sqlUpdateSeller = "UPDATE seller SET status = 'rejected' WHERE seller_id = ?";
+            $sqlUpdateSeller = "UPDATE seller SET status 
+            = 'rejected' WHERE seller_id = ?";
             $stmtSeller = $conn->prepare($sqlUpdateSeller);
             $stmtSeller->bind_param("i", $seller_id);
             $stmtSeller->execute();

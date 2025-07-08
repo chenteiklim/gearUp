@@ -94,7 +94,7 @@ if (isset($_POST['confirmEdit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-    <style>
+      <style>
       
       form{
   height:320px;
@@ -102,8 +102,8 @@ if (isset($_POST['confirmEdit'])) {
 }
   
 .container {
-  margin-top:100px;
-  margin-left:300px;
+  margin-left: 500px;
+  margin-top:40px;
   width: 400px;
   height:550px;
   background-color:white;
@@ -111,7 +111,9 @@ if (isset($_POST['confirmEdit'])) {
   flex-direction: column;
   gap:5px;
 }
-    
+  #editForm{
+    margin-left:100px
+  }
  
 /* Apply to all field containers */
 #nameContainer,
@@ -135,17 +137,22 @@ input[type="number"] {
   height:40px;
 }
 
-#createProduct{
-  background-color: #BFB9FA;
-  color: black;
-  padding: 14px 20px;
+#createProduct {
+  background-color: #3498db;
+  color: white;
+  margin-left: 20px;
+  padding: 12px 24px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  width: 120px;
-  margin-top:10px;
-  margin-left:40px;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
+#createProduct:hover {
+    background-color: #2980b9;
+}
 
 #title{
   font-size:20px;
@@ -158,7 +165,6 @@ input[type="number"] {
   width: 480px;
 }
  
-    
 
     /* Hide the up/down arrows in number input */
 input[type="number"]::-webkit-inner-spin-button,

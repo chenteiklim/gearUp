@@ -6,7 +6,8 @@ if (!isset($username)) {
 $amount = 50; // Fixed deposit amount
 
 // Update wallet balance
-$sql = "UPDATE wallet SET wallet_balance = wallet_balance + ? WHERE user_id = ?";
+$sql = "UPDATE wallet SET wallet_balance =
+ wallet_balance + ? WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ds", $amount, $user_id);
 $stmt->execute();

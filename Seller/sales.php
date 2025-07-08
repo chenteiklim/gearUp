@@ -7,73 +7,77 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
 <html>
 <head>
     <title>Sales Summary</title>
-  <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #fff;
-        margin: 0;
-        padding: 0;
-        color: #333;
-    }
+    <style>
+       body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4; /* Soft greyish background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
-    #container {
-        margin-left:200px;
-        max-width: 900px;
-        padding: 20px 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(70, 90, 120, 0.1);
-    }
+        #container {
+            background-color: #ffffff; /* White container */
+            margin: 40px auto;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
 
-    h1, h2 {
-        color: #3a3a7e;
-        margin-bottom: 15px;
-        font-weight: 700;
-    }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-    ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 40px;
-    }
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 30px;
+        }
 
-    ul li {
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
+        ul li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 40px;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #fff;
+        }
 
-    th, td {
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
 
-    th {
-        background-color: #e6e6fa;
-        color: #333;
-        font-weight: 600;
-    }
+        th {
+            background-color: #f0f0f0; /* Light grey header */
+            color: #333;
+            font-weight: 600;
+        }
 
-    tr:nth-child(even) {
-        background-color: #f6f6ff;
-    }
+        tr:nth-child(even) {
+            background-color: #fafafa; /* subtle even row coloring */
+        }
 
-    tr:hover {
-        background-color: #dcdcff;
-    }
-
-</style>
-
+        tr:hover {
+            background-color: #e8e8e8; /* light hover effect */
+        }
+    </style>
 </head>
 <body>
 <div id="container">
     <h1>Sales Summary (Seller)</h1>
-
+    <a href="../advanced_analytic.php">
+        <button style="padding: 10px 15px; background-color: #3a3a7e; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            View Advanced Analytics 📈
+        </button>
+    </a>
     <?php
     // Get seller_id
     $sql = "
@@ -97,16 +101,18 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
         exit;
     }
 
-    // Total Sales
+    // Total Sales (Exclude shipping price)
     $salesQuery = "
         SELECT 
-            o.total_price,
+            SUM(oi.quantity * oi.price) AS total_price,
             COUNT(DISTINCT o.order_id) AS completed_orders,
             SUM(oi.quantity) AS total_items
         FROM orders o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN products p ON oi.product_id = p.product_id 
-        WHERE o.order_status = 'purchased' AND p.seller_id = ? AND o.wallet_status = 'paid'
+        WHERE o.order_status = 'purchased' 
+          AND p.seller_id = ? 
+          AND o.wallet_status = 'paid'
     ";
     $stmt = $conn->prepare($salesQuery);
     $stmt->bind_param("i", $seller_id);
@@ -119,7 +125,7 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
     $grossSales = $salesData['total_price'] ?? 0;
     $netSales = $grossSales * (1 - $commissionRate);
 
-    // Top 5 Products
+    // Top 5 Products (Exclude shipping)
     $topProductsQuery = "
         SELECT 
             p.product_name,
@@ -128,7 +134,9 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
         FROM order_items oi
         JOIN products p ON oi.product_id = p.product_id
         JOIN orders o ON oi.order_id = o.order_id
-        WHERE o.order_status = 'purchased' AND p.seller_id = ? AND o.wallet_status = 'paid'
+        WHERE o.order_status = 'purchased' 
+          AND p.seller_id = ? 
+          AND o.wallet_status = 'paid'
         GROUP BY oi.product_id
         ORDER BY total_sold DESC
         LIMIT 5
@@ -138,15 +146,18 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
     $stmt->execute();
     $topProductsResult = $stmt->get_result();
 
-    // Sales by Store
+    // Sales by Store (Exclude shipping)
     $storeSalesQuery = "
         SELECT 
-            s.storeName, o.total_price
+            s.storeName, 
+            SUM(oi.quantity * oi.price) AS total_sales
         FROM order_items oi
         JOIN products p ON oi.product_id = p.product_id
         JOIN seller s ON p.seller_id = s.seller_id
         JOIN orders o ON oi.order_id = o.order_id
-        WHERE o.order_status = 'purchased' AND p.seller_id = ? AND o.wallet_status = 'paid' 
+        WHERE o.order_status = 'purchased' 
+          AND p.seller_id = ? 
+          AND o.wallet_status = 'paid' 
         GROUP BY s.storeName
     ";
     $stmt = $conn->prepare($storeSalesQuery);
@@ -158,7 +169,6 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
     <h2>Overall Metrics</h2>
     <ul>
         <li><strong>Total Sales (Before Commission):</strong> RM <?= number_format($grossSales, 2) ?></li>
-        <li><strong>Shipping Price: </strong> RM 9.00 </li>
         <li><strong>Net Earnings (After 5% Commission):</strong> RM <?= number_format($netSales, 2) ?></li>
         <li><strong>Total Completed Orders:</strong> <?= $salesData['completed_orders'] ?></li>
         <li><strong>Total Products Sold:</strong> <?= $salesData['total_items'] ?></li>
@@ -189,7 +199,7 @@ $username = $_SESSION['username'] ?? ''; // Make sure $username is available
         <?php while ($row = $storeSalesResult->fetch_assoc()): ?>
             <tr>
                 <td><?= htmlspecialchars($row['storeName']) ?></td>
-                <td><?= number_format($row['total_price'], 2) ?></td>
+                <td><?= number_format($row['total_sales'], 2) ?></td>
             </tr>
         <?php endwhile; ?>
     </table>

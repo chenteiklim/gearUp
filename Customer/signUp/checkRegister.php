@@ -11,7 +11,7 @@
 <body>
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button id="logoName">GearUp</button>
+    <button id="logoName" class='navButton'>GearUp</button>
 
 </div>
     
@@ -24,13 +24,14 @@
             session_start();
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
-
+                $username=$_SESSION['username'];
+                echo $username;
                 echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>
               <form action="verifyCode.php" method="POST">
                 <!-- Primary Email Verification Code -->
-                <div>
+                <div id ='code'>
                     <label for="primaryCode" id="primaryCode">  Verification Code:</label>
                     <input type="text" id="primaryCode1" name="primaryCode[]" maxlength="1" required>
                     <input type="text" id="primaryCode2" name="primaryCode[]" maxlength="1" required>

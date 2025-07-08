@@ -8,9 +8,7 @@ if (!$email) {
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
     exit;  // Stop further execution of the script
 }
-else{
-    echo('email');
-}
+
 
 if (isset($_POST['submit'])) {
     function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
@@ -31,33 +29,6 @@ if (isset($_POST['submit'])) {
         return false; // No matches found in either array
     }
     
-    function hasRepetitivePattern($passwords) {
-        $length = strlen($passwords);
-    
-        // Loop through possible substring lengths
-        for ($i = 1; $i <= $length / 2; $i++) {
-            $substring = substr($passwords, 0, $i);
-            $repeatCount = 1; // Start with the first instance of the pattern
-    
-            // Loop to check for repetitive patterns
-            for ($j = $i; $j < $length; $j += $i) {
-                $nextSubstring = substr($passwords, $j, $i);
-    
-                // If the next substring matches, increase the repeat count
-                if ($substring === $nextSubstring) {
-                    $repeatCount++;
-                } else {
-                    break; // Stop if the next part of the string doesn't match
-                }
-    
-                // If the pattern repeats more than twice, return true (too many repetitions)
-                if ($repeatCount > 2) {
-                    return true;
-                }
-            }
-        }
-        return false; // No excessive repetitive pattern found
-    }
 
     $commonLowerSequences = [
         '1234', '2345', '3456', '4567', '5678', '6789', '7890', '0123',
@@ -115,10 +86,7 @@ if (isset($_POST['submit'])) {
     else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
         header("Location: resetPwdForm.html?success=7");
     }
-    else if (hasRepetitivePattern($passwords)) {
-        header("Location: resetPwdForm.html?success=8");
-    }
-        
+ 
     else{
        // Step 1: Get user_id
         $sql = "SELECT user_id FROM users WHERE email = ?";
@@ -136,6 +104,7 @@ if (isset($_POST['submit'])) {
         $user_id = $row['user_id'];
 
         // Step 2: Check if reset_password_status is pending
+        
         $sql = "SELECT * FROM email_verification_code WHERE user_id = ? AND reset_password_status = 'pending'";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $user_id);
@@ -145,7 +114,6 @@ if (isset($_POST['submit'])) {
         if ($result->num_rows > 0) {
             // Step 3: Update password
             $hashedPassword = password_hash($passwords, PASSWORD_BCRYPT);
-
             $sql = "UPDATE users SET passwords = ? WHERE email = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ss", $hashedPassword, $email);
@@ -153,7 +121,7 @@ if (isset($_POST['submit'])) {
 
             // Step 4: Clear reset status
             $sql = "UPDATE email_verification_code 
-            SET reset_password_status = NULL, changePasswordCode = NULL 
+            SET reset_password_status = NULL, change_password_code = NULL 
             WHERE user_id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $user_id);
@@ -161,7 +129,7 @@ if (isset($_POST['submit'])) {
             header("Location: /inti/gearUp/Customer/login/login.php?success=4");
             exit;
         } else {
-            header("Location: resetPwdForm.html");
+        header("Location: resetPwdForm.html?success=8");
             exit;
         }
     }
@@ -169,3 +137,51 @@ if (isset($_POST['submit'])) {
 
 $conn->close();
 ?>
+
+        
+   
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gearUp</title>
+    <link rel="stylesheet" href="resetPwdForm.css">
+   
+</head>
+<body>
+<div id="navContainer"> 
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <button id="logoName" class="navButton" onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
+</div>
+</div>
+    <div id="container">
+        <div id="title">
+          Reset Password
+        </div>
+        <form action="resetPwdForm.php" method="post">
+         
+          <div id="emailContainer">
+            <input type="password" id="password" placeholder="Enter new password" name="password" required autocomplete="off">
+            <button id="show" type="button">Show</button>
+          </div>
+        
+          <div id="passwordContainer">
+              <input type="password" id="password2" placeholder="Enter new password again" name="password2" required autocomplete="off">
+              <button id="show2" type="button">Show</button>
+            </div>
+    
+        <div id="errorContainer"></div>
+        <div id="signUpContainer">
+          <input id="signUpBtn" class="button" type="submit" name="submit" value="Reset Now">
+          <hr>
+                 
+        </div>
+      </form>
+</div>
+<script src="resetPwdForm.js"></script>
+  </body>
+</html>
+   

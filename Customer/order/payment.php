@@ -40,8 +40,9 @@ if ($row = $result->fetch_assoc()) {
     $order_id = null; // No orders found
 }
 
-// Get Customer's wallet balance (wallet table uses user_id)
-$stmt = $conn->prepare("SELECT * FROM wallet WHERE user_id = ?");
+// Get Customer's wallet balance 
+$stmt = $conn->prepare("SELECT * FROM 
+wallet WHERE user_id = ?");
 $stmt->bind_param("s", $user_id);
 $stmt->execute();
 $customerWallet_result = $stmt->get_result();
@@ -70,7 +71,8 @@ if ($payment_method === "walletSelection") {
 
    // Deduct from customer's wallet)
     $customerWallet_balance = $customerWallet_balance - $total_price;
-    $stmtDeduct = $conn->prepare("UPDATE wallet SET wallet_balance = ? WHERE user_id = ?");
+    $stmtDeduct = $conn->prepare("UPDATE wallet SET wallet_balance = ?
+     WHERE user_id = ?");
     $stmtDeduct->bind_param("ds", $customerWallet_balance, $user_id);
     if (!$stmtDeduct->execute()) {
         $conn->rollback();
@@ -97,8 +99,8 @@ if ($payment_method === "walletSelection") {
         $conn->rollback();
         die("Error deducting wallet balance.");
     }
-    
 }  
+
 echo $order_id;
 // Update order status to "purchased"
 $stmt = $conn->prepare("UPDATE orders SET order_status = 'purchased', order_date = NOW() WHERE order_id = ?");

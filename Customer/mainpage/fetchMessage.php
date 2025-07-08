@@ -14,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $chat_room1 = $senderName . "_" . $receiverName;
     $chat_room2 = $receiverName . "_" . $senderName;
     // Prepare SQL with OR condition to accept both chat_room orders
-    $stmt = $conn->prepare("SELECT senderName, message, timestamp FROM messages WHERE chat_room = ? OR chat_room = ? ORDER BY timestamp ASC");
+    $stmt = $conn->prepare("SELECT senderName, message, timestamp FROM 
+    messages WHERE chat_room = ? OR chat_room = ? ORDER BY timestamp ASC");
     if (!$stmt) {
         echo json_encode(["error" => "SQL prepare error: " . $conn->error]);
         exit;

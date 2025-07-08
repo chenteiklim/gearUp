@@ -38,17 +38,17 @@ if ($orderRow = $orderResult->fetch_assoc()) {
     $shipping_price = 9.00;
     $subtotal = $orderRow['subtotal'];
 
-    
-
     $total_price = $subtotal + $shipping_price;
 
-    // Step 3: Update total_price
-    $updateQuery = $conn->prepare("UPDATE orders SET total_price = ? WHERE order_id = ?");
+    // Step 2: Update total_price to include shipping fees
+    $updateQuery = $conn->prepare("UPDATE orders 
+    SET total_price = ? WHERE order_id = ?");
     $updateQuery->bind_param("di", $total_price, $order_id);
     $updateQuery->execute();
 
-    // Step 4: Retrieve all order items (for displaying)
-    $itemQuery = $conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
+    // Step 3: Retrieve all order items (for displaying)
+    $itemQuery = $conn->prepare("SELECT * FROM order_items
+     WHERE order_id = ?");
     $itemQuery->bind_param("i", $order_id);
     $itemQuery->execute();
     $itemsResult = $itemQuery->get_result();

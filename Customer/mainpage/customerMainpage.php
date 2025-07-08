@@ -31,13 +31,30 @@ $stmt->execute();
 $stmt->bind_result($user_id);
 $stmt->fetch();
 $stmt->close();
-$selectRowsQuery = "
-    SELECT p.*, s.sellerName AS sellerName
-    FROM products p
-    JOIN seller s ON p.seller_id = s.seller_id
-    ORDER BY p.product_id ASC
-";
-$selectRowsResult = $conn->query($selectRowsQuery);
+$searchTerm = $_GET['search'] ?? '';
+
+if (!empty($searchTerm)) {
+    $selectRowsQuery = "
+        SELECT p.*, s.sellerName AS sellerName
+        FROM products p
+        JOIN seller s ON p.seller_id = s.seller_id
+        WHERE p.product_name LIKE ?
+        ORDER BY p.product_id ASC
+    ";
+    $stmt = $conn->prepare($selectRowsQuery);
+    $likeSearch = "%" . $searchTerm . "%";
+    $stmt->bind_param("s", $likeSearch);
+    $stmt->execute();
+    $selectRowsResult = $stmt->get_result();
+} else {
+    $selectRowsQuery = "
+        SELECT p.*, s.sellerName AS sellerName
+        FROM products p
+        JOIN seller s ON p.seller_id = s.seller_id
+        ORDER BY p.product_id ASC
+    ";
+    $selectRowsResult = $conn->query($selectRowsQuery);
+}
 
 ?>
 
@@ -52,7 +69,20 @@ $selectRowsResult = $conn->query($selectRowsQuery);
 <body>
 
 <div id="messageContainer"></div>
-
+<form class="search-bar" method="GET" action="">
+    <input type="text" name="search" placeholder="Search products..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" />
+    <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+<?php if (!empty($searchTerm)): ?>
+    <div style="text-align: right; margin-right: 200px; margin-bottom: 10px;">
+        <a href="customerMainpage.php" style="color: #3498db; text-decoration: none; font-weight: bold;">
+            🔄 Show All Products
+        </a>
+    </div>
+<?php endif; ?>
+<?php if ($selectRowsResult->num_rows === 0): ?>
+    <p style="margin-left: 300px;">No products found for "<?= htmlspecialchars($searchTerm) ?>".</p>
+<?php endif; ?>
 <div id="container">
 <?php while ($row = $selectRowsResult->fetch_assoc()): ?>
     <div class="product">

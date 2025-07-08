@@ -57,9 +57,12 @@ if (isset($_POST['submit'])) {
     $maxProductID = $row['max_id'];
     $nextProductID = $maxProductID + 1;
 
-    $insertProduct = "INSERT INTO products (product_id, seller_id, product_name, image, price, stock) VALUES (?, ?, ?, ?, ?, ?)";
+    $insertProduct = "INSERT INTO products (product_id, 
+    seller_id, product_name, image, price, stock) 
+    VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($insertProduct);
-    $stmt->bind_param("iissdi", $nextProductID, $seller_id, $productName, $productImage, $price, $stock);
+    $stmt->bind_param("iissdi", $nextProductID, 
+    $seller_id, $productName, $productImage, $price, $stock);
 
     if ($stmt->execute()) {
         header("Location: createProduct.php?success=1");
@@ -78,16 +81,9 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <title>Create Product</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fff;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
+     
         #container {
-            margin-left: 250px;
+            margin-left: 450px;
             padding: 20px;
         }
 

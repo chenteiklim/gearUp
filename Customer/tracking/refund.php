@@ -39,7 +39,7 @@ $fileName = basename($_FILES["proof"]["name"]);
 $targetFile = $targetDir . $fileName;
 $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-$allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi']; // Allow images & videos
+$allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'webp', 'avif']; // Allow images & videos
 
 if (!in_array($fileType, $allowedTypes)) {
     die("Only JPG, PNG, GIF images or MP4, MOV, AVI videos are allowed.");
@@ -50,10 +50,13 @@ if (move_uploaded_file($_FILES["proof"]["tmp_name"], $targetFile)) {
 
     // Insert refund request into the database
     $stmt = $conn->prepare("
-        INSERT INTO refundRequest (order_item_id, user_id, product_name, reason, proof, status, date) 
+        INSERT INTO refundrequest (order_item_id, 
+        user_id, productName, rejectReason, proof
+        , status, date) 
         VALUES (?, ?, ?, ?, ?, 'pending', NOW())
     ");
-    $stmt->bind_param("issss", $order_item_id, $user_id, $productName, $reason, $fileUrl);
+    $stmt->bind_param("issss", $order_item_id, 
+    $user_id, $productName, $reason, $fileUrl);
 
     if ($stmt->execute()) {
         // Redirect after successful submission

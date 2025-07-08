@@ -254,12 +254,17 @@ align-items: center;
 margin-left: 10px;
 }
 
-.starItem{
-width: 20px;
-height: 20px;
+
+
+.star {
+  color: #ccc; /* gray for unselected stars */
+  font-size: 20px;
+  margin-right: 2px;
 }
 
-
+.star.selected {
+  color: gold; /* gold for selected stars */
+}
 .checked{
 color: orange;
 }

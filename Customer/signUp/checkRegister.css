@@ -7,8 +7,7 @@
     color: red;
    }
    
-  
-   
+
 
 #loginTag{
 text-decoration: none;
@@ -25,18 +24,17 @@ font-size: 14px; /* Adjust the font size */
 #primaryCode{
 font-size: 16px;
 margin-left: 20px;
-}
-#backupCode{
-font-size: 16px;
-margin-left: 20px;
-
+margin-top: 30px;
 }
 
 
-
+#code{
+  margin-top: 20px;
+}
 #text1{
 margin-left: 20px;
 margin-top: 30px;
+width: 500px;
 font-size: 16px;
 color: black;
 cursor: pointer;
@@ -48,7 +46,7 @@ margin-left: 450px;
 background-color:white;
 border-radius: 5px;
 width: 550px;
-height: 350px;
+height: 320px;
 }
 
 .red{
@@ -66,10 +64,6 @@ color: black;
   margin-left: 100px;
 }
 
-#verifyBtn{
-    margin-left: 150px;
-    margin-top: 20px;
-}
 
 #logoImg{
   margin-left: 100px;
@@ -77,23 +71,30 @@ color: black;
   height: 50px;
 }
 html, body {
+  background-color:  #f0f0f0;
    margin: 0;
    padding: 0;
    width: 100%; /* Ensure full width */
    height: 100%; /* Ensure full height */
  }
- 
- #navContainer {
-   display: flex;
-   align-items: center;
-   background-color: #e8e8e8;
-   width: 100%; /* Adjust width as needed */
-   height: 80px; /* Adjust height as needed */   
- }
- 
+
+
+    #navContainer {
+
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
+    }
+    
+
  .button {
-  background-color: #e8e8e8;
+  background-color: black;
+  color: white;
   cursor: pointer;
+  margin-left: 200px;
+  margin-top: 50px;
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 10px;
@@ -104,13 +105,16 @@ html, body {
 
 
  #logoName {
-  background-color: #e8e8e8;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 14px;
-  border: none;
+   letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
   }
 
 

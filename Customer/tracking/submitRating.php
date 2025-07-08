@@ -43,20 +43,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $existing = $check->get_result();
 
         if ($existing->num_rows > 0) {
-            echo "You have already rated this product.";
-        } else {
+            $message= "You already rated on this product.";
+                header("Location: tracking.php?message=" . urlencode($message));
+                $sellerCheck->close();
+                exit;
+        } 
+        else {
+            // Prevent seller from rating own product
+            $sellerCheck = $conn->prepare("
+                SELECT p.product_id
+                FROM products p
+                JOIN seller s ON p.seller_id = s.seller_id
+                JOIN users u ON s.user_id = u.user_id
+                WHERE p.product_id = ? AND u.user_id = ?
+            ");
+            $sellerCheck->bind_param("ii", $product_id, $user_id);
+            $sellerCheck->execute();
+            $sellerCheck->store_result();
+
+            if ($sellerCheck->num_rows > 0) {
+                $message= "You cannot rate your own product.";
+                header("Location: tracking.php?message2=" . urlencode($message2));
+                $sellerCheck->close();
+                exit;
+            }
+            $sellerCheck->close();
+                
             // Insert the new rating
             $insert = $conn->prepare("INSERT INTO ratings (product_id, user_id, rating, review) VALUES (?, ?, ?, ?)");
             $insert->bind_param("iids", $product_id, $user_id, $rating, $review);
             if ($insert->execute()) {
-                echo "Thank you for your rating!";
-                header("Location: tracking.php"); // Uncomment to redirect after submission
+                $message2= "Thank you for your rating!";
+                header("Location: tracking.php?message3=" . urlencode($message3));
+
                 exit;
             } else {
                 echo "Error saving rating: " . $conn->error;
             }
             $insert->close();
         }
+        
 
         $check->close();
     } else {

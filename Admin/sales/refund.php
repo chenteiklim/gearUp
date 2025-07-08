@@ -156,7 +156,7 @@ if (isset($_POST['rejectRefund']) && isset($_POST['refund_id']) && isset($_POST[
                 <td><?php echo $row['order_item_id']; ?></td>
                 <td><?php echo htmlspecialchars($customer_username_row); ?></td>
                 <td><?php echo htmlspecialchars($row['productName']); ?></td>
-                <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                <td><?php echo htmlspecialchars($row['rejectReason']); ?></td>
                 <td>
                     <?php if (!empty($row['proof'])): ?>
                         <a href="<?php echo htmlspecialchars($row['proof']); ?>" target="_blank">View Proof</a>

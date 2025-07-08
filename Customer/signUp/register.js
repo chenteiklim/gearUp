@@ -6,7 +6,7 @@ const Param = urlParams.get('success');
 if (Param === '1') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Nickname exist';
+  confirmDiv.innerText = 'username exist';
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.appendChild(confirmDiv);
 
@@ -15,40 +15,11 @@ if (Param === '1') {
     confirmDiv.remove();
     const url = new URL(window.location);
     url.searchParams.delete('success');
-    window.history.replaceState({}, document.title, url);    }, 10000);
+    window.history.replaceState({}, document.title, url);  
+    }, 10000);
 } 
 
-
-else if (Param === '2') {
-  const confirmDiv = document.createElement('div');
-  confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Nickname must be 5-30 characters long and can contain letters, numbers, and _ symbols.';
-  const errorContainer = document.getElementById('errorContainer');
-  errorContainer.appendChild(confirmDiv);
-
-  // Hide the message after 5 seconds
-  setTimeout(() => {
-    confirmDiv.remove();
-    const url = new URL(window.location);
-    url.searchParams.delete('success');
-    window.history.replaceState({}, document.title, url);    }, 10000);
-} 
-else if (Param === '3') {
-  const confirmDiv = document.createElement('div');
-  confirmDiv.classList.add('errorMessage'); 
-  confirmDiv.innerText = 'Address  must be 10-50 characters long and can only contain letters, numbers, spaces, commas, periods, and hyphens.'
-  const errorContainer = document.getElementById('errorContainer');
-  errorContainer.appendChild(confirmDiv);
-
-  // Hide the message after 5 seconds
-  setTimeout(() => {
-    confirmDiv.remove();
-    const url = new URL(window.location);
-    url.searchParams.delete('success');
-    window.history.replaceState({}, document.title, url);    }, 10000);
-} 
-
-if (Param === '4') {
+if (Param === '2') {
   const confirmDiv = document.createElement('div');
   confirmDiv.classList.add('errorMessage'); 
   confirmDiv.innerText = 'Password does not match with Confirm password.';
@@ -63,7 +34,7 @@ if (Param === '4') {
     window.history.replaceState({}, document.title, url);    }, 10000);
 } 
 
-else if (Param === '5') {
+else if (Param === '3') {
     const confirmDiv = document.createElement('div');
     confirmDiv.classList.add('errorMessage'); 
     confirmDiv.innerText = 'Email is badly formatted';
@@ -78,23 +49,8 @@ else if (Param === '5') {
       window.history.replaceState({}, document.title, url);    }, 10000);
 }
 
-else if (Param === '6') {
-    const confirmDiv = document.createElement('div');
-    confirmDiv.classList.add('errorMessage'); 
-    confirmDiv.innerText = 'Backup Email is badly formatted';
-    const errorContainer = document.getElementById('errorContainer');
-    errorContainer.appendChild(confirmDiv);
 
-    // Hide the message after 5 seconds
-    setTimeout(() => {
-      confirmDiv.remove();
-      const url = new URL(window.location);
-      url.searchParams.delete('success');
-      window.history.replaceState({}, document.title, url);    }, 10000);
-}
-
-
-  if (Param === '7') {
+  if (Param === '4') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
     emailDiv.innerText = 'Password must at least 10 character long';
@@ -110,10 +66,10 @@ else if (Param === '6') {
   }
 
   
-  if (Param === '8') {
+  if (Param === '5') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
-    emailDiv.innerText = 'Need at least four special character';
+    emailDiv.innerText = 'Need at least one special character';
     const errorContainer = document.getElementById('errorContainer');
     errorContainer.appendChild(emailDiv);
   
@@ -126,7 +82,7 @@ else if (Param === '6') {
   }
 
     
-  if (Param === '9') {
+  if (Param === '6') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
     emailDiv.innerText = 'Need at least one Upper Case';
@@ -141,7 +97,7 @@ else if (Param === '6') {
         window.history.replaceState({}, document.title, url);    }, 10000);
   }
     
-  if (Param === '10') {
+  if (Param === '7') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
     emailDiv.innerText = 'Need at least one lower case';
@@ -153,10 +109,11 @@ else if (Param === '6') {
         emailDiv.remove();
         const url = new URL(window.location);
         url.searchParams.delete('success');
-        window.history.replaceState({}, document.title, url);    }, 10000);
+        window.history.replaceState({}, document.title, url);  
+        }, 10000);
   }
 
-  if (Param === '11') {
+  if (Param === '8') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
     emailDiv.innerText = 'Must contain number';
@@ -171,7 +128,7 @@ else if (Param === '6') {
         window.history.replaceState({}, document.title, url);    }, 10000);
   }
 
-  if (Param === '12') {
+  if (Param === '9') {
     const emailDiv = document.createElement('div');
     emailDiv.classList.add('errorMessage'); 
     emailDiv.innerText = 'Cannot contain 4 continuous sequence of character or 4 same character in a row';

@@ -30,7 +30,7 @@ $user_id = $row['user_id'];
 $primaryCode = implode('', $_POST['primaryCode'] ?? []);
 
 // Step 3: Get email code from DB
-$sql = "SELECT changePasswordCode FROM email_verification_code WHERE user_id = ?";
+$sql = "SELECT change_password_code FROM email_verification_code WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id); // use "i" for integer
 $stmt->execute();
@@ -41,11 +41,11 @@ if ($stmt->num_rows === 0) {
     exit;
 }
 
-$stmt->bind_result($changePasswordCode);
+$stmt->bind_result($change_password_code);
 $stmt->fetch();
 
 // Step 4: Verify
-if ($primaryCode === $changePasswordCode) {
+if ($primaryCode === $change_password_code) {
     header("Location: resetPwdForm.html");
     exit;
 } else {

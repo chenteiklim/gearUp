@@ -38,7 +38,6 @@ $result = $stmt->get_result();
 $products = array(); // Initialize an empty array to store the products
 
 if ($result->num_rows > 0) {
-    // Loop through the result and retrieve each product as an array
     while ($row = $result->fetch_assoc()) {
         $product = array(
             'product_id' => $row['product_id'],
@@ -54,109 +53,117 @@ if ($result->num_rows > 0) {
     }
   }
 
- 
   
-  ?>
-<head>
-<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-    <style>
-   
-          
-
-
-      .container{
-        background-color:white;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        padding-bottom:30px;
-
-      }
-      
-      #productContainer{
-        margin-left: 30px;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 60px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-        width: 1490px;
-        height:auto;
-      }
-        
-    #img{
-      width: 160px;
-      height:180px;
+  ?><head>
+  <meta charset="UTF-8">
+  <title>My Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
     }
 
-    .row{
-      margin-top:15px;
+    h1 {
+      margin-top: 40px;
+      margin-left: 30px;
     }
 
-    #edit{
-    background-color:#3498db;
-      margin-top:30px;
-    }
-    #delete{
-      margin-top:10px;
-    }
-
-    #title{
-      font-size:20px;
-      font-weight:600;
+    #productContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      margin-left: 30px;
     }
 
-    </style>
+    .item-container {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .row {
+      margin: 6px 0;
+    }
+
+    img#img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .button {
+      padding: 8px 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    #edit {
+      background-color: #007bff;
+      color: white;
+    }
+
+    #delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #rating {
+      background-color: #ffc107;
+      color: black;
+    }
+  </style>
 </head>
 
-
-
-<div id="container">
-  <div id='productContainer'>
+<body>
+  <h1>My Products</h1>
+  <div id="productContainer">
     <?php foreach ($products as $product): ?>
-      <div class="container">
-        <div id='title' class='row'>
-            <?php echo htmlspecialchars($product['product_name']); ?>
+      <div class="item-container">
+        <div class="row"><strong>Product Name:</strong> <?= htmlspecialchars($product['product_name']) ?></div>
+        <div class="row"><strong>Product ID:</strong> <?= htmlspecialchars($product['product_id']) ?></div>
+        <div class="row"><img id="img" src="<?= htmlspecialchars('/inti/gearUp/assets/' . $product['image']) ?>" alt="Product Image" /></div>
+        <div class="row"><strong>Price:</strong> RM <?= htmlspecialchars($product['price']) ?></div>
+        <div class="row"><strong>Stock:</strong> <?= htmlspecialchars($product['stock']) ?></div>
+        <div class="row"><strong>Seller Name:</strong> <?= htmlspecialchars($product['sellerName']) ?></div>
+
+        <div class="row">
+          <?php
+            $ratingStmt = $conn->prepare("SELECT ROUND(AVG(rating),1) AS avg_rating FROM ratings WHERE product_id = ?");
+            $ratingStmt->bind_param("i", $product['product_id']);
+            $ratingStmt->execute();
+            $ratingResult = $ratingStmt->get_result();
+            $ratingRow = $ratingResult->fetch_assoc();
+            $avgRating = $ratingRow['avg_rating'] ?? 'No rating';
+          ?>
+          <strong>Rating:</strong> <?= htmlspecialchars($avgRating) ?>
         </div>
 
-        <div id='id' class='row'>
-            <?php echo 'Product ID: ' . htmlspecialchars($product['product_id']); ?>
-        </div> 
+        <form method="POST" action="viewProductReview.php">
+          <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
+          <button id="rating" class="button" type="submit">View Reviews</button>
+        </form>
 
-        <div id="imageContainer" class='row'>
-            <img id='img' src="<?php echo htmlspecialchars('/inti/gearUp/assets/' . $product['image']); ?>" alt="Product Image" />
-        </div>
-
-        <div id="priceContainer" class='row'>   
-            <?php echo 'Price: RM ' . htmlspecialchars($product['price']); ?>
-        </div>
-
-        <div id='stockContainer' class='row'>
-            <?php echo 'Stock: ' . htmlspecialchars($product['stock']); ?>
-        </div>
-
-        <div id='seller' class='row'>
-            <?php echo 'Seller Name: ' . htmlspecialchars($product['sellerName']); ?>
-        </div>
-
-        <!-- Hidden field inside the form -->
-        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
-
-        <!-- Submit button inside the form -->
         <form method="POST" action="editProduct.php">
-          <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
-          <button id="edit" class="button" type="submit" name="editSingle">Edit product</button>
+          <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
+          <button id="edit" class="button" type="submit">Edit Product</button>
         </form>
 
         <form method="POST" action="deleteProduct.php" onsubmit="return confirm('Are you sure you want to delete this product?');">
-          <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
-          <button type="submit" name="delete" class="button" style="background-color: red; color: white;">Delete</button>
+          <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
+          <button id="delete" class="button" type="submit">Delete Product</button>
         </form>
       </div>
     <?php endforeach; ?>
   </div>
-</div>
-
+</body>

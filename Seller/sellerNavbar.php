@@ -1,6 +1,6 @@
 <style>
  html, body {
-        background-color: white;
+        background-color: #f0f0f0;
          margin: 0;
          padding: 0;
          height: 100%; /* Ensure full height */
@@ -20,14 +20,6 @@
     border: none;
 }   
 
-#navContainer {
-  display: flex;
-background-color:#e8e8e8;
-  align-items: center;
-  width: 100%; /* Adjust width as needed */
-  height: 80px; /* Adjust height as needed */   
-}
-
 #logoImg{
     width: 35px;
     height: 35px;
@@ -39,17 +31,25 @@ background-color:#e8e8e8;
   margin-left: 250px
 }
 
-.navButton {
-      
-        background-color:#e8e8e8;
+    #navContainer {
+
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
+    }
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
         width: 150px;
-        color: black;
         cursor: pointer;
         padding-left: 30px;
         padding-right: 30px;
         padding-top: 10px;
+        font-size: 16px;
         padding-bottom: 10px;
-        font-size: 14px;
         border: none;
 }
 

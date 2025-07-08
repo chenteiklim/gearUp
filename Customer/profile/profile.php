@@ -32,7 +32,7 @@ function encrypt_address($plain_address) {
 }
 
 // Fetch current user data
-$stmt = $conn->prepare("SELECT usernames, email, address, role FROM users WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $UserId);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -45,7 +45,7 @@ $user = $result->fetch_assoc();
 $decrypted_address = decrypt_address($user['address']);
 
 // Handle form submission (update own profile info)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['deleteRequest']) && !isset($_POST['cancelDeleteRequest'])){
     $newUsername = trim($_POST['username']);
     $email = trim($_POST['email']);
     $address = trim($_POST['address']);
@@ -69,6 +69,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
         }
     
 }
+elseif (isset($_POST['deleteRequest'])) {
+    $updateDeleteRequest = "UPDATE users SET delete_request = 1 WHERE user_id = ?";
+    $stmt = $conn->prepare($updateDeleteRequest);
+    $stmt->bind_param("i", $UserId);
+    
+    if ($stmt->execute()) {
+        $message = "Account deactivation request sent. Admin will process it soon.";
+        header("Location: profile.php?message=" . urlencode($message));
+        exit;
+    } else {
+        $error = "Failed to send deletion request.";
+    }
+}
+elseif (isset($_POST['cancelDeleteRequest'])) {
+    $cancelDeleteQuery = "UPDATE users SET delete_request = 0 WHERE user_id = ?";
+    $stmt = $conn->prepare($cancelDeleteQuery);
+    $stmt->bind_param("i", $UserId);
+
+    if ($stmt->execute()) {
+        $message = "Account Deactivation request cancelled.";
+        header("Location: profile.php?message=" . urlencode($message));
+        exit;
+    } else {
+        $error = "Failed to cancel deletion request.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -81,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
         #profileForm { margin-left:500px; background: white; padding: 20px; border-radius: 6px; max-width: 500px; }
         label { display: block; margin: 10px 0 5px; font-weight: bold; }
         input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
-        button { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
-     
+        #profilebtn { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; margin-top:10px; }
+        
     </style>
 </head>
 <body>
@@ -105,12 +131,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
     <label for="role">Role</label>
     <input type="text" id="role" value="<?= htmlspecialchars($user['role']) ?>" disabled>
 
-    <button type="submit" name="updateProfile">Update Profile</button>
+    <div>
+    <button id='profilebtn' type="submit" name="updateProfile">Update Profile</button>
+    </div>
+    <?php if ($user['delete_request'] == 1): ?>
+    <div style="color: red; font-weight: bold; margin-top: 30px;">Status: Account Deactivation Requested</div>
+
+    <button type="submit" name="cancelDeleteRequest"
+        style="background-color: rgb(40, 155, 25); color: white; padding: 10px 15px; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;">
+        Cancel Deactivation Request
+    </button>
+<?php else: ?>
+    <button id='deleteBtn' 
+            type="submit" 
+            name="deleteRequest" 
+            style="background-color:rgb(159, 23, 36); color: white; padding: 10px 15px; border: none; border-radius: 4px; margin-top:20px; cursor: pointer;">
+        Request Deactivate Account
+    </button>
+<?php endif; ?>
+
 </form>
+
 
 </body>
 </html>
 <script>
+    console.log('hello world');
     window.onload = function() {
 
     var urlParams = new URLSearchParams(window.location.search);
@@ -133,4 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
       }, 3000);
     }
 }
+ const deleteBtn = document.getElementById('deleteBtn');
+
+    deleteBtn.addEventListener('click', function (event) {
+        const confirmed = confirm('Are you sure you want to request account deactivation?');
+        if (!confirmed) {
+            event.preventDefault(); // Stop form submission if user cancels
+        }
+    });
 </script>

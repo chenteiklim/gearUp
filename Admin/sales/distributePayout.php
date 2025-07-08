@@ -65,12 +65,14 @@ try {
         $sellerAmount = $totalSale - $commission;
 
         // 1. Add to seller wallet
-        $stmt = $conn->prepare("UPDATE wallet SET wallet_balance = wallet_balance + ? WHERE user_id = ?");
+        $stmt = $conn->prepare("UPDATE wallet SET 
+        wallet_balance = wallet_balance + ? WHERE user_id = ?");
         $stmt->bind_param("di", $sellerAmount, $sellerUserId);
         $stmt->execute();
 
         // 2. Add commission to admin wallet
-        $stmt = $conn->prepare("UPDATE wallet SET wallet_balance = wallet_balance + ? WHERE user_id = ?");
+        $stmt = $conn->prepare("UPDATE wallet SET wallet_balance
+         = wallet_balance + ? WHERE user_id = ?");
         $stmt->bind_param("di", $commission, $adminId);
         $stmt->execute();
 
