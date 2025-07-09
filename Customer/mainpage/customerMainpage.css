@@ -305,4 +305,20 @@
     margin-top: 20px;
   }
 
- 
+ .chat-message.left {
+    text-align: left;
+    background-color: #f1f1f1;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 60%;
+}
+
+.chat-message.right {
+    text-align: right;
+    background-color: #d1e7dd;
+    margin: 5px auto 5px 40%;
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 60%;
+}

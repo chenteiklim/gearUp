@@ -161,7 +161,7 @@ if ($result->num_rows > 0) {
 
         <form method="POST" action="deleteProduct.php" onsubmit="return confirm('Are you sure you want to delete this product?');">
           <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
-          <button id="delete" class="button" type="submit">Delete Product</button>
+          <button id="delete" name="delete" class="button" type="submit">Delete Product</button>
         </form>
       </div>
     <?php endforeach; ?>

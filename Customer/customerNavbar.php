@@ -20,7 +20,7 @@ html, body {
 }
 
 #name {
-    margin-left: 250px;
+    margin-left: 650px;
 }
 
     #navContainer {
@@ -56,6 +56,9 @@ html, body {
     transform: scale(0.9);
     background: #222;
 }
+#logout{
+    margin-top:10px;
+}
 </style>
 
 <div id="navContainer"> 
@@ -69,20 +72,13 @@ html, body {
 
         <button class="navButton" onclick="window.location.href = '../product/cart.php';">Shopping Cart</button>
         <button class="navButton" onclick="window.location.href = '../tracking/tracking.php';">Tracking</button>
-        <button class="navButton" onclick="window.location.href = '../sellerRequest/sellerRequest.php';">Seller Request</button>
-        <button class="navButton" id="sellerCenter">Seller Center</button>
         <button class="navButton" onclick="window.location.href = '../wallet/wallet.php';">Wallet</button>
         <button class="navButton" id="name" onclick="window.location.href = '/inti/gearUp/Customer/profile/profile.php';">
             <?php echo htmlspecialchars($username); ?>
         </button>
         <form action="../login/logout.php" method="POST" style="display:inline;">
-            <button type="submit" class="navButton">Log Out</button>
+            <button type="submit" class="navButton" id='logout'>Log Out</button>
         </form>    
   
 </div>
 
-<script>
-document.getElementById("sellerCenter").addEventListener("click", function () {
-    window.location.href = "../../Seller/mainpage/sellerMainpage.php";
-});
-</script>

@@ -6,22 +6,20 @@ if (!isset($_SESSION['username'])) {
 }
 
 $order_id = $_GET['order_id'] ?? '';
-$product_name = $_GET['product_name'] ?? '';
-
+$product_id = $_GET['product_id'];
 // Establish a database connection
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
-// Fetch product_id from the database using product_name
-$product_id = '';
-if ($product_name) {
-    $stmt = $conn->prepare("SELECT product_id FROM products WHERE product_name = ?");
-    $stmt->bind_param("s", $product_name);
+
+if ($product_id) {
+    $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+    $stmt->bind_param("s", $product_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $product_data = $result->fetch_assoc();
-        $product_id = $product_data['product_id'];
+        $product_name = $product_data['product_name'];
     } else {
         echo "Product not found.";
         exit;
@@ -29,6 +27,7 @@ if ($product_name) {
 
     $stmt->close();
 }
+
 ?>
 
 <!DOCTYPE html>

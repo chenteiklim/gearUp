@@ -1,6 +1,22 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 $username = $_SESSION['username'] ?? ''; // Make sure $username is available
+
+// Check seller status
+$stmt = $conn->prepare("SELECT s.status FROM users u JOIN seller s ON u.user_id = s.user_id WHERE u.usernames = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if (!$result || $result->num_rows === 0) {
+    die("Unauthorized access. Seller not found.");
+}
+
+$status = $result->fetch_assoc()['status'];
+
+if ($status !== 'approved') {
+    die("Unauthorized access. Seller approval required.");
+}
 ?>
 
 <!DOCTYPE html>

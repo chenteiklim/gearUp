@@ -1,5 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/auth/require_seller_approved.php'; 
+
 session_start();
 $username = $_SESSION['username'] ?? '';
 

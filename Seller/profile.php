@@ -8,6 +8,21 @@ if (!isset($_SESSION['username'])) {
 
 $username = $_SESSION['username'];
 
+// Check seller status
+$stmt = $conn->prepare("SELECT s.status FROM users u JOIN seller s ON u.user_id = s.user_id WHERE u.usernames = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if (!$result || $result->num_rows === 0) {
+    die("Unauthorized access. Seller not found.");
+}
+
+$status = $result->fetch_assoc()['status'];
+
+if ($status !== 'approved') {
+    die("Unauthorized access. Seller approval required.");
+}
 // Get user_id from username
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE usernames = ?");
 $stmt->bind_param("s", $username);
@@ -17,7 +32,6 @@ if ($result->num_rows !== 1) exit("User not found");
 $row = $result->fetch_assoc();
 $UserId = $row['user_id'];
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
 // Handle form submission (update own profile info)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateProfile'])) {
@@ -57,15 +71,25 @@ $user = $result->fetch_assoc();
         label { display: block; margin: 10px 0 5px; font-weight: bold; }
         input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
         #update { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        .message-container {
+            margin:20px;
+            color: green; /* or red for error */
+            font-weight: bold;
+            max-width: 400px;
+            background-color: #f0f8ff;
+            border: 1px solid #b0d4f1;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';?>
 
 <h1>My Seller Profile</h1>
-<div id="messageContainer"></div>
 
 <form id='profileForm' method="POST" action="profile.php">
-        <div id="messageContainer"></div>
+<div id="messageContainer"></div>
 
     <label for="storeName">Store Name</label>
     <input type="text" id="storeName" name="storeName" value="<?= htmlspecialchars($user['storeName']) ?>" required>
@@ -101,7 +125,7 @@ $user = $result->fetch_assoc();
         const url = new URL(window.location);
         url.searchParams.delete('message');
         window.history.replaceState({}, document.title, url);
-      }, 3000);
+      }, 10000);
     }
 }
 </script>

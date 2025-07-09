@@ -6,6 +6,8 @@ if (!isset($_SESSION['adminUsername'])) {
     exit;
 }
 $username=$_SESSION['adminUsername'];
+$senderName = $_SESSION['adminUsername'] ?? '';
+$receiverName = $_GET['customer'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -202,7 +204,23 @@ $username=$_SESSION['adminUsername'];
     #sendMessage:hover {
       background: #0056b3;
     }
-   
+    .chat-message.left {
+    text-align: left;
+    background-color: #f1f1f1;
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin: 5px;
+    max-width: 70%;
+}
+
+.chat-message.right {
+    text-align: right;
+    background-color: #d1e7dd;
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin: 5px auto 5px 30%;
+    max-width: 70%;
+}
     
 </style>
 
@@ -211,8 +229,6 @@ $username=$_SESSION['adminUsername'];
 
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Admin/adminSidebar.php';
 
-$senderName = $_SESSION['adminUsername'] ?? '';
-$receiverName = $_GET['customer'] ?? '';
 ?>
 
 <div class="main">
@@ -251,6 +267,7 @@ $receiverName = $_GET['customer'] ?? '';
 <script>
 const senderName = <?php echo json_encode($senderName); ?>;
 const receiverName = <?php echo json_encode($receiverName); ?>;
+const chatIcon = document.getElementById("chatIcon"); // Missing!
 
 document.getElementById("chatIcon").addEventListener("click", function () {
     document.getElementById("customerList").style.display = "block";
@@ -297,9 +314,14 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(requestURL)
             .then(response => response.json())
             .then(messages => {
-                chatMessagesContainer.innerHTML = messages.length
-                    ? messages.map(msg => `<div><strong>${msg.senderName}:</strong> ${msg.message}</div>`).join("")
-                    : "<p>No messages found.</p>";
+               chatMessagesContainer.innerHTML = messages.length
+                ? messages.map(msg => {
+                    const isYou = msg.senderName === senderName;
+                    const displayName = isYou ? "You" : msg.senderName;
+                    const alignment = isYou ? "right" : "left"; // optional styling
+                    return `<div class="chat-message ${alignment}"><strong>${displayName}:</strong> ${msg.message}</div>`;
+                }).join("")
+                : "<p>No messages found.</p>";
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             })
             .catch(error => console.error("Error fetching messages:", error));
@@ -327,57 +349,9 @@ document.addEventListener("DOMContentLoaded", function () {
         chatPopup.style.display = "block";
         chatCustomerName.innerText = receiverName;
         loadMessages();
-        setInterval(loadMessages, 5000); // auto-refresh
+        setInterval(loadMessages, 2000); // auto-refresh
     }
 });
-document.addEventListener("DOMContentLoaded", function () {
-    const chatPopup = document.getElementById("chatPopup");
-    const closeChat = document.getElementById("closeChat");
-    
-    closeChat.addEventListener("click", function () {
-        chatPopup.style.display = "none"; // Hide chat window
-    });
-});
-
-window.onload = function() {
-  var urlParams = new URLSearchParams(window.location.search);
-  const message = urlParams.get('message');
-  const message2 = urlParams.get('message2');
-
-   if (message) {
-    var messageContainer = document.getElementById("messageContainer");
-    messageContainer.textContent = decodeURIComponent(message); // Decode the URL-encoded message
-    messageContainer.style.display = "block";
-    messageContainer.classList.add("message-container");
-    
-    setTimeout(function() {
-      messageContainer.style.display = "none";
-      messageContainer.classList.remove("message-container");
-      
-      // Clear the message from the URL
-      const url = new URL(window.location);
-      url.searchParams.delete('message');
-      window.history.replaceState({}, document.title, url);
-    }, 3000);
-  }
-
-  if (message2) {
-    var messageContainer = document.getElementById("messageContainer");
-    messageContainer.textContent = decodeURIComponent(message2); // Decode the URL-encoded message
-    messageContainer.style.display = "block";
-    messageContainer.classList.add("message-container");
-    
-    setTimeout(function() {
-      messageContainer.style.display = "none";
-      messageContainer.classList.remove("message-container");
-      
-      // Clear the message from the URL
-      const url = new URL(window.location);
-      url.searchParams.delete('message2');
-      window.history.replaceState({}, document.title, url);
-    }, 3000);
-  }
-}
 document.addEventListener("DOMContentLoaded", function () {
     const chatPopup = document.getElementById("chatPopup");
     const closeChat = document.getElementById("closeChat");

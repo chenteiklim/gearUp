@@ -1,0 +1,241 @@
+  h1 {
+      text-align: center;
+      margin-top: 30px;
+      color: #333;
+    }
+
+    #sellerRequestForm {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      max-width: 500px;
+      margin: 40px auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: #9999ff;
+      outline: none;
+    }
+
+    input[type="file"] {
+      margin-bottom: 20px;
+    }
+
+    #request {
+      background-color: black;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 0 auto;
+      display: block;
+    }
+
+    #request:hover {
+      background-color: #222;
+    }
+    
+
+#privacyContainer{
+  display: flex;
+  margin-top: 10px;
+  margin-left: 0px;
+  width: 470px;
+ }
+
+ #privacyCheck{
+  margin-bottom: 20px;
+ }
+
+ #privacyText{
+  width: 470px;
+ }
+body {
+    background-color:  #f0f0f0;
+   }
+ #register{
+  background-color: #1e1e2f;
+  height: 35px;
+  width: 200px;
+  margin-top: 20px;
+  margin-left: 100px;
+  border:none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  letter-spacing: 1px; /* Adjust spacing between characters */
+}
+
+   html, body {
+     margin: 0;
+     padding: 0;
+     width: 100%; /* Ensure full width */
+     height: 100%; /* Ensure full height */
+   }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+
+#privacyContainer{
+  display: flex;
+  margin-top: 10px;
+  margin-left: 0px;
+  width: 470px;
+ }
+
+ #privacyCheck{
+  margin-bottom: 20px;
+ }
+
+ #privacyText{
+  width: 470px;
+ }
+
+
+
+/* Input Fields */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 8px 0 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #6c5ce7;
+    outline: none;
+    box-shadow: 0 0 4px rgba(108, 92, 231, 0.3);
+}
+
+
+
+.password {
+  position: relative;
+}
+
+.password i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+.container {
+  background-color: white;
+width:460px;
+margin-top:20px;
+margin-left:500px;
+padding: 16px;
+height: 580px;
+ border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+p{
+width: 400px;
+}
+
+
+span.psw {
+float: right;
+padding-top: 16px;
+}
+
+.img{
+margin-left:400px;
+width:50px;
+height:50px;
+}
+
+
+#Login{
+ margin-left: 200px;
+}
+
+
+
+ #confirm{
+   margin-top:20px;
+ }
+ 
+
+    #title{
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        margin-left: 180px;
+        padding-top: 30px;
+        color: black;
+    }
+    #titleText{
+        margin-left: 30px;
+    }
+
+     #logoImg{
+        margin-top: 10px;
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+        margin-left: 100px;
+    }
+    
+    #login{
+        margin-left: 800px;
+    }
+      
+    #navContainer {
+
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
+    }
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
+}

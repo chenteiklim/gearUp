@@ -1,132 +1,111 @@
-body {
-    background-color: bisque;
-   }
-   html, body {
-     margin: 0;
-     padding: 0;
-     width: 100%; /* Ensure full width */
-     height: 100%; /* Ensure full height */
-   }
-   
-   #navContainer {
-     display: flex;
-     background-color: black;
-     width: 100%; /* Adjust width as needed */
-     height: 80px; /* Adjust height as needed */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#logoImg{
+  margin-left: 100px;
+  width: 50px;
+  height: 50px;
+}
+html, body {
+  background-color: #f0f0f0;
+   margin: 0;
+   padding: 0;
+   width: 100%; /* Ensure full width */
+   height: 100%; /* Ensure full height */
+ }
+ 
      
-     /* Ensure it remains visible within the container */
-   
-   }
+    #navContainer {
 
-   #signUpBtn{
-    margin-left: 170px;
-    margin-top: 20px;
-   }
-   
-   .button {
-     background-color: black;
-     color: white;
-     cursor: pointer;
-     padding-left: 30px;
-     padding-right: 30px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     font-size: 12px;
-     }
-     #home{
-         margin-left: 10px;
-     }
-   #login{
-     margin-left: 900px;
-   }
-   #logoImg{
-     margin-top: 25px;
-     width: 35px;
-     height: 35px;
-     border-radius: 5px;
-     margin-left: 100px;
-   }
-   
-     button:hover{
-         transform: scale(0.9);
-         background: radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,94,247,1) 17.8%, rgba(2,245,255,1) 100.2% );
-       }
-   
-   
-   #title{
-           font-size: 22px;
-           margin-left: 140px;
-           margin-top: 20px;
-           color: black;
-       }
-   #emailContainer{
-    margin-top: 20px;
-   }
-
-   input[type=text], input[type=password] ,input[type=email] {
-   width: 100%;
-   padding: 12px 20px;
-   margin: 8px 0;
-   display: inline-block;
-   border: 1px solid #ccc;
-   box-sizing: border-box;
-   }
-   
-   
-   .container {
-   background-color: white;
-   width:420px;
-   margin-top:60px;
-   margin-left:500px;
-   padding: 16px;
-   height: 260px;
-   }
-
-   p{
-   width: 400px;
-   }
-   
-   
-   span.psw {
-   float: right;
-   padding-top: 16px;
-   }
-   
-   .img{
-   margin-left:400px;
-   width:50px;
-   height:50px;
-   }
-   
-   
-   #Login{
-    margin-left: 200px;
-   }
-   
-   form{
-    width: 100px;
-   }
-   
-   
-    #confirm{
-      margin-top:20px;
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
     }
-   
-   
-   /* Change styles for span and cancel button on extra small screens */
-   @media screen and (max-width: 300px) {
-   span.psw {
-   display: block;
-   float: none;
-   }
-   .cancelbtn {
-   width: 100%;
-   }
-   
-   #register{
-   width: 80px;
-   }
-   
-   
-   }
-   
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
+}
+ 
+ .button {
+  background-color: #e8e8e8;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  border: none;
+  }
+
+
+/* Container for the form */
+.container {
+  background-color: #fff;
+  max-width: 400px;
+  margin: 40px auto;
+  margin-left:550px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+#title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Email input */
+#emailContainer input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+#emailContainer input[type="email"]:focus {
+  border-color: black;
+}
+
+/* Submit button */
+#signUpBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#signUpBtn:hover {
+  background-color: #2a2f34;
+}
+
+/* Message box (e.g., error) */
+#messageContainer {
+  color: red;
+  margin-bottom: 10px;
+}

@@ -27,11 +27,6 @@ $row = $result->fetch_assoc();
 $role = $row['role'];
 $user_id = $row['user_id'];
 
-if ($role !== 'seller') {
-    $message4 = "Login failed, please submit seller application form";
-    header("Location: ../../Customer/mainpage/customerMainpage.php?message4=" . urlencode($message4));
-    exit();
-}
 
 // Check seller approval status
 $sellerQuery = "SELECT status FROM seller WHERE user_id = ?";
@@ -49,22 +44,27 @@ $sellerResult = $stmt2->get_result();
 if (!$sellerResult || $sellerResult->num_rows === 0) {
     // No seller record found
     $message = "Login failed. Seller account not found.";
-    header("Location: ../../Customer/mainpage/customerMainpage.php?message=" . urlencode($message));
+    header("Location: ../Seller/login/login.php?message=" . urlencode($message));
     exit();
 }
 
 $sellerRow = $sellerResult->fetch_assoc();
-$status = $sellerRow['status'];
 
-if ($status === 'pending') {
-    $message5 = "Login failed. Your seller application is still pending.";
-    header("Location: ../../Customer/mainpage/customerMainpage.php?message5=" . urlencode($message5));
+$userStatus = $row['status']; // From `users` table
+$sellerStatus = $sellerRow['status']; // From `seller` table
+
+if ($userStatus === 'pending' && $sellerStatus === 'pending') {
+    echo "<h1>Unauthorized Access</h1><p>Both user and seller applications are still pending.</p>";
     exit();
-} elseif ($status === 'rejected') {
+} elseif ($userStatus === 'registered' && $sellerStatus === 'pending') {
+    // Send back to seller homepage if seller not approved yet
+    header("Location: ../homepage/sellerHomepage.php");
+    exit();
+} elseif ($sellerStatus === 'rejected') {
     $message6 = "Login failed. Your seller application was rejected.";
-    header("Location: ../../Customer/mainpage/customerMainpage.php?message6=" . urlencode($message6));
+    header("Location: ../../Seller/homepage/sellerHomepage.php?message6=" . urlencode($message6));
     exit();
-} 
+}
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 
@@ -111,6 +111,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';
 <script>
 const senderName = <?php echo json_encode($senderName); ?>;
 const receiverName = <?php echo json_encode($receiverName); ?>;
+const chatIcon = document.getElementById("chatIcon"); // Missing!
 
 document.getElementById("chatIcon").addEventListener("click", function () {
     document.getElementById("customerList").style.display = "block";
@@ -157,9 +158,14 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(requestURL)
             .then(response => response.json())
             .then(messages => {
-                chatMessagesContainer.innerHTML = messages.length
-                    ? messages.map(msg => `<div><strong>${msg.senderName}:</strong> ${msg.message}</div>`).join("")
-                    : "<p>No messages found.</p>";
+               chatMessagesContainer.innerHTML = messages.length
+                ? messages.map(msg => {
+                    const isYou = msg.senderName === senderName;
+                    const displayName = isYou ? "You" : msg.senderName;
+                    const alignment = isYou ? "right" : "left"; // optional styling
+                    return `<div class="chat-message ${alignment}"><strong>${displayName}:</strong> ${msg.message}</div>`;
+                }).join("")
+                : "<p>No messages found.</p>";
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             })
             .catch(error => console.error("Error fetching messages:", error));
@@ -187,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chatPopup.style.display = "block";
         chatCustomerName.innerText = receiverName;
         loadMessages();
-        setInterval(loadMessages, 5000); // auto-refresh
+        setInterval(loadMessages, 2000); // auto-refresh
     }
 });
 document.addEventListener("DOMContentLoaded", function () {

@@ -1,15 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gearUp";
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT * FROM users WHERE role = 'Seller' "; // Adjust the SQL as per your table structure
 $result = $conn->query($sql);

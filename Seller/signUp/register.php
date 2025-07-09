@@ -1,8 +1,6 @@
 <?php
-
-session_start();
-
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
+session_start();
 
 require '../../vendor/autoload.php'; // Include Composer's autoload file
 
@@ -13,23 +11,20 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['submit'])) {
     $usernames = trim($_POST['username']);    
-    $state = htmlspecialchars($_POST['state'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
-    $haveNotEncryptAddress = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8'); // Sanitize address
     // Encrypt email
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/encryption_helper.php';
     
     $_SESSION['email'] = $email;
 
-    // Encrypt address
-    $address = openssl_encrypt($haveNotEncryptAddress, 'AES-256-CBC', $encryption_key, 0, $encryption_iv);
 
     $passwords = $_POST['passwords']; // Validate and hash passwords, don't output directly
     
     $confirm_password = $_POST['confirm_password']; // Same as above
     $_SESSION['username'] = $usernames;
    
-   
+    $storeName = $_POST['storeName'];
+    $description = $_POST['description'];
+    $contact = $_POST['contactInfo'];
         
  // Define separate arrays for common sequences
  $commonLowerSequences = [
@@ -82,7 +77,18 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
         header("Location: register.php?success=1");
         exit();
     }
-    
+    // Check if storeName already exists in seller table
+    $sql = "SELECT * FROM seller WHERE storeName = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $storeName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        // Store name already taken
+        header("Location: register.php?success=10");
+        exit();
+    }
+        
     // Check if password matches confirm password
     else if ($passwords != $confirm_password) {
         header("Location: register.php?success=2");
@@ -133,30 +139,36 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
     }
     
  
-$role='customer';
+$role='seller';
 $status='pending';
-
 $hashed_password = password_hash($passwords, PASSWORD_BCRYPT);
-$stmt = $conn->prepare("INSERT INTO users (email,
- usernames, address, state, passwords, role, status) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssss", $email, $usernames, $address,
- $state, $hashed_password, $role, $status);
-$stmt->execute();
 
-// Step 2: Get the user_id just created
-$userId = $stmt->insert_id;
+// Step 1: Insert into user table
+$stmt1 = $conn->prepare("INSERT INTO users (email,
+ usernames, passwords, role, status) 
+                        VALUES (?, ?, ?, ?, ?)");
+$stmt1->bind_param("sssss", $email, $usernames, $hashed_password, $role, $status);
+$success1 = $stmt1->execute();
+$userId = $stmt1->insert_id;
 
-// Step 3: Insert the verification code for that user
+// Step 2: Insert into seller table
+$stmt2 = $conn->prepare("INSERT INTO seller (storeName, 
+user_id, sellerName, description, contact, status) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt2->bind_param("ssssss", $storeName, $userId, $usernames,
+ $description, $contact, $status);
+$success2 = $stmt2->execute();
+
+
+// Step 3: Insert into email_verification_code table
 $emailCode = rand(100000, 999999);
-$stmt2 = $conn->prepare("INSERT INTO email_verification_code (user_id, code,
+$stmt3 = $conn->prepare("INSERT INTO email_verification_code (user_id, code,
  change_password_code, reset_password_status, registration_status ) 
                          VALUES (?, ?, ?, ?, ?)");
-$stmt2->bind_param("iiiss", $userId, $emailCode, $change_passwword_code, 
+$stmt3->bind_param("iiiss", $userId, $emailCode, $change_passwword_code, 
 $reset_password_status, $status);
-
+$success3 = $stmt3->execute();
 // Execute 
-if ($stmt2->execute()) {
+if ($success1 && $success2 && $success3) {
         // Send verification email
         $mail = new PHPMailer(true);
         try {
@@ -190,59 +202,40 @@ if ($stmt2->execute()) {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }  
  
-    $stmt->close();
+    $stmt1->close();
+    $stmt2->close();
+    $stmt3->close();
     $conn->close(); 
-  
     } 
+
 ?>
-    <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="register.css">
-    <link rel="icon" href="logo.jpg" type="image/jpg">
-   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Request Form</title>
+  <link rel="stylesheet" href="register.css">
+  
 </head>
 <body>
-  
+
 <div id="navContainer"> 
   <img id="logoImg" src="/inti/gearUp/assets/logo.jpg" alt="" srcset="">
   <button class="navButton" id="home">GearUp</button>
   <button class="navButton" id="login">Login</button>
 </div>
-    <form id="registerForm" action="register.php" method="post">
-      <div class="container">
-        <div id="title">
-       Register
-        </div>
-        <input type="text" placeholder="Enter Username" name="username" required>
+<h1>Seller Registration</h1>
 
-        <input type="text" placeholder="Enter Full Address." name="address" required>
+<form id="sellerRequestForm" action="register.php" method="POST" enctype="multipart/form-data">
+  <label for="username">Username:</label>
+<input type="text" name="username" required>
 
-        <select id="state" name="state" required >
-            <option value="">Select State</option>
-            <option value="Johor">Johor</option>
-            <option value="Kedah">Kedah</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Negeri Sembilan">Negeri Sembilan</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Perak">Perak</option>
-            <option value="Perlis">Perlis</option>
-            <option value="Pulau Pinang">Pulau Pinang</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
-            <option value="Selangor">Selangor</option>
-            <option value="Terengganu">Terengganu</option>
-        </select>
-      
-     
-        <input type="email" placeholder="Enter Email" name="email" required>
-  
-       <div class="password">
+<label for="email">Email:</label>
+<input type="email" name="email" required>
+
+    <div class="password">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <input type="password" id="password" placeholder="Enter Password" name="passwords" required>
         <i class="fa fa-eye" onclick="togglePassword('password', this)"></i>
@@ -251,23 +244,30 @@ if ($stmt2->execute()) {
             <input type="password" id="password2" placeholder="Enter Password Again" name="confirm_password" required>
         <i class="fa fa-eye" onclick="togglePassword('password2', this)"></i>
             </div> 
+      </div>
+  <label for="storeName">Store Name:</label>
+  <input type="text" id="storeName" name="storeName" required>
+
+  <label for="description">Store Description:</label>
+  <textarea id="description" name="description" rows="4" required></textarea>
+
+  <label for="contactInfo">Contact Information (0xx-1234567):</label>
+  <input type="text" id="contactInfo" name="contactInfo" required>
           <div id="errorContainer"></div>
-          <div id="privacyContainer">
+
+<div id="privacyContainer">
             <label for="privacyCheck" id = 'privacytext'>
                 I have read and agree to the 
-                <a href="privacy-policy.html" target="_blank">Privacy Policy</a> 
-                and <a href="termAndService.html" target="_blank">Terms of Service</a>.
+                <a href="/inti/gearUp/Customer/signUp/privacy-policy.html" target="_blank">Privacy Policy</a> 
+                and <a href="/inti/gearUp/Customer/signUp/termAndService.html" target="_blank">Terms of Service</a>.
             </label>
             <input type="checkbox" id="privacyCheck" name="privacyCheck" required>
   
         </div>
-  
         <input id="register" class="button" type="submit" name="submit" value="Register">
-      </div>
+  
+</form>
 
-    </form>
-    
-    </body>
-    <script src="register.js"></script>
+</body>
 </html>
-   
+<script src="register.js"></script>

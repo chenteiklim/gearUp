@@ -1,34 +1,17 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gearUp";
-
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 session_start();
 $email = $_SESSION['email'] ?? null;
-$backupEmail = $_SESSION['backupEmail'] ?? null;
-if (!$email || !$backupEmail) {
+if (!$email) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
     exit;  // Stop further execution of the script
 }
-else{
-    echo('email');
-}
+
 
 if (isset($_POST['submit'])) {
     function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
-        // Convert the password to lowercase for checking against lower sequences
-        
-        
         // Check against lowercase common sequences
         foreach ($lowerSequences as $sequence) {
             if (strpos($passwords, $sequence) !== false) {
@@ -46,33 +29,6 @@ if (isset($_POST['submit'])) {
         return false; // No matches found in either array
     }
     
-    function hasRepetitivePattern($passwords) {
-        $length = strlen($passwords);
-    
-        // Loop through possible substring lengths
-        for ($i = 1; $i <= $length / 2; $i++) {
-            $substring = substr($passwords, 0, $i);
-            $repeatCount = 1; // Start with the first instance of the pattern
-    
-            // Loop to check for repetitive patterns
-            for ($j = $i; $j < $length; $j += $i) {
-                $nextSubstring = substr($passwords, $j, $i);
-    
-                // If the next substring matches, increase the repeat count
-                if ($substring === $nextSubstring) {
-                    $repeatCount++;
-                } else {
-                    break; // Stop if the next part of the string doesn't match
-                }
-    
-                // If the pattern repeats more than twice, return true (too many repetitions)
-                if ($repeatCount > 2) {
-                    return true;
-                }
-            }
-        }
-        return false; // No excessive repetitive pattern found
-    }
 
     $commonLowerSequences = [
         '1234', '2345', '3456', '4567', '5678', '6789', '7890', '0123',
@@ -130,41 +86,102 @@ if (isset($_POST['submit'])) {
     else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
         header("Location: resetPwdForm.html?success=7");
     }
-    else if (hasRepetitivePattern($passwords)) {
-        header("Location: resetPwdForm.html?success=8");
-    }
-        
+ 
     else{
-            $sql = "SELECT * FROM seller WHERE email = ? AND ChangePwdEmailCode = 'Pending' AND ChangePwdbackupEmailCode = 'Pending'";            
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+       // Step 1: Get user_id
+        $sql = "SELECT user_id FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            echo "User not found.";
+            exit;
+        }
+
+        $row = $result->fetch_assoc();
+        $user_id = $row['user_id'];
+
+        // Step 2: Check if reset_password_status is pending
+        
+        $sql = "SELECT * FROM email_verification_code WHERE user_id = ? AND reset_password_status = 'pending'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // Hash the new password
+            // Step 3: Update password
             $hashedPassword = password_hash($passwords, PASSWORD_BCRYPT);
-
-            // Update the password in the database and clear the token
-            $sql = "UPDATE seller SET passwords = ?, ChangePwdEmailCode = 0, ChangePwdbackupEmailCode = 0 WHERE email = ? AND ChangePwdEmailCode = 'Pending' AND ChangePwdbackupEmailCode = 'Pending'";
+            $sql = "UPDATE users SET passwords = ? WHERE email = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $hashedPassword, $email );
+            $stmt->bind_param("ss", $hashedPassword, $email);
             $stmt->execute();
 
-            // Redirect to a success page
-            header("Location: ../login/login.php?success=4");
-            exit();
-        } 
-        else {
-            header("Location: resetPwdForm.html");
-            exit();
+            // Step 4: Clear reset status
+            $sql = "UPDATE email_verification_code 
+            SET reset_password_status = NULL, change_password_code = NULL 
+            WHERE user_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            header("Location: /inti/gearUp/Customer/login/login.php?success=4");
+            exit;
+        } else {
+        header("Location: resetPwdForm.html?success=8");
+            exit;
         }
     }
-
-
-    
-
 } 
 
 $conn->close();
 ?>
+
+        
+   
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gearUp</title>
+    <link rel="stylesheet" href="resetPwdForm.css">
+   
+</head>
+<body>
+<div id="navContainer"> 
+    <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
+    <button id="logoName" class="navButton" onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
+</div>
+</div>
+    <div id="container">
+        <div id="title">
+          Reset Password
+        </div>
+        <form action="resetPwdForm.php" method="post">
+         
+          <div id="emailContainer">
+            <input type="password" id="password" placeholder="Enter new password" name="password" required autocomplete="off">
+            <button id="show" type="button">Show</button>
+          </div>
+        
+          <div id="passwordContainer">
+              <input type="password" id="password2" placeholder="Enter new password again" name="password2" required autocomplete="off">
+              <button id="show2" type="button">Show</button>
+            </div>
+    
+        <div id="errorContainer"></div>
+        <div id="signUpContainer">
+          <input id="signUpBtn" class="button" type="submit" name="submit" value="Reset Now">
+          <hr>
+                 
+        </div>
+      </form>
+</div>
+<script src="resetPwdForm.js"></script>
+  </body>
+</html>
+   

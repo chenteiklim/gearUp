@@ -92,6 +92,14 @@ $reviewResult = $reviewStmt->get_result();
         <?php else: ?>
             <p class='review-box2'>No reviews available for this product yet.</p>
         <?php endif; ?>
+        <div style="margin-top: 30px;">
+        <form action="product.php" method="post">
+            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
+            <button type="submit" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                 Back to Product Page
+            </button>
+        </form>
+    </div>
     </div>
 
 </body>

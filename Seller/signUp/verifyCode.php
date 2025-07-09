@@ -5,7 +5,7 @@ session_start();
 // Validate session
 $email = $_SESSION['email'] ?? null;
 $username = $_SESSION['username'] ?? null;
-
+echo $username;
 if (!$email || !$username) {
     echo "<h1>This Website is Not Accessible</h1>";
     echo "<p>Sorry, but you do not have permission to access this page. Please ensure you are logged in and have registered your email.</p>";
@@ -29,7 +29,7 @@ if (!$user) {
     exit;
 }
 $user_id = $user['user_id'];
-
+echo $user_id;
 // Step 2: Get the latest pending email verification code
 $stmt2 = $conn->prepare("SELECT code, created_at FROM email_verification_code WHERE user_id = ? AND registration_status = 'pending' ORDER BY created_at DESC LIMIT 1");
 $stmt2->bind_param("i", $user_id);
@@ -92,7 +92,7 @@ if ($row && $row['code'] === $primaryCode) {
         $updateStmt->bind_param("i", $user_id);
         $updateStmt->execute();
         $updateStmt->close();
-        header("Location: ../mainpage/customerMainpage.php");
+        header("Location: ../mainpage/sellerMainpage.php");
         exit();
     }
 

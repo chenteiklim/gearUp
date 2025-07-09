@@ -143,7 +143,7 @@ while ($row = $refundQuery->fetch_assoc()) {
                                         <?php endif; ?>
 
                                         <?php if ($item['order_status'] === 'purchased'): ?>
-                                            <button class="rate-product-btn" onclick="location.href='rateProduct.php?order_id=<?= $order_id ?>&product_name=<?= urlencode($item['product_name']) ?>'">Rate this product</button>
+                                            <button class="rate-product-btn" onclick="location.href='rateProduct.php?order_id=<?= $order_id ?>&product_id=<?= $item['product_id'] ?>'">Rate this product</button>
                                         <?php endif; ?>
                                     </div>
                                 </div>

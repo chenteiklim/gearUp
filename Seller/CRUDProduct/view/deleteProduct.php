@@ -1,17 +1,6 @@
 <?php
 session_start();
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gearUp";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 
 // Check if the delete request was sent
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
@@ -32,5 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
         header("Location: viewProduct.php?error=Failed to delete product");
         exit();
     }
+}
+else{
+    echo ('hello world');
 }
 ?>

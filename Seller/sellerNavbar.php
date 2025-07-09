@@ -104,12 +104,9 @@
         </div>
     </div>
     <button class="navButton" id="wallet" onclick ="location.href='/inti/gearUp/Seller/wallet/wallet.php'">Wallet</button>
-
-    <button class="navButton" id="customer">Customer Center</button>
-
     <button class="navButton" id="name" onclick ="location.href='/inti/gearUp/Seller/profile.php'"><?php echo $username ?></button>
     
-    <form action="/inti/gearUp/Customer/login/logout.php" method="POST">
+    <form action="/inti/gearUp/Seller/login/logout.php" method="POST">
         <button class="navButton" type="submit" id="logout">Log Out</button>
     </form>
 </div>
@@ -117,11 +114,7 @@
 <?php //include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/sellerNavbar.php';?>
 
 <script>     
-    document.getElementById("customer").addEventListener("click", function() {
-        // Replace 'login.html' with the URL of your login page
-        window.location.href = "/inti/gearUp/Customer/mainpage/customerMainpage.php";
-    });
-    
+  
   var homeButton = document.getElementById("home");
   homeButton.addEventListener("click", function(event) {
     // Perform the navigation action here

@@ -1,0 +1,165 @@
+
+body {
+    background-color:  #f0f0f0;
+   }
+   html, body {
+     margin: 0;
+     padding: 0;
+     width: 100%; /* Ensure full width */
+     height: 100%; /* Ensure full height */
+   }
+   
+
+       #privacyContainer{
+        display: flex;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 280px;
+       }
+    
+       #privacyCheck{
+        margin-right: 20px;
+        margin-bottom: 20px;
+       }
+       
+    
+       #privacyText{
+        width: 200px;
+       }
+    #forgotBtn{
+        text-decoration: none;
+        color: red;
+        cursor: pointer;
+        font-size: 18px;
+        margin-left: 6vw;
+    }
+  
+    #purple_container{
+        margin-top: 70px;
+        margin-left: 550px;
+       background-color:white;
+        border-radius: 5px;
+        width: 320px;
+        height: 320px;
+    }
+    #title{
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        margin-left: 80px;
+        padding-top: 30px;
+        color: black;
+    }
+    #titleText{
+        margin-left: 30px;
+    }
+    #emailContainer{
+        padding-top: 20px;
+        padding-left: 20px;
+    }
+    
+  
+    #passwordContainer{
+        padding-top: 20px;
+        padding-left: 20px;
+    }
+  
+
+    input[type="text"]{
+        width: 200px; /* Set the width */
+        height:10px; /* Set the height */
+        padding: 8px; /* Add padding for better appearance */
+        font-size: 16px; /* Adjust the font size */
+    }
+    input[type="email"] {
+        width: 200px; /* Set the width */
+        height:10px; /* Set the height */
+        padding: 8px; /* Add padding for better appearance */
+        font-size: 16px; /* Adjust the font size */
+    }
+    input[type="password"]{
+        width: 200px; /* Set the width */
+        height:10px; /* Set the height */
+        padding: 8px; /* Add padding for better appearance */
+        font-size: 16px; /* Adjust the font size */
+    }
+    #show{
+        height: 27px;
+    }
+    input[type="password"]{
+        width: 200px; /* Set the width */
+        height:10px; /* Set the height */
+        padding: 8px; /* Add padding for better appearance */
+        font-size: 16px; /* Adjust the font size */
+    }
+    #show2{
+        height: 27px;
+    }
+
+    .message-container{
+    font-size: 14px;
+    margin-top: 15px;
+    padding-left: 20px;
+    color:black;
+    }
+
+    #signUpBtn{
+        background-color: #1e1e2f;
+        height: 35px;
+        width: 280px;
+        margin-top: 30px;
+        margin-left: 20px;
+        border:none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        letter-spacing: 1px; /* Adjust spacing between characters */
+    }
+
+      #logoImg{
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+    }
+
+
+
+     
+    #navContainer {
+
+        display: flex;
+        align-items: center;
+        background-color:#E6E6FA;
+        width: 100%; /* Adjust width as needed */
+        height: 80px; /* Adjust height as needed */   
+    }
+    
+   .navButton {
+        letter-spacing: 1.0px;
+        background-color:#E6E6FA;
+        width: 150px;
+        cursor: pointer;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border: none;
+}
+     #logoImg{
+        margin-top: 10px;
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+        margin-left: 100px;
+    }
+
+    #register{
+        margin-left: 800px;
+    }
+ 
+
+    #home{
+        margin-left: 10px;
+    }
+
