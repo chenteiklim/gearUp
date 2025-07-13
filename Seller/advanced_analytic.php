@@ -1,9 +1,8 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/Seller/auth/require_seller_approved.php'; 
 
 session_start();
-$username = $_SESSION['username'] ?? '';
+$username = $_SESSION['sellerUsername'] ?? '';
 
 // Get seller_id
 $seller_id = null;
@@ -31,7 +30,7 @@ $end = $_GET['end_date'] ?? date("Y-m-d");
 // Query sales data
 $stmt = $conn->prepare("
     SELECT DATE(o.order_date) AS order_date, 
-           SUM(o.total_price) AS daily_sales
+           SUM(o.subtotal) AS daily_sales
     FROM orders o
     JOIN order_items oi ON o.order_id = oi.order_id
     JOIN products p ON oi.product_id = p.product_id
@@ -50,7 +49,7 @@ $labels = [];
 $data = [];
 while ($row = $dataResult->fetch_assoc()) {
     $labels[] = $row['order_date'];
-    $data[] = $row['daily_sales'];
+    $data[] = round($row['daily_sales'] * 0.95, 2); // Apply 5% commission
 }
 ?>
 <!DOCTYPE html>

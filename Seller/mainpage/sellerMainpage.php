@@ -2,14 +2,14 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['sellerUsername'])) {
     echo "<h1>You are not authorized to access this page</h1><h2>Please register or login.</h2>";
     exit();
 }
 
-$username = $_SESSION['username'];
+$username = $_SESSION['sellerUsername'];
 
-$senderName = $_SESSION['username'] ?? '';
+$senderName = $_SESSION['sellerUsername'] ?? '';
 $receiverName = $_GET['customer'] ?? '';
 
 // Fetch user details

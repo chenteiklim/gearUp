@@ -1,7 +1,5 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/inti/gearUp/db_connection.php';
-$username = $_SESSION['username'] ?? ''; // Make sure $username is available
-
 // Check seller status
 $stmt = $conn->prepare("SELECT s.status FROM users u JOIN seller s ON u.user_id = s.user_id WHERE u.usernames = ?");
 $stmt->bind_param("s", $username);

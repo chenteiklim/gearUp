@@ -24,8 +24,8 @@ if (isset($_POST['submit'])) {
     $hashed_password = $row['passwords'];
     $emailCode = $row['emailCode']; 
     $role = $row['role'];
-    $status=$row['status'];
-    $_SESSION['username'] = $row['usernames'];
+    $status=$row['status'];    
+    $_SESSION['sellerUsername'] = $row['usernames'];
 
   if ($status == 'pending') {
   header("Location: login.php?success=1");

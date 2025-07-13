@@ -12,7 +12,7 @@
 
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button id="logoName" class='navButton' onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
+    <button id="logoName" class='navButton'>GearUp</button>
 </div>
     
         <div class='container'>

@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['seller_id'])) {
 
             $conn->commit();
 
-            // Redirect or show success message
+            // Redirect and show success message
             header("Location: approveSeller.php?success=1");
             exit;
         } catch (Exception $e) {

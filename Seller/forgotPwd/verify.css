@@ -27,7 +27,6 @@ html, body {
     }
     
    .navButton {
-    cursor: pointer;
         letter-spacing: 1.0px;
         background-color:#E6E6FA;
         width: 150px;

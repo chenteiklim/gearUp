@@ -55,36 +55,36 @@ if (isset($_POST['submit'])) {
 
     // Check if passwords match
     if ($passwords !== $passwords2) {
-        header("Location: resetPwdForm.html?success=1");
+        header("Location: resetPwdForm.php?success=1");
     }
     
     // Check minimum length
     else if (strlen($passwords) < 10) {
-        header("Location: resetPwdForm.html?success=2");
+        header("Location: resetPwdForm.php?success=2");
     }
 
     // Check for at least 4 special characters
     else if (preg_match_all('/[\W_]/', $passwords) < 4) {
-        header("Location: resetPwdForm.html?success=3");
+        header("Location: resetPwdForm.php?success=3");
     }
 
     // Check for at least one uppercase letter
     else if (!preg_match('/[A-Z]/', $passwords)) {
-        header("Location: resetPwdForm.html?success=4");
+        header("Location: resetPwdForm.php?success=4");
     }
 
     // Check for at least one lowercase letter
     else if (!preg_match('/[a-z]/', $passwords)) {
-        header("Location: resetPwdForm.html?success=5");
+        header("Location: resetPwdForm.php?success=5");
     }
 
     // Check for at least one number
     else if (!preg_match('/[0-9]/', $passwords)) {
-        header("Location: resetPwdForm.html?success=6");
+        header("Location: resetPwdForm.php?success=6");
     }
 
     else if (containsCommonSequence($passwords, $commonLowerSequences, $commonUpperSequences)) {
-        header("Location: resetPwdForm.html?success=7");
+        header("Location: resetPwdForm.php?success=7");
     }
  
     else{
@@ -126,10 +126,10 @@ if (isset($_POST['submit'])) {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $user_id);
             $stmt->execute();
-            header("Location: /inti/gearUp/Customer/login/login.php?success=4");
+            header("Location: /inti/gearUp/Seller/login/login.php?success=4");
             exit;
         } else {
-        header("Location: resetPwdForm.html?success=8");
+        header("Location: resetPwdForm.php?success=8");
             exit;
         }
     }
@@ -154,7 +154,7 @@ $conn->close();
 <body>
 <div id="navContainer"> 
     <img id="logoImg" src="../../assets/logo.jpg" alt="" srcset="">
-    <button id="logoName" class="navButton" onclick="window.location.href = '../mainpage/customerMainpage.php';">GearUp</button>
+    <button id="logoName" class="navButton">GearUp</button>
 </div>
 </div>
     <div id="container">

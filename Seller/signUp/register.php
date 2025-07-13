@@ -14,14 +14,12 @@ if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); // Sanitize email
     // Encrypt email
     
-    $_SESSION['email'] = $email;
 
 
     $passwords = $_POST['passwords']; // Validate and hash passwords, don't output directly
     
     $confirm_password = $_POST['confirm_password']; // Same as above
-    $_SESSION['username'] = $usernames;
-   
+
     $storeName = $_POST['storeName'];
     $description = $_POST['description'];
     $contact = $_POST['contactInfo'];
@@ -67,7 +65,8 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 }
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    $sql = "SELECT * FROM users WHERE usernames = ? AND status != 'pending'";
+    
+    $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usernames);
     $stmt->execute();
@@ -77,6 +76,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
         header("Location: register.php?success=1");
         exit();
     }
+
     // Check if storeName already exists in seller table
     $sql = "SELECT * FROM seller WHERE storeName = ?";
     $stmt = $conn->prepare($sql);
@@ -169,6 +169,9 @@ $reset_password_status, $status);
 $success3 = $stmt3->execute();
 // Execute 
 if ($success1 && $success2 && $success3) {
+      $_SESSION['email'] = $email;
+        $_SESSION['sellerUsername'] = $usernames;
+        session_write_close(); // Force session to save now
         // Send verification email
         $mail = new PHPMailer(true);
         try {

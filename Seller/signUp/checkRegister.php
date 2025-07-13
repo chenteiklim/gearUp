@@ -24,7 +24,7 @@
             session_start();
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
-                $username=$_SESSION['username'];
+                $username=$_SESSION['sellerUsername'];
                 echo "<p id='text1'>If these email exist, enter the verification codes sent to <span class='red'>$email</span> below to verify your account.</p>";
                 
             ?>

@@ -191,6 +191,7 @@ chatButtons.forEach(button => {
         });
     });
 </script>
+<script src="customerMainpage.js"></script>
 </body>
 </html>
 

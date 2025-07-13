@@ -19,7 +19,6 @@ if (empty($_SESSION)) {
 } else {
     echo "Session destruction failed.";  // If session still exists, show this message
 }
-// Redirect to a different page or perform any other necessary actions
-// For example, you can redirect to a login page after logging out
+
 exit();
 ?>

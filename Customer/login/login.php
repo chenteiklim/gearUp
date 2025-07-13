@@ -40,8 +40,12 @@ if (isset($_POST['submit'])) {
       header("Location: login.php?success=3");
       exit(); // Stop further script execution
     } 
-   
+    elseif ($role !== 'customer') {
+        header("Location: login.php?success=7"); // custom error for invalid role
+        exit();
+      }
     else {
+      
       $_SESSION['email'] = $email;
       header("Location: ../mainpage/customerMainpage.php");
       exit(); 

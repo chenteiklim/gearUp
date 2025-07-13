@@ -72,7 +72,7 @@ function containsCommonSequence($passwords, $lowerSequences, $upperSequences) {
 }
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    $sql = "SELECT * FROM users WHERE usernames = ? AND status != 'pending'";
+    $sql = "SELECT * FROM users WHERE usernames = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usernames);
     $stmt->execute();
