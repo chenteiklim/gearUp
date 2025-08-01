@@ -1,5 +1,7 @@
 # README
 
+#This project is for FYP project for education purpose only
+
 ## Prerequisites
 
 1. **Install PHP Mailer**  
